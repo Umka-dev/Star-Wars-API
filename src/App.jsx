@@ -1,7 +1,12 @@
-import React, { useState } from 'react';
-// import './App.css';
+import React, { useState, useEffect } from 'react';
 import GlobalStyles from '@mui/material/GlobalStyles';
-import { Container, Typography, Grid, Button } from '@mui/material';
+import {
+  Container,
+  Typography,
+  Grid,
+  Button,
+  CircularProgress,
+} from '@mui/material';
 import { styled } from '@mui/system';
 import Card from './Card';
 
@@ -28,23 +33,52 @@ const StyledTypography = styled(Typography)`
     }
   }
 `;
-const initialCards = Array.from({ length: 10 }, (_, i) => ({
-  id: i + 1,
-  title: `Card ${i + 1}`,
-  image: `https://via.placeholder.com/150?text=Card+${i + 1}`,
-}));
 
 const App = () => {
-  const [cards, setCards] = useState(initialCards);
+  const [characters, setCharacters] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [visibleCount, setVisibleCount] = useState(10);
 
+  useEffect(() => {
+    const fetchCharacters = async () => {
+      try {
+        const response = await fetch('https://swapi.dev/api/people/');
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        setCharacters(data.results);
+        setLoading(false);
+        console.log(loading);
+      } catch (error) {
+        setError(error.message);
+        console.log('' + error);
+        setLoading(false);
+      }
+    };
+
+    fetchCharacters();
+  }, []);
+
+  if (loading) {
+    return (
+      <Container>
+        <CircularProgress />
+      </Container>
+    );
+  }
+
+  if (error) {
+    return (
+      <Container>
+        <Typography color='error'>{error}</Typography>
+      </Container>
+    );
+  }
+
   const loadMore = () => {
-    const newCards = Array.from({ length: 10 }, (_, i) => ({
-      id: cards.length + i + 1,
-      title: `Card ${cards.length + i + 1}`,
-      image: `https://via.placeholder.com/150?text=Card+${cards.length + i + 1}`,
-    }));
-    setCards([...cards, ...newCards]);
+    setVisibleCount(visibleCount + 10);
   };
 
   return (
@@ -62,23 +96,18 @@ const App = () => {
         Star Wars Characters
       </StyledTypography>
       <Grid container spacing={2}>
-        {cards.slice(0, visibleCount).map((card) => (
+        {characters.map((character) => (
           <Grid item xs={12} sm={6} md={4} lg={3} key={card.id}>
-            <Card title={card.title} image={card.image} />
+            <Card
+              key={character.url}
+              title={character.name}
+              image={`https://via.placeholder.com/150?text=${encodeURIComponent(character.name)}`}
+            />
           </Grid>
         ))}
       </Grid>
-      {visibleCount < cards.length && (
-        <Button
-          variant='contained'
-          color='primary'
-          onClick={() => setVisibleCount(visibleCount + 10)}
-        >
-          Load More
-        </Button>
-      )}
-      <Button variant='contained' color='secondary' onClick={loadMore}>
-        Add More Cards
+      <Button variant='contained' color='primary' onClick={loadMore}>
+        Load More
       </Button>
     </Container>
   );
