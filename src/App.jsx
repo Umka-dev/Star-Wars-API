@@ -97,7 +97,7 @@ const App = () => {
       </StyledTypography>
       <Grid container spacing={2}>
         {characters.map((character) => (
-          <Grid item xs={12} sm={6} md={4} lg={3} key={card.id}>
+          <Grid item xs={12} sm={6} md={4} lg={3} key={characters.id}>
             <Card
               key={character.url}
               title={character.name}
