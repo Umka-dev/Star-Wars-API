@@ -1,17 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Card from './Card';
 
-const Cards = (
-  // { title, image, url }
-) => {
-  // const [characters, setCharacters] = useState([]);
+const Cards = ({ characterList }) => {
+  if (characterList.length === 0) return <h4>Characters were not found.</h4>;
 
   return (
-    // <ul title={characters.name} image={imgPlaceholder}>
-    //   {characters.map((character) => (
-    //     <Card key={url} image={image} title={title} />
-    //   ))}
-    // </ul>
+    <ul>
+      {characterList.map((character) => (
+        <Card
+          title={character.name}
+          key={character.url}
+          image={`https://via.placeholder.com/150?text=${encodeURIComponent(character.name)}`}
+        />
+      ))}
+    </ul>
   );
 };
 
