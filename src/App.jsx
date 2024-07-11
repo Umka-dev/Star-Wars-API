@@ -1,7 +1,12 @@
 import React from 'react';
+import CardContainer from './characters/CardContainer';
 
 const App = () => {
-  return <></>;
+  return (
+    <>
+      <CardContainer />
+    </>
+  );
 };
 
 export default App;
