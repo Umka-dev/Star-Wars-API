@@ -8,9 +8,9 @@ const Cards = ({ characterList }) => {
     <ul>
       {characterList.map((character) => (
         <Card
-          title={character.name}
           key={character.id}
-          image={'https://rickandmortyapi.com/api/character/avatar/2.jpeg'}
+          name={character.name}
+          image={character.image}
         />
       ))}
     </ul>
