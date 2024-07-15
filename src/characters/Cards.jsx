@@ -7,7 +7,7 @@ const Cards = ({ characterList }) => {
   return (
     <div>
       <ul>
-        {characterList.slice(0, 20).map((character) => (
+        {characterList.map((character) => (
           <Card
             key={character.id}
             name={character.name}

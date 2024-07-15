@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-// import { characters } from '../data/characters_data';
 import Cards from './Cards';
 
 const API_URL = 'https://rickandmortyapi.com/api/character/';
@@ -23,7 +22,11 @@ const CardContainer = () => {
         }
         const apiCharacters = await response.json();
         console.log(apiCharacters);
-        setCharacters(apiCharacters.results);
+        // setCharacters(apiCharacters.results);
+        setCharacters((prevCharacters) => [
+          ...prevCharacters,
+          ...apiCharacters.results,
+        ]);
 
         setCount(apiCharacters.info.count);
         console.log(apiCharacters.info.count);
@@ -38,8 +41,8 @@ const CardContainer = () => {
       }
     };
 
-    fetchCharacters();
-  }, [page, next]);
+    fetchCharacters(page);
+  }, [page]);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
