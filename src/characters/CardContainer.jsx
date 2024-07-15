@@ -1,62 +1,56 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Cards from './Cards';
 
-const API_URL = 'https://rickandmortyapi.com/api/character/';
+const API_URL = 'https://rickandmortyapi.com/api/character/?page=1';
 
 const CardContainer = () => {
   const [characters, setCharacters] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [count, setCount] = useState(null);
-  const [page, setPage] = useState(1);
-  const [next, setNext] = useState(null);
+  const [next, setNext] = useState(API_URL);
+
+  const fetchCharacters = useCallback(async () => {
+    if (!next) {
+      return;
+    }
+    try {
+      const response = await fetch(next);
+      if (!response.ok) {
+        throw new Error(
+          `Network response was not ok! Status: ${response.status}`,
+        );
+      }
+      const {
+        info: { next: newNext },
+        results,
+      } = await response.json();
+      setCharacters((prevCharacters) => [...prevCharacters, ...results]);
+      setNext(newNext);
+      setLoading(false);
+    } catch (error) {
+      console.error('Fetch error: ', error);
+      setError(error);
+      setLoading(false);
+      throw error;
+    }
+  }, [next]);
 
   useEffect(() => {
-    const fetchCharacters = async () => {
-      try {
-        const response = await fetch(`${API_URL}?page=${page}`);
-        if (!response.ok) {
-          throw new Error(
-            'Network response was not ok! Status: ${response.status}',
-          );
-        }
-        const apiCharacters = await response.json();
-        console.log(apiCharacters);
-        // setCharacters(apiCharacters.results);
-        setCharacters((prevCharacters) => [
-          ...prevCharacters,
-          ...apiCharacters.results,
-        ]);
+    fetchCharacters();
+  }, []);
 
-        setCount(apiCharacters.info.count);
-        console.log(apiCharacters.info.count);
-
-        setNext(apiCharacters.info.next);
-        setLoading(false);
-      } catch (error) {
-        console.error('Fetch error: ', error);
-        setError(error);
-        setLoading(false);
-        throw error;
-      }
-    };
-
-    fetchCharacters(page);
-  }, [page]);
+  console.log('characters ' + characters.length);
+  console.log('loading ' + loading);
+  console.log('error ' + error);
+  console.log('new next ' + next);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
 
-  const pageCounter = () => {
-    setPage((prevPage) => prevPage + 1);
-  };
-
   return (
     <div>
-      <p>Total count of cartoon characters: {count}</p>
-      <Cards characterList={characters} page={page} next={next} />
-      <p>Page - {page}</p>
-      {next && <button onClick={pageCounter}>Load more</button>}
+      <Cards characterList={characters} next={next} />
+      {next && <button onClick={fetchCharacters}>Load more</button>}
     </div>
   );
 };
