@@ -49,7 +49,7 @@ const CardContainer = () => {
 
   return (
     <div>
-      <Cards characterList={characters} next={next} />
+      <Cards characterList={characters} countCharacters={characters.length} />
       {next && <button onClick={fetchCharacters}>Load more</button>}
     </div>
   );

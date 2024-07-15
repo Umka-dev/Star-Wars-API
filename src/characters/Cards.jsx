@@ -1,12 +1,15 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Card from './Card';
+import { List } from '@mui/material';
 
-const Cards = ({ characterList }) => {
-  if (characterList.length === 0) return <h4>Characters were not found.</h4>;
+const Cards = ({ characterList, countCharacters }) => {
+  if (countCharacters === 0) return <h4>Characters were not found.</h4>;
 
   return (
     <div>
-      <ul>
+      <p>Characters shoun: {countCharacters}</p>
+      <List>
         {characterList.map((character) => (
           <Card
             key={character.id}
@@ -14,9 +17,14 @@ const Cards = ({ characterList }) => {
             image={character.image}
           />
         ))}
-      </ul>
+      </List>
     </div>
   );
+};
+
+Cards.propTypes = {
+  characterList: PropTypes.arrayOf.isRequired,
+  countCharacters: PropTypes.number,
 };
 
 export default Cards;
