@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Cards from './Cards';
-import { Button, Container } from '@mui/material';
+import { Button, Container, Typography } from '@mui/material';
 
 const API_URL = 'https://rickandmortyapi.com/api/character/?page=1';
 
@@ -56,6 +56,29 @@ const CardContainer = () => {
 
   return (
     <Container maxWidth='xl' align='center'>
+      <Typography
+        variant='h1'
+        align='center'
+        sx={{
+          fontSize: {
+            xs: '2rem', // small screens
+            sm: '2.5rem', // medium screens
+            md: '3rem', // large screens
+            lg: '3.5rem', // extra large screens
+            xl: '4rem', // double extra large screens
+          },
+          margin: {
+            xs: '20px 0',
+            sm: '30px 0',
+            md: '40px 0',
+            lg: '50px 0',
+            xl: '60px 0',
+          },
+        }}
+      >
+        The Rick and Morty Characters
+      </Typography>
+
       <Cards
         characterList={characters}
         currentCount={characters.length}
