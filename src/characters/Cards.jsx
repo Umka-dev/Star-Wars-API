@@ -22,7 +22,7 @@ const Cards = ({ characterList, currentCount, totalCount }) => {
       // https://mui.com/material-ui/react-typography/#system-props
       <Typography variant='subtitle2' margin={30}>
         Characters shown {currentCount} from {totalCount}
-      </Typography>
+      </Typography> // if typography is moved to upper-level component, currentCount and totalCount will not be needed here at all
     </>
   );
 };
