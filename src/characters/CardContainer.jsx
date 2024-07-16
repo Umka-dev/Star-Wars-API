@@ -9,7 +9,7 @@ const CardContainer = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [totalCount, setTotalCount] = useState(null);
-  const [next, setNext] = useState(API_URL);
+  const [nextPageUrl, setNextPageUrl] = useState(API_URL);
 
   const fetchCharacters = useCallback(async () => {
     if (!next) {
