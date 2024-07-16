@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Cards from './Cards';
+import { Button, Container } from '@mui/material';
 
 const API_URL = 'https://rickandmortyapi.com/api/character/?page=1';
 
@@ -7,6 +8,7 @@ const CardContainer = () => {
   const [characters, setCharacters] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [totalCount, setTotalCount] = useState(null);
   const [next, setNext] = useState(API_URL);
 
   const fetchCharacters = useCallback(async () => {
@@ -21,10 +23,15 @@ const CardContainer = () => {
         );
       }
       const {
-        info: { next: newNext },
+        info: { next: newNext, count },
         results,
       } = await response.json();
+
       setCharacters((prevCharacters) => [...prevCharacters, ...results]);
+      if (!totalCount) {
+        setTotalCount(count);
+        console.log('Total count ' + count);
+      }
       setNext(newNext);
       setLoading(false);
     } catch (error) {
@@ -48,10 +55,27 @@ const CardContainer = () => {
   if (error) return <p>Error: {error.message}</p>;
 
   return (
-    <div>
-      <Cards characterList={characters} countCharacters={characters.length} />
-      {next && <button onClick={fetchCharacters}>Load more</button>}
-    </div>
+    <Container maxWidth='xl' align='center'>
+      <Cards
+        characterList={characters}
+        currentCount={characters.length}
+        totalCount={totalCount}
+      />
+      {next && (
+        <Button
+          variant='outlined'
+          sx={{
+            color: 'white',
+            borderColor: 'white',
+            marginBottom: '100px',
+            ':hover': { color: '#1976d2' },
+          }}
+          onClick={fetchCharacters}
+        >
+          Load more
+        </Button>
+      )}
+    </Container>
   );
 };
 
