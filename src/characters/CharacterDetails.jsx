@@ -1,4 +1,4 @@
-import { Container, Typography } from '@mui/material';
+import { Avatar, Container, Typography } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -41,9 +41,15 @@ const CharacterDetails = () => {
   console.log('Character name: ' + character.name);
 
   return (
-    <Container maxWidth='sm'>
-      <Typography variant='h4'>{character.name}</Typography>
-      <img src={character.image} alt={character.name} />
+    <Container maxWidth='xl' align='center'>
+      <Typography variant='h4' gutterBottom>
+        {character.name}
+      </Typography>
+      <Avatar
+        src={character.image}
+        alt={character.name}
+        sx={{ width: 300, height: 300, margin: '30px' }}
+      />
       <Typography variant='body1'>Status: {character.status}</Typography>
       <Typography variant='body1'>Species: {character.species}</Typography>
       <Typography variant='body1'>Gender: {character.gender}</Typography>
