@@ -9,18 +9,17 @@ const Cards = ({ characterList, currentCount, totalCount }) => {
   return (
     <Container maxWidth='xl' align='center'>
       <Grid container spacing={4} justifyContent='center'>
-        {characterList.map((character) => (
-          <Grid key={character.id} item xs={10} sm={6} md={4} lg={3} xl={2.2}>
+        {characterList.map(({ id, name, image }) => (
+          <Grid key={id} item xs={10} sm={6} md={4} lg={3} xl={2.2}>
             <Card
-              key={character.id}
-              name={character.name}
-              image={character.image}
+              name={name}
+              image={image}
             />
           </Grid>
         ))}
       </Grid>
       <Typography variant='subtitle2' sx={{ margin: '30px' }}>
-        Characters shoun {currentCount} from {totalCount}
+        Characters shown {currentCount} from {totalCount}
       </Typography>
     </Container>
   );
