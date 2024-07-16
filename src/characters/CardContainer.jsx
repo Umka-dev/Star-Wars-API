@@ -58,7 +58,6 @@ const CardContainer = () => {
     <Container maxWidth='xl' align='center'>
       <Cards
         characterList={characters}
-        currentCount={characters.length}
         totalCount={totalCount}
       />
       {next && (
