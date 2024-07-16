@@ -12,7 +12,7 @@ const Cards = ({ characterList, currentCount, totalCount }) => {
         {characterList.map((character) => (
           <Grid key={character.id} item xs={10} sm={6} md={4} lg={3} xl={2.2}>
             <Card
-              key={character.id}
+              id={character.id}
               name={character.name}
               image={character.image}
             />

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   CardMedia,
   Card as MuiCard,
@@ -7,7 +8,13 @@ import {
 } from '@mui/material';
 import PropTypes from 'prop-types';
 
-const Card = ({ name, image }) => {
+const Card = ({ id, name, image }) => {
+  const navigate = useNavigate();
+
+  const handleCardClick = () => {
+    navigate(`/character/${id}`);
+  };
+
   return (
     <MuiCard
       sx={{
@@ -16,6 +23,7 @@ const Card = ({ name, image }) => {
           opacity: '80%',
         },
       }}
+      onClick={handleCardClick}
     >
       <CardMedia component='img' height='250' src={image} alt={name} />
       <CardContent>
@@ -28,6 +36,7 @@ const Card = ({ name, image }) => {
 };
 
 Card.propTypes = {
+  id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   image: PropTypes.string.isRequired,
 };

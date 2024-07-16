@@ -9,11 +9,12 @@ const App = () => {
     <div className='App-header'>
       <Router>
         <Routes>
-          <Route path='/' component={CardContainer} />
-          <Route path='/character/:id' component={CharacterDetails} />
+          {/* <Route path='/' component={CardContainer} />
+          <Route path='/character/:id' component={CharacterDetails} /> */}
+          <Route path='/' element={<CardContainer />} />
+          <Route path='/character/:id' element={<CharacterDetails />} />
         </Routes>
       </Router>
-      <CardContainer />
     </div>
   );
 };
