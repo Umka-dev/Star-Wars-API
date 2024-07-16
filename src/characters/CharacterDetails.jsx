@@ -13,7 +13,6 @@ const CharacterDetails = () => {
   const fetchCharacter = async () => {
     try {
       const response = await fetch(`${API_URL}${id}`);
-      console.log('ID: ' + id);
       if (!response.ok) {
         throw new Error(
           `Network response was not ok! Status: ${response.status}`,
@@ -26,7 +25,6 @@ const CharacterDetails = () => {
       console.error('Fetch error: ', error);
       setError(error);
       setLoading(false);
-      throw error;
     }
   };
 
@@ -34,21 +32,22 @@ const CharacterDetails = () => {
     fetchCharacter();
   }, [id]);
 
-  console.log('ID: ' + id);
-  console.log('loading ' + loading);
-  console.log('error ' + error);
-  console.log('Character: ' + character);
-  console.log('Character name: ' + character.name);
-
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
-  if (!character) {
-    return <p>No character found.</p>;
-  }
+  if (!character) return <p>No character found.</p>;
+
+  console.log('ID: ' + id);
+  console.log('Character: ', character);
+  console.log('Character name: ' + character.name);
 
   return (
-    <Container>
+    <Container maxWidth='sm'>
       <Typography variant='h4'>{character.name}</Typography>
+      <img src={character.image} alt={character.name} />
+      <Typography variant='body1'>Status: {character.status}</Typography>
+      <Typography variant='body1'>Species: {character.species}</Typography>
+      <Typography variant='body1'>Gender: {character.gender}</Typography>
+      <Typography variant='body1'>Origin: {character.origin.name}</Typography>
     </Container>
   );
 };
