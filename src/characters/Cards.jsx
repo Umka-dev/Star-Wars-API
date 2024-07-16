@@ -18,7 +18,9 @@ const Cards = ({ characterList, currentCount, totalCount }) => {
           </Grid>
         ))}
       </Grid>
-      <Typography variant='subtitle2' sx={{ margin: '30px' }}>
+
+      // https://mui.com/material-ui/react-typography/#system-props
+      <Typography variant='subtitle2' margin={30}>
         Characters shown {currentCount} from {totalCount}
       </Typography>
     </>
