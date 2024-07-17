@@ -19,7 +19,7 @@ const Cards = ({ characterList, currentCount, totalCount }) => {
           </Grid>
         ))}
       </Grid>
-      <Typography variant='subtitle2' sx={{ margin: '30px' }}>
+      <Typography variant='subtitle1' sx={{ margin: '30px' }}>
         Characters shoun {currentCount} from {totalCount}
       </Typography>
     </Container>

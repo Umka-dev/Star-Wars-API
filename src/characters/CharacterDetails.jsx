@@ -1,4 +1,12 @@
-import { Avatar, Container, Typography } from '@mui/material';
+import {
+  Avatar,
+  Container,
+  Typography,
+  List,
+  ListItem,
+  ListItemText,
+  CircularProgress,
+} from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -32,28 +40,120 @@ const CharacterDetails = () => {
     fetchCharacter();
   }, [id]);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
-  if (!character) return <p>No character found.</p>;
+  if (loading) {
+    console.log('Loading state active');
+    return (
+      <Container
+        maxWidth='xl'
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '90vh',
+          marginTop: '20px',
+        }}
+      >
+        <CircularProgress size={50} determinate value={20} thickness={4} />
+        {/* <Typography variant='h5'>Loading...</Typography> */}
+      </Container>
+    );
+  }
+  if (error)
+    return (
+      <Container
+        maxWidth='xl'
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '90vh',
+          marginTop: '20px',
+        }}
+      >
+        <Typography variant='h5'>Error: {error.message}</Typography>
+      </Container>
+    );
+  if (!character)
+    return (
+      <Container
+        maxWidth='xl'
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '90vh',
+          marginTop: '20px',
+        }}
+      >
+        <Typography variant='h5'>No character found.</Typography>
+      </Container>
+    );
 
   console.log('ID: ' + id);
   console.log('Character: ', character);
   console.log('Character name: ' + character.name);
 
   return (
-    <Container maxWidth='xl' align='center'>
+    <Container
+      maxWidth='xl'
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
+        marginTop: '20px',
+      }}
+    >
       <Typography variant='h4' gutterBottom>
         {character.name}
       </Typography>
       <Avatar
         src={character.image}
         alt={character.name}
-        sx={{ width: 300, height: 300, margin: '30px' }}
+        sizes='sm lg xl'
+        sx={{ width: '20%', minWidth: '200px', height: 'auto', margin: '20px' }}
       />
-      <Typography variant='body1'>Status: {character.status}</Typography>
-      <Typography variant='body1'>Species: {character.species}</Typography>
-      <Typography variant='body1'>Gender: {character.gender}</Typography>
-      <Typography variant='body1'>Origin: {character.origin.name}</Typography>
+      <List>
+        <ListItem>
+          <ListItemText
+            primary='Status:'
+            secondary={character.status}
+            secondaryTypographyProps={{ sx: { color: '#ccc' } }}
+          />
+        </ListItem>
+        <ListItem>
+          <ListItemText
+            primary='Species:'
+            secondary={character.species}
+            secondaryTypographyProps={{ sx: { color: '#ccc' } }}
+          />
+        </ListItem>
+        <ListItem>
+          <ListItemText
+            primary='Gender:'
+            secondary={character.gender}
+            secondaryTypographyProps={{ sx: { color: '#ccc' } }}
+          />
+        </ListItem>
+        <ListItem>
+          <ListItemText
+            primary='Origin:'
+            secondary={character.origin.name}
+            secondaryTypographyProps={{ sx: { color: '#ccc' } }}
+          />
+        </ListItem>
+        <ListItem>
+          <ListItemText
+            primary='Location:'
+            secondary={character.location.name}
+            secondaryTypographyProps={{ sx: { color: '#ccc' } }}
+          />
+        </ListItem>
+      </List>
     </Container>
   );
 };

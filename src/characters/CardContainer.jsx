@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Cards from './Cards';
-import { Button, Container, Typography } from '@mui/material';
+import { Button, Container, Typography, CircularProgress } from '@mui/material';
 
 const API_URL = 'https://rickandmortyapi.com/api/character/?page=1';
 
@@ -15,6 +15,7 @@ const CardContainer = () => {
     if (!next) {
       return;
     }
+    setLoading(true);
     try {
       const response = await fetch(next);
       if (!response.ok) {
@@ -26,7 +27,7 @@ const CardContainer = () => {
         info: { next: newNext, count },
         results,
       } = await response.json();
-
+      // setTimeout(() => {
       setCharacters((prevCharacters) => [...prevCharacters, ...results]);
       if (!totalCount) {
         setTotalCount(count);
@@ -34,11 +35,14 @@ const CardContainer = () => {
       }
       setNext(newNext);
       setLoading(false);
+      // }, 1000);
     } catch (error) {
+      // setTimeout(() => {
       console.error('Fetch error: ', error);
       setError(error);
       setLoading(false);
-      throw error;
+      // }, 1000);
+      // throw error;
     }
   }, [next]);
 
@@ -51,8 +55,41 @@ const CardContainer = () => {
   console.log('error ' + error);
   console.log('new next ' + next);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
+  if (loading) {
+    console.log('Loading state active');
+    return (
+      <Container
+        maxWidth='xl'
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '90vh',
+          marginTop: '20px',
+        }}
+      >
+        <CircularProgress size={50} determinate value={20} thickness={4} />
+        {/* <Typography variant='h5'>Loading...</Typography> */}
+      </Container>
+    );
+  }
+  if (error)
+    return (
+      <Container
+        maxWidth='xl'
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '90vh',
+          marginTop: '20px',
+        }}
+      >
+        <Typography variant='h5'>Error: {error.message}</Typography>
+      </Container>
+    );
 
   return (
     <Container maxWidth='xl' align='center'>
@@ -68,11 +105,11 @@ const CardContainer = () => {
             xl: '4rem', // double extra large screens
           },
           margin: {
-            xs: '20px 0',
-            sm: '30px 0',
-            md: '40px 0',
-            lg: '50px 0',
-            xl: '60px 0',
+            xs: '80px 0 20px 0',
+            sm: '80px 0 30px 0',
+            md: '80px 0 40px 0',
+            lg: '80px 0 60px 0',
+            xl: '80px 0 80px 0',
           },
         }}
       >

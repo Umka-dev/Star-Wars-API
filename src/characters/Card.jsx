@@ -19,6 +19,7 @@ const Card = ({ id, name, image }) => {
     <MuiCard
       sx={{
         cursor: 'pointer',
+        borderRadius: '20px',
         ':hover': {
           opacity: '80%',
         },
