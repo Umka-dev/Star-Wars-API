@@ -1,15 +1,14 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Cards from './Cards';
 import { Button, Container, Typography, CircularProgress } from '@mui/material';
-
-const API_URL = 'https://rickandmortyapi.com/api/character/?page=1';
+import { commonStyles, CHARACTER_API_URL } from '../../constants';
 
 const CardContainer = () => {
   const [characters, setCharacters] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [totalCount, setTotalCount] = useState(null);
-  const [nextPageUrl, setNextPageUrl] = useState(API_URL);
+  const [nextPageUrl, setNextPageUrl] = useState(`${CHARACTER_API_URL}?page=1`);
 
   const fetchCharacters = useCallback(async () => {
     if (!nextPageUrl) {
@@ -31,7 +30,6 @@ const CardContainer = () => {
       setCharacters((prevCharacters) => [...prevCharacters, ...results]);
       if (!totalCount) {
         setTotalCount(count);
-        console.log('Total count ' + count);
       }
       setNextPageUrl(newNext);
       setLoading(false);
@@ -50,11 +48,6 @@ const CardContainer = () => {
   const handleLoadMore = () => {
     fetchCharacters();
   };
-
-  console.log('characters ' + characters.length);
-  console.log('loading ' + loading);
-  console.log('error ' + error);
-  console.log('new next ' + nextPageUrl);
 
   if (error)
     return (
@@ -106,7 +99,7 @@ const CardContainer = () => {
         <Button
           variant='outlined'
           sx={{
-            color: 'white',
+            color: commonStyles.textColor,
             borderColor: 'white',
             marginBottom: '100px',
             ':hover': { color: '#1976d2' },

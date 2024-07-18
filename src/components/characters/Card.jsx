@@ -28,9 +28,7 @@ const Card = ({ id, name, image }) => {
     >
       <CardMedia component='img' height='250' src={image} alt={name} />
       <CardContent>
-        <Typography variant='h5' component='div'>
-          {name}
-        </Typography>
+        <Typography variant='h5'>{name}</Typography>
       </CardContent>
     </MuiCard>
   );

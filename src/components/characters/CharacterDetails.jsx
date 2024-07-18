@@ -9,8 +9,7 @@ import {
 } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-
-const API_URL = 'https://rickandmortyapi.com/api/character/';
+import { CHARACTER_API_URL } from '../../constants';
 
 const CharacterDetails = () => {
   const { id } = useParams();
@@ -20,7 +19,7 @@ const CharacterDetails = () => {
 
   const fetchCharacter = async () => {
     try {
-      const response = await fetch(`${API_URL}${id}`);
+      const response = await fetch(`${CHARACTER_API_URL}${id}`);
       if (!response.ok) {
         throw new Error(
           `Network response was not ok! Status: ${response.status}`,
@@ -62,6 +61,7 @@ const CharacterDetails = () => {
         <Typography variant='h5'>Error: {error.message}</Typography>
       </Container>
     );
+
   if (!character)
     return (
       <Container

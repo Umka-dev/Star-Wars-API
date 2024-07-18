@@ -2,10 +2,13 @@ import React from 'react';
 import { AppBar, Toolbar, Typography } from '@mui/material';
 import { NavLink as RouterNavLink } from 'react-router-dom';
 
+import { commonStyles } from '../constants';
+
 const Header = () => {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
   return (
     <AppBar
       component='header'
@@ -14,7 +17,7 @@ const Header = () => {
         boxShadow: 'none',
         alignItems: 'center',
         textAlign: 'center',
-        backgroundColor: '#282c34',
+        backgroundColor: commonStyles.backgroundColor,
       }}
     >
       <Toolbar>
@@ -24,14 +27,13 @@ const Header = () => {
           onClick={scrollToTop}
           to='/'
           sx={{
-            // flexGrow: 1,
-            color: 'white',
+            color: commonStyles.textColor,
             textDecoration: 'none',
             '&:hover': {
               color: '#1976d2',
             },
             '&:active': {
-              color: 'white',
+              color: commonStyles.textColor,
             },
           }}
         >
