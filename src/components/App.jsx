@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Layout from './components/Layout';
-import CardContainer from './components/characters/CardContainer';
-import CharacterDetails from './components/characters/CharacterDetails';
+import Layout from './Layout';
+import CardContainer from './characters/CardContainer';
+import CharacterDetails from './characters/CharacterDetails';
 
 const App = () => {
   return (
