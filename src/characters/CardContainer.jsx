@@ -37,12 +37,9 @@ const CardContainer = () => {
       setLoading(false);
       // }, 1000);
     } catch (error) {
-      // setTimeout(() => {
       console.error('Fetch error: ', error);
       setError(error);
       setLoading(false);
-      // }, 1000);
-      // throw error;
     }
   }, [nextPageUrl]);
 
