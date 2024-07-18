@@ -1,6 +1,5 @@
 import React from 'react';
 import { AppBar, Toolbar, Typography } from '@mui/material';
-// import { Link as RouterLink } from 'react-router-dom';
 import { NavLink as RouterNavLink } from 'react-router-dom';
 
 const Header = () => {
