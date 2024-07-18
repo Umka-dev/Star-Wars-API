@@ -23,8 +23,6 @@ const App = () => {
           component='nav'
           position='fixed'
           sx={{
-            height: '50px !important',
-            minHeight: '50px !important',
             boxShadow: 'none',
             alignItems: 'center',
             textAlign: 'center',
