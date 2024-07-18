@@ -58,8 +58,10 @@ const CardContainer = () => {
     <Container maxWidth='xl' align='center'>
       <Cards
         characterList={characters}
-        totalCount={totalCount}
       />
+      <Typography variant='subtitle2' margin={30}>
+        Characters shown {characters.length} from {totalCount}
+      </Typography>
       {next && (
         <Button
           variant='outlined'
