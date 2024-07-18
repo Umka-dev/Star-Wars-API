@@ -6,7 +6,6 @@ import CharacterDetails from './characters/CharacterDetails';
 
 const App = () => {
   return (
-    <>
       <Router>
         <Layout>
           <Routes>
@@ -15,7 +14,6 @@ const App = () => {
           </Routes>
         </Layout>
       </Router>
-    </>
   );
 };
 
