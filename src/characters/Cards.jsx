@@ -1,35 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Card from './Card';
-import { Container, Grid, Typography } from '@mui/material';
+import { Container, Grid } from '@mui/material';
 
-const Cards = ({ characterList, currentCount, totalCount }) => {
+const Cards = ({ characterList}) => {
   if (currentCount === 0) return <h4>Characters were not found.</h4>;
 
   return (
-    <Container maxWidth='xl' align='center'>
+    <>
       <Grid container spacing={4} justifyContent='center'>
-        {characterList.map((character) => (
-          <Grid key={character.id} item xs={10} sm={6} md={4} lg={3} xl={2.2}>
+        {characterList.map(({ id, name, image }) => (
+          <Grid key={id} item xs={10} sm={6} md={4} lg={3} xl={2.2}> // column numbers should be a digit without points xl={2.2}
             <Card
-              id={character.id}
-              name={character.name}
-              image={character.image}
+              name={name}
+              image={image}
             />
           </Grid>
         ))}
       </Grid>
-      <Typography variant='subtitle1' sx={{ margin: '30px' }}>
-        Characters shoun {currentCount} from {totalCount}
-      </Typography>
+    </>
     </Container>
   );
 };
 
 Cards.propTypes = {
   characterList: PropTypes.arrayOf.isRequired,
-  currentCount: PropTypes.number,
-  totalCount: PropTypes.number,
 };
 
 export default Cards;

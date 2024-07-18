@@ -9,7 +9,7 @@ const CardContainer = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [totalCount, setTotalCount] = useState(null);
-  const [next, setNext] = useState(API_URL);
+  const [nextPageUrl, setNextPageUrl] = useState(API_URL);
 
   const fetchCharacters = useCallback(async () => {
     if (!next) {
@@ -118,9 +118,10 @@ const CardContainer = () => {
 
       <Cards
         characterList={characters}
-        currentCount={characters.length}
-        totalCount={totalCount}
       />
+      <Typography variant='subtitle2' margin={30}>
+        Characters shown {characters.length} from {totalCount}
+      </Typography>
       {next && (
         <Button
           variant='outlined'

@@ -1,3 +1,4 @@
+// the file is not necessary anymore
 export const characters = [
   {
     id: 2,
