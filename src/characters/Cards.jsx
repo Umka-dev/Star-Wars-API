@@ -18,10 +18,8 @@ const Cards = ({ characterList}) => {
           </Grid>
         ))}
       </Grid>
-
-      // https://mui.com/material-ui/react-typography/#system-props
-   
     </>
+    </Container>
   );
 };
 
