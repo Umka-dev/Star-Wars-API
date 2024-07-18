@@ -46,25 +46,6 @@ const CharacterDetails = () => {
     }
   }, [id]);
 
-  if (loading) {
-    console.log('Loading state active');
-    return (
-      <Container
-        maxWidth='xl'
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '90vh',
-          marginTop: '20px',
-        }}
-      >
-        <CircularProgress size={50} determinate value={20} thickness={4} />
-        {/* <Typography variant='h5'>Loading...</Typography> */}
-      </Container>
-    );
-  }
   if (error)
     return (
       <Container
@@ -91,7 +72,7 @@ const CharacterDetails = () => {
           justifyContent: 'center',
           alignItems: 'center',
           height: '90vh',
-          marginTop: '20px',
+          marginTop: '60px',
         }}
       >
         <Typography variant='h5'>No character found.</Typography>
@@ -110,8 +91,8 @@ const CharacterDetails = () => {
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        height: '100vh',
-        marginTop: '20px',
+        height: '80vh',
+        marginTop: '80px',
       }}
     >
       <Typography variant='h4' gutterBottom>
@@ -159,6 +140,21 @@ const CharacterDetails = () => {
           />
         </ListItem>
       </List>
+      {loading && (
+        <Container
+          maxWidth='xl'
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '90vh',
+            marginTop: '20px',
+          }}
+        >
+          <CircularProgress size={50} determinate value={20} thickness={4} />
+        </Container>
+      )}
     </Container>
   );
 };

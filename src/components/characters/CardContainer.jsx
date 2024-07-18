@@ -37,12 +37,9 @@ const CardContainer = () => {
       setLoading(false);
       // }, 1000);
     } catch (error) {
-      // setTimeout(() => {
       console.error('Fetch error: ', error);
       setError(error);
       setLoading(false);
-      // }, 1000);
-      // throw error;
     }
   }, [nextPageUrl]);
 
@@ -50,30 +47,15 @@ const CardContainer = () => {
     fetchCharacters();
   }, []);
 
+  const handleLoadMore = () => {
+    fetchCharacters();
+  };
+
   console.log('characters ' + characters.length);
   console.log('loading ' + loading);
   console.log('error ' + error);
   console.log('new next ' + nextPageUrl);
 
-  if (loading) {
-    console.log('Loading state active');
-    return (
-      <Container
-        maxWidth='xl'
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '90vh',
-          marginTop: '20px',
-        }}
-      >
-        <CircularProgress size={50} determinate value={20} thickness={4} />
-        {/* <Typography variant='h5'>Loading...</Typography> */}
-      </Container>
-    );
-  }
   if (error)
     return (
       <Container
@@ -129,10 +111,25 @@ const CardContainer = () => {
             marginBottom: '100px',
             ':hover': { color: '#1976d2' },
           }}
-          onClick={fetchCharacters}
+          onClick={handleLoadMore}
         >
           Load more
         </Button>
+      )}
+      {loading && (
+        <Container
+          maxWidth='xl'
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '90vh',
+            marginTop: '20px',
+          }}
+        >
+          <CircularProgress size={50} determinate value={20} thickness={4} />
+        </Container>
       )}
     </Container>
   );
