@@ -1,27 +1,32 @@
 {
   "env": {
-    // где будет исполняться наш код
     "browser": true,
     "es2023": true
   },
-  /* Пресет с настройками. prettier должен быть последним. 
-    Он удаляет некоторые правила eslint из-за которых могут возникать конфликты. */
   "extends": ["eslint:recommended", "plugin:react/recommended", "prettier"],
-  "parser": "@babel/eslint-parser", // Парсер для обработки jsx кода
+  "parser": "@babel/eslint-parser",
   "parserOptions": {
+    "ecmaVersion": 2023,
+    "sourceType": "module",
     "ecmaFeatures": {
       "jsx": true
     },
-    "ecmaVersion": 11, // версия стандарта JavaScript. Последний 12 (2021).
-    "sourceType": "module" // Позволяет использовать import/export
+    "requireConfigFile": false,
+    "babelOptions": {
+      "presets": ["@babel/preset-react"]
+    }
   },
-  // Здесь мы подключаем используемые плагины.
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "globals": {
+    "browser": "readonly"
+  },
   "plugins": ["react", "prettier"],
-  /* Правила для отслеживания линтером. Если пресеты покрывают не все ситуации, 
-    вы можете прописать нужные правила вручную. */
   "rules": {
-    "prettier/prettier": ["error", { "endOfLine":"auto" }], // Обязательно!! Подсвечивает ошибки из Prettier.
-    "react/prop-types": 0 // Отключаем правило проверки передаваемых типов.
-  
+    "prettier/prettier": ["error", { "endOfLine": "auto" }],
+    "react/prop-types": 0
   }
 }
