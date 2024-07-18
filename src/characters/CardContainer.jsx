@@ -24,7 +24,7 @@ const CardContainer = () => {
         );
       }
       const {
-        info: { nextPageUrl: newNext, count },
+        info: { next: newNext, count },
         results,
       } = await response.json();
       // setTimeout(() => {
@@ -117,7 +117,7 @@ const CardContainer = () => {
       </Typography>
 
       <Cards characterList={characters} />
-      <Typography variant='subtitle2' margin={30}>
+      <Typography variant='subtitle2' margin={5}>
         Characters shown {characters.length} from {totalCount}
       </Typography>
       {nextPageUrl && (

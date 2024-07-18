@@ -34,10 +34,16 @@ const CharacterDetails = () => {
       setError(error);
       setLoading(false);
     }
+    console.log('Fetching character with id:', id);
   };
 
   useEffect(() => {
-    fetchCharacter();
+    if (id) {
+      fetchCharacter();
+    } else {
+      setLoading(false);
+      setError(new Error('No character ID provided.'));
+    }
   }, [id]);
 
   if (loading) {
@@ -114,7 +120,6 @@ const CharacterDetails = () => {
       <Avatar
         src={character.image}
         alt={character.name}
-        sizes='sm lg xl'
         sx={{ width: '20%', minWidth: '200px', height: 'auto', margin: '20px' }}
       />
       <List>
