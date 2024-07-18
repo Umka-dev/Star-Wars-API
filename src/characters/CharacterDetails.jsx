@@ -91,7 +91,7 @@ const CharacterDetails = () => {
           justifyContent: 'center',
           alignItems: 'center',
           height: '90vh',
-          marginTop: '20px',
+          marginTop: '60px',
         }}
       >
         <Typography variant='h5'>No character found.</Typography>
@@ -110,8 +110,8 @@ const CharacterDetails = () => {
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        height: '100vh',
-        marginTop: '20px',
+        height: '80vh',
+        marginTop: '80px',
       }}
     >
       <Typography variant='h4' gutterBottom>
