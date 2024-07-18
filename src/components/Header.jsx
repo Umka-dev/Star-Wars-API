@@ -1,8 +1,12 @@
 import React from 'react';
 import { AppBar, Toolbar, Typography } from '@mui/material';
-import { Link as RouterLink } from 'react-router-dom';
+// import { Link as RouterLink } from 'react-router-dom';
+import { NavLink as RouterNavLink } from 'react-router-dom';
 
 const Header = () => {
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
   return (
     <AppBar
       component='header'
@@ -17,7 +21,8 @@ const Header = () => {
       <Toolbar>
         <Typography
           variant='h6'
-          component={RouterLink}
+          component={RouterNavLink}
+          onClick={scrollToTop}
           to='/'
           sx={{
             // flexGrow: 1,
