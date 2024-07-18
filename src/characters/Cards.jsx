@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Card from './Card';
-import { Container, Grid, Typography } from '@mui/material';
+import { Container, Grid } from '@mui/material';
 
-const Cards = ({ characterList, currentCount, totalCount }) => {
+const Cards = ({ characterList}) => {
   if (currentCount === 0) return <h4>Characters were not found.</h4>;
 
   return (
@@ -20,17 +20,13 @@ const Cards = ({ characterList, currentCount, totalCount }) => {
       </Grid>
 
       // https://mui.com/material-ui/react-typography/#system-props
-      <Typography variant='subtitle2' margin={30}>
-        Characters shown {currentCount} from {totalCount}
-      </Typography> // if typography is moved to upper-level component, currentCount and totalCount will not be needed here at all
+   
     </>
   );
 };
 
 Cards.propTypes = {
   characterList: PropTypes.arrayOf.isRequired,
-  currentCount: PropTypes.number,
-  totalCount: PropTypes.number,
 };
 
 export default Cards;
