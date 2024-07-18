@@ -12,19 +12,19 @@ const CardContainer = () => {
   const [nextPageUrl, setNextPageUrl] = useState(API_URL);
 
   const fetchCharacters = useCallback(async () => {
-    if (!next) {
+    if (!nextPageUrl) {
       return;
     }
     setLoading(true);
     try {
-      const response = await fetch(next);
+      const response = await fetch(nextPageUrl);
       if (!response.ok) {
         throw new Error(
           `Network response was not ok! Status: ${response.status}`,
         );
       }
       const {
-        info: { next: newNext, count },
+        info: { nextPageUrl: newNext, count },
         results,
       } = await response.json();
       // setTimeout(() => {
@@ -33,7 +33,7 @@ const CardContainer = () => {
         setTotalCount(count);
         console.log('Total count ' + count);
       }
-      setNext(newNext);
+      setNextPageUrl(newNext);
       setLoading(false);
       // }, 1000);
     } catch (error) {
@@ -44,7 +44,7 @@ const CardContainer = () => {
       // }, 1000);
       // throw error;
     }
-  }, [next]);
+  }, [nextPageUrl]);
 
   useEffect(() => {
     fetchCharacters();
@@ -53,7 +53,7 @@ const CardContainer = () => {
   console.log('characters ' + characters.length);
   console.log('loading ' + loading);
   console.log('error ' + error);
-  console.log('new next ' + next);
+  console.log('new next ' + nextPageUrl);
 
   if (loading) {
     console.log('Loading state active');
@@ -116,13 +116,11 @@ const CardContainer = () => {
         The Rick and Morty Characters
       </Typography>
 
-      <Cards
-        characterList={characters}
-      />
+      <Cards characterList={characters} />
       <Typography variant='subtitle2' margin={30}>
         Characters shown {characters.length} from {totalCount}
       </Typography>
-      {next && (
+      {nextPageUrl && (
         <Button
           variant='outlined'
           sx={{
