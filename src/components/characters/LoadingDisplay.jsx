@@ -12,7 +12,7 @@ const LoadingDisplay = () => {
         alignItems: 'center',
       }}
     >
-      <CircularProgress size={50} determinate value={20} thickness={4} />
+      <CircularProgress size={50} variant="determinate" value={20} thickness={4} />
     </Box>
   );
 };
