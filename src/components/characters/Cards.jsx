@@ -5,6 +5,7 @@ import { Box, Typography } from '@mui/material';
 
 const Cards = ({ characterList }) => {
   if (!characterList.length) {
+    console.log('Characters were not found.');
     return (
       <Typography variant='h4' mt={100}>
         Characters were not found.
@@ -14,9 +15,9 @@ const Cards = ({ characterList }) => {
 
   return (
     <Box
+      gap={4}
+      display='grid'
       sx={{
-        display: 'grid',
-        gap: 4,
         gridTemplateColumns: {
           xs: 'repeat(1, 1fr)', // 1 column on extra-small screens
           sm: 'repeat(2, 1fr)', // 2 columns on small screens
@@ -24,7 +25,6 @@ const Cards = ({ characterList }) => {
           lg: 'repeat(4, 1fr)', // 4 columns on large screens
           xl: 'repeat(5, 1fr)', // 5 columns on extra-large screens
         },
-        justifyContent: 'center',
       }}
     >
       {characterList.map(({ id, name, image }) => (

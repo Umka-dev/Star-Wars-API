@@ -26,11 +26,11 @@ const Header = () => {
           component={RouterNavLink}
           onClick={scrollToTop}
           to='/'
+          color={commonStyles.textColor}
           sx={{
-            color: commonStyles.textColor,
             textDecoration: 'none',
             '&:hover': {
-              color: '#1976d2',
+              color: commonStyles.linkColor,
             },
             '&:active': {
               color: commonStyles.textColor,

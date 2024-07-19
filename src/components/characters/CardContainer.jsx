@@ -1,15 +1,19 @@
 import React from 'react';
 import useSWRInfinite from 'swr/infinite';
-import { Button, Container, Typography, CircularProgress } from '@mui/material';
+import { Button, Box, Typography, CircularProgress } from '@mui/material';
 import Cards from './Cards';
+import ErrorDisplay from './ErrorDisplay';
+import LoadingDisplay from './LoadingDisplay';
+
 import { commonStyles, CHARACTER_API_URL } from '../../constants';
+import { headerStyles } from './typographyStyles';
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 const CardContainer = () => {
-  const getKey = (pageIndex, previousPageData) => {
-    if (previousPageData && !previousPageData.info.next) return null;
-    return previousPageData ? previousPageData.info.next : CHARACTER_API_URL;
+  const getKey = (pageIndex, prevCharacters) => {
+    if (prevCharacters && !prevCharacters.info.next) return null;
+    return prevCharacters ? prevCharacters.info.next : CHARACTER_API_URL;
   };
 
   const { data, error, size, setSize, isValidating } = useSWRInfinite(
@@ -21,71 +25,21 @@ const CardContainer = () => {
     setSize(size + 1);
   };
 
-  if (error)
-    return (
-      <Container
-        maxWidth='xl'
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '90vh',
-          marginTop: '20px',
-        }}
-      >
-        <Typography variant='h5'>Error: {error.message}</Typography>
-      </Container>
-    );
+  if (error) return <ErrorDisplay message={error.message} />;
+  if (!data) return <LoadingDisplay />;
 
-  if (!data) {
-    return (
-      <Container
-        maxWidth='xl'
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '90vh',
-          marginTop: '20px',
-        }}
-      >
-        <CircularProgress size={50} />
-      </Container>
-    );
-  }
-
-  const characters = data.flatMap((page) => page.results);
+  const characters = data.flatMap((charactersData) => charactersData.results);
   const totalCount = data[0]?.info.count;
   const hasNextPage = data[data.length - 1]?.info.next;
 
   return (
-    <Container maxWidth='xl' align='center'>
-      <Typography
-        variant='h1'
-        align='center'
-        sx={{
-          fontSize: {
-            xs: '2rem', // small screens
-            sm: '2.5rem', // medium screens
-            md: '3rem', // large screens
-            lg: '3.5rem', // extra large screens
-            xl: '4rem', // double extra large screens
-          },
-          margin: {
-            xs: '80px 0 20px 0',
-            sm: '80px 0 30px 0',
-            md: '80px 0 40px 0',
-            lg: '80px 0 60px 0',
-            xl: '80px 0 80px 0',
-          },
-        }}
-      >
+    <Box align='center'>
+      <Typography variant='h1' align='center' sx={headerStyles}>
         The Rick and Morty Characters
       </Typography>
 
       <Cards characterList={characters} />
+
       <Typography variant='subtitle2' margin={5}>
         Characters shown {characters.length} from {totalCount}
       </Typography>
@@ -97,19 +51,29 @@ const CardContainer = () => {
             color: commonStyles.textColor,
             borderColor: 'white',
             marginBottom: '100px',
-            ':hover': { color: '#1976d2' },
+            ':hover': { color: commonStyles.linkColor },
           }}
           onClick={handleLoadMore}
           disabled={isValidating} // Disable button while loading
         >
           {isValidating ? (
-            <CircularProgress size={50} determinate value={20} thickness={4} />
+            <CircularProgress
+              size={24}
+              determinate
+              value={20}
+              thickness={4}
+              sx={{
+                color: 'white',
+                px: '40px',
+                ':hover': { color: commonStyles.linkColor },
+              }}
+            />
           ) : (
             'Load more'
           )}
         </Button>
       )}
-    </Container>
+    </Box>
   );
 };
 
