@@ -1,3 +1,6 @@
+import React from 'react';
+import useSWR from 'swr';
+import { useParams } from 'react-router-dom';
 import {
   Avatar,
   Container,
@@ -7,43 +10,17 @@ import {
   ListItemText,
   CircularProgress,
 } from '@mui/material';
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
 import { CHARACTER_API_URL } from '../../constants';
+
+const fetcher = (url) => fetch(url).then((res) => res.json());
 
 const CharacterDetails = () => {
   const { id } = useParams();
-  const [character, setCharacter] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  const fetchCharacter = async () => {
-    try {
-      const response = await fetch(`${CHARACTER_API_URL}${id}`);
-      if (!response.ok) {
-        throw new Error(
-          `Network response was not ok! Status: ${response.status}`,
-        );
-      }
-      const apiCharacterData = await response.json();
-      setCharacter(apiCharacterData);
-      setLoading(false);
-    } catch (error) {
-      console.error('Fetch error: ', error);
-      setError(error);
-      setLoading(false);
-    }
-    console.log('Fetching character with id:', id);
-  };
-
-  useEffect(() => {
-    if (id) {
-      fetchCharacter();
-    } else {
-      setLoading(false);
-      setError(new Error('No character ID provided.'));
-    }
-  }, [id]);
+  const {
+    data: character,
+    loading,
+    error,
+  } = useSWR(`${CHARACTER_API_URL}${id}`, fetcher);
 
   if (error)
     return (
@@ -101,7 +78,7 @@ const CharacterDetails = () => {
       <Avatar
         src={character.image}
         alt={character.name}
-        sx={{ width: '20%', minWidth: '200px', height: 'auto', margin: '20px' }}
+        sx={{ width: '20%', minWidth: '300px', height: 'auto', margin: '20px' }}
       />
       <List>
         <ListItem>

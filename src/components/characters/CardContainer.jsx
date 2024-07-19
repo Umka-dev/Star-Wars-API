@@ -1,52 +1,24 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import Cards from './Cards';
+import React from 'react';
+import useSWRInfinite from 'swr/infinite';
 import { Button, Container, Typography, CircularProgress } from '@mui/material';
+import Cards from './Cards';
 import { commonStyles, CHARACTER_API_URL } from '../../constants';
 
+const fetcher = (url) => fetch(url).then((res) => res.json());
+
 const CardContainer = () => {
-  const [characters, setCharacters] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [totalCount, setTotalCount] = useState(null);
-  const [nextPageUrl, setNextPageUrl] = useState(`${CHARACTER_API_URL}?page=1`);
+  const getKey = (pageIndex, previousPageData) => {
+    if (previousPageData && !previousPageData.info.next) return null;
+    return previousPageData ? previousPageData.info.next : CHARACTER_API_URL;
+  };
 
-  const fetchCharacters = useCallback(async () => {
-    if (!nextPageUrl) {
-      return;
-    }
-    setLoading(true);
-    try {
-      const response = await fetch(nextPageUrl);
-      if (!response.ok) {
-        throw new Error(
-          `Network response was not ok! Status: ${response.status}`,
-        );
-      }
-      const {
-        info: { next: newNext, count },
-        results,
-      } = await response.json();
-      // setTimeout(() => {
-      setCharacters((prevCharacters) => [...prevCharacters, ...results]);
-      if (!totalCount) {
-        setTotalCount(count);
-      }
-      setNextPageUrl(newNext);
-      setLoading(false);
-      // }, 1000);
-    } catch (error) {
-      console.error('Fetch error: ', error);
-      setError(error);
-      setLoading(false);
-    }
-  }, [nextPageUrl]);
-
-  useEffect(() => {
-    fetchCharacters();
-  }, []);
+  const { data, error, size, setSize, isValidating } = useSWRInfinite(
+    getKey,
+    fetcher,
+  );
 
   const handleLoadMore = () => {
-    fetchCharacters();
+    setSize(size + 1);
   };
 
   if (error)
@@ -65,6 +37,28 @@ const CardContainer = () => {
         <Typography variant='h5'>Error: {error.message}</Typography>
       </Container>
     );
+
+  if (!data) {
+    return (
+      <Container
+        maxWidth='xl'
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '90vh',
+          marginTop: '20px',
+        }}
+      >
+        <CircularProgress size={50} />
+      </Container>
+    );
+  }
+
+  const characters = data.flatMap((page) => page.results);
+  const totalCount = data[0]?.info.count;
+  const hasNextPage = data[data.length - 1]?.info.next;
 
   return (
     <Container maxWidth='xl' align='center'>
@@ -95,7 +89,8 @@ const CardContainer = () => {
       <Typography variant='subtitle2' margin={5}>
         Characters shown {characters.length} from {totalCount}
       </Typography>
-      {nextPageUrl && (
+
+      {hasNextPage && (
         <Button
           variant='outlined'
           sx={{
@@ -105,24 +100,14 @@ const CardContainer = () => {
             ':hover': { color: '#1976d2' },
           }}
           onClick={handleLoadMore}
+          disabled={isValidating} // Disable button while loading
         >
-          Load more
+          {isValidating ? (
+            <CircularProgress size={50} determinate value={20} thickness={4} />
+          ) : (
+            'Load more'
+          )}
         </Button>
-      )}
-      {loading && (
-        <Container
-          maxWidth='xl'
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: '90vh',
-            marginTop: '20px',
-          }}
-        >
-          <CircularProgress size={50} determinate value={20} thickness={4} />
-        </Container>
       )}
     </Container>
   );
