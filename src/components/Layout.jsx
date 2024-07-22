@@ -11,7 +11,7 @@ const Layout = ({ children }) => {
     <Container
       maxWidth='xl'
       sx={{
-        color: commonStyles.textColor,
+        color: commonStyles.primaryTextColor,
       }}
     >
       <Header />

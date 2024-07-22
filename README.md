@@ -11,7 +11,7 @@ Display 20 characters at a time with a "Load More" button to view more character
 Character Details Page:
 Display detailed information about the character in a text list when a character card is clicked.
 
-Responsive Design: 
+Responsive Design:
 Ensure the application is responsive for both mobile and tablet versions.
 
 Requirements
@@ -30,7 +30,7 @@ Initialize the project using CRA.
 Optionally, set up ESLint and Prettier for consistent code quality.
 
 Home Page:
-Fetch data from The Rick and Morty API  to display character cards.
+Fetch data from The Rick and Morty API to display character cards.
 Each card should include an image and the name of the character.
 Implement a hover effect to darken the card.
 Display 20 characters at a time and include a "Load More" button to fetch and display more characters.
@@ -46,3 +46,11 @@ Deliverables
 A working React application that meets the above requirements.
 Clean and well-documented code.
 A README file with instructions on how to run the application.
+
+Additional tasks
+To enhance the character search application with the additional features specified include:
+Search by Name: An input field where users can enter the character's name to search for specific characters.
+Radio Buttons for Filtering by Status: Radio buttons to filter characters based on their status (alive, dead, unknown).
+Checkboxes for Filtering by Gender: Checkboxes to filter characters based on their gender (female, male, genderless, unknown).
+Filtering should happen after clicking a Show/Apply button in the filter form
+Reset button should clean up the filter state.

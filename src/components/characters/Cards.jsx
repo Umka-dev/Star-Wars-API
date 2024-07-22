@@ -5,9 +5,8 @@ import { Box, Typography } from '@mui/material';
 
 const Cards = ({ characterList }) => {
   if (!characterList.length) {
-    console.log('Characters were not found.');
     return (
-      <Typography variant='h4' mt={100}>
+      <Typography variant='h5' m={30}>
         Characters were not found.
       </Typography>
     );
