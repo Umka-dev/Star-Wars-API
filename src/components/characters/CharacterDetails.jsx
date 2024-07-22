@@ -1,99 +1,46 @@
+import React from 'react';
+import useSWR from 'swr';
+import { useParams } from 'react-router-dom';
 import {
   Avatar,
-  Container,
+  Box,
   Typography,
   List,
   ListItem,
   ListItemText,
-  CircularProgress,
 } from '@mui/material';
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import ErrorDisplay from './ErrorDisplay';
+import LoadingDisplay from './LoadingDisplay';
 
-const API_URL = 'https://rickandmortyapi.com/api/character/';
+import { fetcher } from '../../utils';
+import { commonStyles, CHARACTER_API_URL } from '../../constants';
 
 const CharacterDetails = () => {
   const { id } = useParams();
-  const [character, setCharacter] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { data: character, error } = useSWR(
+    `${CHARACTER_API_URL}${id}`,
+    fetcher,
+  );
 
-  const fetchCharacter = async () => {
-    try {
-      const response = await fetch(`${API_URL}${id}`);
-      if (!response.ok) {
-        throw new Error(
-          `Network response was not ok! Status: ${response.status}`,
-        );
-      }
-      const apiCharacterData = await response.json();
-      setCharacter(apiCharacterData);
-      setLoading(false);
-    } catch (error) {
-      console.error('Fetch error: ', error);
-      setError(error);
-      setLoading(false);
-    }
-    console.log('Fetching character with id:', id);
-  };
+  if (error) return <ErrorDisplay message={error.message} />;
+  if (!character) return <LoadingDisplay />;
 
-  useEffect(() => {
-    if (id) {
-      fetchCharacter();
-    } else {
-      setLoading(false);
-      setError(new Error('No character ID provided.'));
-    }
-  }, [id]);
-
-  if (error)
-    return (
-      <Container
-        maxWidth='xl'
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '90vh',
-          marginTop: '20px',
-        }}
-      >
-        <Typography variant='h5'>Error: {error.message}</Typography>
-      </Container>
-    );
-  if (!character)
-    return (
-      <Container
-        maxWidth='xl'
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '90vh',
-          marginTop: '60px',
-        }}
-      >
-        <Typography variant='h5'>No character found.</Typography>
-      </Container>
-    );
-
-  console.log('ID: ' + id);
-  console.log('Character: ', character);
-  console.log('Character name: ' + character.name);
+  const characterAttributes = [
+    { label: 'Status:', value: character.status },
+    { label: 'Species:', value: character.species },
+    { label: 'Gender:', value: character.gender },
+    { label: 'Origin:', value: character.origin.name },
+    { label: 'Location:', value: character.location.name },
+  ];
 
   return (
-    <Container
-      maxWidth='xl'
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '80vh',
-        marginTop: '80px',
-      }}
+    <Box
+      display='flex'
+      flexDirection='column'
+      justifyContent='center'
+      alignItems='center'
+      minHeight='100vh'
+      mt={2}
     >
       <Typography variant='h4' gutterBottom>
         {character.name}
@@ -101,61 +48,25 @@ const CharacterDetails = () => {
       <Avatar
         src={character.image}
         alt={character.name}
-        sx={{ width: '20%', minWidth: '200px', height: 'auto', margin: '20px' }}
+        sx={{
+          width: '20%',
+          minWidth: '240px',
+          height: 'auto',
+          margin: '20px',
+        }}
       />
       <List>
-        <ListItem>
-          <ListItemText
-            primary='Status:'
-            secondary={character.status}
-            secondaryTypographyProps={{ sx: { color: '#ccc' } }}
-          />
-        </ListItem>
-        <ListItem>
-          <ListItemText
-            primary='Species:'
-            secondary={character.species}
-            secondaryTypographyProps={{ sx: { color: '#ccc' } }}
-          />
-        </ListItem>
-        <ListItem>
-          <ListItemText
-            primary='Gender:'
-            secondary={character.gender}
-            secondaryTypographyProps={{ sx: { color: '#ccc' } }}
-          />
-        </ListItem>
-        <ListItem>
-          <ListItemText
-            primary='Origin:'
-            secondary={character.origin.name}
-            secondaryTypographyProps={{ sx: { color: '#ccc' } }}
-          />
-        </ListItem>
-        <ListItem>
-          <ListItemText
-            primary='Location:'
-            secondary={character.location.name}
-            secondaryTypographyProps={{ sx: { color: '#ccc' } }}
-          />
-        </ListItem>
+        {characterAttributes.map(({ label, value }) => (
+          <ListItem key={label}>
+            <ListItemText
+              primary={label}
+              secondary={value}
+              secondaryTypographyProps={{ color: commonStyles.secondTextColor }}
+            />
+          </ListItem>
+        ))}
       </List>
-      {loading && (
-        <Container
-          maxWidth='xl'
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: '90vh',
-            marginTop: '20px',
-          }}
-        >
-          <CircularProgress size={50} determinate value={20} thickness={4} />
-        </Container>
-      )}
-    </Container>
+    </Box>
   );
 };
 

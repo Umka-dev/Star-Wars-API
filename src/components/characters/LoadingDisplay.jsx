@@ -1,0 +1,18 @@
+import React from 'react';
+import { Box, CircularProgress } from '@mui/material';
+
+const LoadingDisplay = () => {
+  return (
+    <Box
+      maxWidth='xl'
+      display='flex'
+      justifyContent='center'
+      alignItems='center'
+      height='90vh'
+    >
+      <CircularProgress size={50} value={20} thickness={4} />
+    </Box>
+  );
+};
+
+export default LoadingDisplay;

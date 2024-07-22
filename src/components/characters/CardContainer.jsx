@@ -1,137 +1,88 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
+import useSWRInfinite from 'swr/infinite';
+import { Button, Box, Typography, CircularProgress } from '@mui/material';
 import Cards from './Cards';
-import { Button, Container, Typography, CircularProgress } from '@mui/material';
+import ErrorDisplay from './ErrorDisplay';
+import LoadingDisplay from './LoadingDisplay';
 
-const API_URL = 'https://rickandmortyapi.com/api/character/?page=1';
+import { fetcher } from '../../utils';
+import { commonStyles, CHARACTER_API_URL } from '../../constants';
+import { headerStyles } from './typographyStyles';
+
+const getKey = (_, prevCharacters) => {
+  if (prevCharacters && !prevCharacters.info.next) return null;
+  return prevCharacters ? prevCharacters.info.next : CHARACTER_API_URL;
+};
 
 const CardContainer = () => {
   const [characters, setCharacters] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [totalCount, setTotalCount] = useState(null);
-  const [nextPageUrl, setNextPageUrl] = useState(API_URL);
 
-  const fetchCharacters = useCallback(async () => {
-    if (!nextPageUrl) {
-      return;
-    }
-    setLoading(true);
-    try {
-      const response = await fetch(nextPageUrl);
-      if (!response.ok) {
-        throw new Error(
-          `Network response was not ok! Status: ${response.status}`,
-        );
-      }
-      const {
-        info: { next: newNext, count },
-        results,
-      } = await response.json();
-      // setTimeout(() => {
-      setCharacters((prevCharacters) => [...prevCharacters, ...results]);
-      if (!totalCount) {
-        setTotalCount(count);
-        console.log('Total count ' + count);
-      }
-      setNextPageUrl(newNext);
-      setLoading(false);
-      // }, 1000);
-    } catch (error) {
-      console.error('Fetch error: ', error);
-      setError(error);
-      setLoading(false);
-    }
-  }, [nextPageUrl]);
+  const { data, error, size, setSize, isValidating } = useSWRInfinite(
+    getKey,
+    fetcher,
+  );
 
   useEffect(() => {
-    fetchCharacters();
-  }, []);
+    if (data) {
+      const allCharacters = data.flatMap(
+        (charactersData) => charactersData.results,
+      );
+      setCharacters(allCharacters);
+    }
+  }, [data]);
 
   const handleLoadMore = () => {
-    fetchCharacters();
+    setSize(size + 1);
   };
 
-  console.log('characters ' + characters.length);
-  console.log('loading ' + loading);
-  console.log('error ' + error);
-  console.log('new next ' + nextPageUrl);
+  if (error) return <ErrorDisplay message={error.message} />;
+  if (!data) return <LoadingDisplay />;
 
-  if (error)
-    return (
-      <Container
-        maxWidth='xl'
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '90vh',
-          marginTop: '20px',
-        }}
-      >
-        <Typography variant='h5'>Error: {error.message}</Typography>
-      </Container>
-    );
+  const totalCount = data[0]?.info.count;
+  const hasNextPage = data[data.length - 1]?.info.next;
 
   return (
-    <Container maxWidth='xl' align='center'>
-      <Typography
-        variant='h1'
-        align='center'
-        sx={{
-          fontSize: {
-            xs: '2rem', // small screens
-            sm: '2.5rem', // medium screens
-            md: '3rem', // large screens
-            lg: '3.5rem', // extra large screens
-            xl: '4rem', // double extra large screens
-          },
-          margin: {
-            xs: '80px 0 20px 0',
-            sm: '80px 0 30px 0',
-            md: '80px 0 40px 0',
-            lg: '80px 0 60px 0',
-            xl: '80px 0 80px 0',
-          },
-        }}
-      >
+    <Box textAlign='center'>
+      <Typography variant='h1' sx={headerStyles}>
         The Rick and Morty Characters
       </Typography>
 
       <Cards characterList={characters} />
+
       <Typography variant='subtitle2' margin={5}>
         Characters shown {characters.length} from {totalCount}
       </Typography>
-      {nextPageUrl && (
+
+      {hasNextPage && (
         <Button
           variant='outlined'
           sx={{
-            color: 'white',
+            color: commonStyles.textColor,
             borderColor: 'white',
             marginBottom: '100px',
-            ':hover': { color: '#1976d2' },
+            ':hover': { color: commonStyles.linkColor },
           }}
           onClick={handleLoadMore}
+          disabled={isValidating} // Disable button while loading
         >
-          Load more
+          {isValidating ? (
+            <CircularProgress
+              size={24}
+              determinate
+              value={20}
+              thickness={4}
+              sx={{
+                color: 'white',
+                px: '40px',
+                ':hover': { color: commonStyles.linkColor },
+              }}
+            />
+          ) : (
+            'Load more'
+          )}
         </Button>
       )}
-      {loading && (
-        <Container
-          maxWidth='xl'
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: '90vh',
-            marginTop: '20px',
-          }}
-        >
-          <CircularProgress size={50} determinate value={20} thickness={4} />
-        </Container>
-      )}
-    </Container>
+    </Box>
   );
 };
 
