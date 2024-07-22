@@ -12,9 +12,8 @@ import {
 import ErrorDisplay from './ErrorDisplay';
 import LoadingDisplay from './LoadingDisplay';
 
+import { fetcher } from '../../utils';
 import { commonStyles, CHARACTER_API_URL } from '../../constants';
-
-const fetcher = (url) => fetch(url).then((res) => res.json());
 
 const CharacterDetails = () => {
   const { id } = useParams();
@@ -51,17 +50,17 @@ const CharacterDetails = () => {
         alt={character.name}
         sx={{
           width: '20%',
-          minWidth: '300px',
+          minWidth: '240px',
           height: 'auto',
           margin: '20px',
         }}
       />
       <List>
-        {characterAttributes.map((attribute, index) => (
-          <ListItem key={index}>
+        {characterAttributes.map(({ label, value }) => (
+          <ListItem key={label}>
             <ListItemText
-              primary={attribute.label}
-              secondary={attribute.value}
+              primary={label}
+              secondary={value}
               secondaryTypographyProps={{ color: commonStyles.secondTextColor }}
             />
           </ListItem>

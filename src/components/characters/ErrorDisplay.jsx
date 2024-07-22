@@ -5,14 +5,10 @@ const ErrorDisplay = ({ message }) => {
   return (
     <Box
       maxWidth='xl'
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '90vh',
-        marginTop: '20px',
-      }}
+      display='flex'
+      justifyContent='center'
+      alignItems='center'
+      height='90vh'
     >
       <Typography variant='h5'>Error: {message}</Typography>
     </Box>

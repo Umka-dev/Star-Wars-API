@@ -5,14 +5,12 @@ const LoadingDisplay = () => {
   return (
     <Box
       maxWidth='xl'
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
+      display='flex'
+      justifyContent='center'
+      alignItems='center'
+      height='90vh'
     >
-      <CircularProgress size={50} variant="determinate" value={20} thickness={4} />
+      <CircularProgress size={50} value={20} thickness={4} />
     </Box>
   );
 };

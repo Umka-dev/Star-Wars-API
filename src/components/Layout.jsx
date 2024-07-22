@@ -9,11 +9,8 @@ import { commonStyles } from '../constants';
 const Layout = ({ children }) => {
   return (
     <Container
-      display='flex'
-      flexDirection='column'
       maxWidth='xl'
       sx={{
-        backgroundColor: commonStyles.backgroundColor,
         color: commonStyles.textColor,
       }}
     >
