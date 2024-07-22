@@ -9,7 +9,7 @@ import {
   ListItem,
   ListItemText,
 } from '@mui/material';
-import { ErrorDisplay, LoadingDisplay } from './index';
+import { ErrorDisplay, LoadingDisplay, header2Styles } from './index';
 
 import { fetcher } from '../../utils';
 import { commonStyles, CHARACTER_API_URL } from '../../constants';
@@ -41,7 +41,7 @@ const CharacterDetails = () => {
       minHeight='100vh'
       mt={2}
     >
-      <Typography variant='h4' gutterBottom>
+      <Typography variant='h1' sx={header2Styles}>
         {character.name}
       </Typography>
       <Avatar
