@@ -1,7 +1,7 @@
 export const commonStyles = {
   backgroundColor: '#282c34',
-  textColor: 'white',
-  secondTextColor: '#ccc',
+  primaryTextColor: 'white',
+  secondaryTextColor: '#ccc',
   linkColor: '#1976d2',
 };
 

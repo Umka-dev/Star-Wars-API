@@ -9,8 +9,7 @@ import {
   ListItem,
   ListItemText,
 } from '@mui/material';
-import ErrorDisplay from './ErrorDisplay';
-import LoadingDisplay from './LoadingDisplay';
+import { ErrorDisplay, LoadingDisplay } from './index';
 
 import { fetcher } from '../../utils';
 import { commonStyles, CHARACTER_API_URL } from '../../constants';
@@ -61,7 +60,9 @@ const CharacterDetails = () => {
             <ListItemText
               primary={label}
               secondary={value}
-              secondaryTypographyProps={{ color: commonStyles.secondTextColor }}
+              secondaryTypographyProps={{
+                color: commonStyles.secondaryTextColor,
+              }}
             />
           </ListItem>
         ))}

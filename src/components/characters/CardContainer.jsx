@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import useSWRInfinite from 'swr/infinite';
 import { Button, Box, Typography, CircularProgress } from '@mui/material';
-import Cards from './Cards';
-import ErrorDisplay from './ErrorDisplay';
-import LoadingDisplay from './LoadingDisplay';
+import { Cards, ErrorDisplay, LoadingDisplay, headerStyles } from './index';
 
 import { fetcher } from '../../utils';
 import { commonStyles, CHARACTER_API_URL } from '../../constants';
-import { headerStyles } from './typographyStyles';
 
 const getKey = (_, prevCharacters) => {
   if (prevCharacters && !prevCharacters.info.next) return null;
@@ -57,7 +54,7 @@ const CardContainer = () => {
         <Button
           variant='outlined'
           sx={{
-            color: commonStyles.textColor,
+            color: commonStyles.primaryTextColor,
             borderColor: 'white',
             marginBottom: '100px',
             ':hover': { color: commonStyles.linkColor },
