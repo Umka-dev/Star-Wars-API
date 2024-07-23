@@ -27,7 +27,7 @@ const Header = () => {
         backgroundColor: commonStyles.backgroundColor,
       }}
     >
-      <Toolbar sx={{ maxHeight: '60px' }}>
+      <Toolbar>
         <Stack
           direction={{ xs: 'column', sm: 'row' }}
           spacing={{ xs: 0, sm: 6, md: 10, lg: 16, xl: 20 }}
