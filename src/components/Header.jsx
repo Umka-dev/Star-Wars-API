@@ -23,11 +23,17 @@ const Header = () => {
 
   // console.log('Inputed name: ' + searchName);
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    if (searchName) {
-      navigate(`/search/${searchName}`);
+  const handleSearch = () => {
+    if (searchName.trim()) {
+      navigate(`/search/${searchName.trim()}`);
       setSearchName('');
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleSearch();
     }
   };
 
@@ -82,6 +88,7 @@ const Header = () => {
               size='small'
               value={searchName}
               onChange={handleChange}
+              onKeyDown={handleKeyDown}
               InputProps={{
                 sx: {
                   '&:before': {
