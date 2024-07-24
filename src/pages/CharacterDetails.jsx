@@ -9,10 +9,14 @@ import {
   ListItem,
   ListItemText,
 } from '@mui/material';
-import { ErrorDisplay, LoadingDisplay, header2Styles } from './index';
+import {
+  ErrorDisplay,
+  LoadingDisplay,
+  header2Styles,
+} from '../components/characters';
 
-import { fetcher } from '../../utils';
-import { commonStyles, CHARACTER_API_URL } from '../../constants';
+import { fetcher } from '../utils';
+import { commonStyles, CHARACTER_API_URL } from '../constants';
 
 const CharacterDetails = () => {
   const { id } = useParams();

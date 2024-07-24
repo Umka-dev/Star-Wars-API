@@ -1,18 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import useSWRInfinite from 'swr/infinite';
 import { Button, Box, Typography, CircularProgress } from '@mui/material';
-import { Cards, ErrorDisplay, LoadingDisplay, header1Styles } from './index';
+import {
+  Cards,
+  ErrorDisplay,
+  LoadingDisplay,
+  header1Styles,
+  // header2Styles,
+} from './';
 
 import { fetcher } from '../../utils';
 import { commonStyles, CHARACTER_API_URL } from '../../constants';
 
-const getKey = (_, prevCharacters) => {
-  if (prevCharacters && !prevCharacters.info.next) return null;
-  return prevCharacters ? prevCharacters.info.next : CHARACTER_API_URL;
-};
-
-const CardContainer = () => {
+const CardContainer = ({ queryParams }) => {
   const [characters, setCharacters] = useState([]);
+
+  const getKey = (_, prevCharacters) => {
+    if (prevCharacters && !prevCharacters.info.next) return null;
+    if (prevCharacters) return prevCharacters.info.next;
+    if (queryParams) return `${CHARACTER_API_URL}?${queryParams}`;
+    return CHARACTER_API_URL;
+  };
 
   const { data, error, size, setSize, isValidating } = useSWRInfinite(
     getKey,
@@ -40,9 +48,15 @@ const CardContainer = () => {
 
   return (
     <Box textAlign='center'>
-      <Typography variant='h1' sx={header1Styles}>
-        The Rick and Morty Characters
-      </Typography>
+      {!queryParams ? (
+        <Typography variant='h1' sx={header1Styles}>
+          The Rick and Morty Characters
+        </Typography>
+      ) : (
+        <Typography variant='h1' sx={header1Styles}>
+          Found characters
+        </Typography>
+      )}
 
       <Cards characterList={characters} />
 
