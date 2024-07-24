@@ -14,22 +14,25 @@ import { ErrorDisplay, LoadingDisplay, header2Styles } from './index';
 import { fetcher } from '../../utils';
 import { commonStyles, CHARACTER_API_URL } from '../../constants';
 
-const CharacterDetails = () => {
+const CharacterDetails = ({ searchedCharacter }) => {
   const { id } = useParams();
+
   const { data: character, error } = useSWR(
-    `${CHARACTER_API_URL}${id}`,
+    id ? `${CHARACTER_API_URL}${id}` : null,
     fetcher,
   );
 
   if (error) return <ErrorDisplay message={error.message} />;
-  if (!character) return <LoadingDisplay />;
+  if (!character && !searchedCharacter) return <LoadingDisplay />;
+
+  const characterData = character || searchedCharacter;
 
   const characterAttributes = [
-    { label: 'Status:', value: character.status },
-    { label: 'Species:', value: character.species },
-    { label: 'Gender:', value: character.gender },
-    { label: 'Origin:', value: character.origin.name },
-    { label: 'Location:', value: character.location.name },
+    { label: 'Status:', value: characterData.status },
+    { label: 'Species:', value: characterData.species },
+    { label: 'Gender:', value: characterData.gender },
+    { label: 'Origin:', value: characterData.origin.name },
+    { label: 'Location:', value: characterData.location.name },
   ];
 
   return (
@@ -42,11 +45,11 @@ const CharacterDetails = () => {
       mt={2}
     >
       <Typography variant='h1' sx={header2Styles}>
-        {character.name}
+        {characterData.name}
       </Typography>
       <Avatar
-        src={character.image}
-        alt={character.name}
+        src={characterData.image}
+        alt={characterData.name}
         sx={{
           width: '20%',
           minWidth: '240px',
