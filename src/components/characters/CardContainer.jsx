@@ -6,7 +6,7 @@ import {
   ErrorDisplay,
   LoadingDisplay,
   header1Styles,
-  // header2Styles,
+  header2Styles,
 } from './';
 
 import { fetcher } from '../../utils';
@@ -53,7 +53,7 @@ const CardContainer = ({ queryParams }) => {
           The Rick and Morty Characters
         </Typography>
       ) : (
-        <Typography variant='h1' sx={header1Styles}>
+        <Typography variant='h2' sx={header2Styles}>
           Found characters
         </Typography>
       )}
