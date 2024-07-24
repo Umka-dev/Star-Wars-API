@@ -69,7 +69,7 @@ const CardContainer = ({ queryParams }) => {
           variant='outlined'
           sx={{
             color: commonStyles.primaryTextColor,
-            borderColor: 'white',
+            borderColor: commonStyles.borderColor,
             marginBottom: '100px',
             ':hover': { color: commonStyles.linkColor },
           }}
@@ -83,7 +83,7 @@ const CardContainer = ({ queryParams }) => {
               value={20}
               thickness={4}
               sx={{
-                color: 'white',
+                color: commonStyles.borderColor,
                 px: '40px',
                 ':hover': { color: commonStyles.linkColor },
               }}

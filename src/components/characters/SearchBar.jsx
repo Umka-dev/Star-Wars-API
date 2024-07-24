@@ -11,10 +11,7 @@ const SearchBar = () => {
   const handleChange = (e) => {
     const { value } = e.target;
     setSearchName(value);
-    console.log('Input: ' + value);
   };
-
-  console.log('Inputed name: ' + searchName);
 
   const handleSearch = () => {
     if (searchName.trim()) {
@@ -43,7 +40,7 @@ const SearchBar = () => {
         InputProps={{
           sx: {
             '&:before': {
-              borderBottomColor: 'white',
+              borderBottomColor: commonStyles.borderColor,
             },
             '&:after': {
               borderBottomColor: commonStyles.linkColor,
@@ -63,7 +60,7 @@ const SearchBar = () => {
         variant='outlined'
         sx={{
           color: commonStyles.primaryTextColor,
-          borderColor: 'white',
+          borderColor: commonStyles.borderColor,
           ':hover': { color: commonStyles.linkColor },
         }}
         onClick={handleSearch}

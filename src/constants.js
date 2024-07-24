@@ -2,6 +2,7 @@ export const commonStyles = {
   backgroundColor: '#282c34',
   primaryTextColor: 'white',
   secondaryTextColor: '#ccc',
+  borderColor: 'white',
   linkColor: '#1976d2',
 };
 
