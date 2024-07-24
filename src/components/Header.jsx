@@ -18,10 +18,10 @@ const Header = () => {
   const handleChange = (e) => {
     const { value } = e.target;
     setSearchName(value);
-    // console.log('Input: ' + value);
+    console.log('Input: ' + value);
   };
 
-  // console.log('Inputed name: ' + searchName);
+  console.log('Inputed name: ' + searchName);
 
   const handleSearch = () => {
     if (searchName.trim()) {
