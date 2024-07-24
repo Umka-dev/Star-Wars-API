@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import useSWRInfinite from 'swr/infinite';
 import { Button, Box, Typography, CircularProgress } from '@mui/material';
-import { Cards, ErrorDisplay, LoadingDisplay, headerStyles } from './index';
+import { Cards, ErrorDisplay, LoadingDisplay, header1Styles } from './index';
 
 import { fetcher } from '../../utils';
 import { commonStyles, CHARACTER_API_URL } from '../../constants';
@@ -40,7 +40,7 @@ const CardContainer = () => {
 
   return (
     <Box textAlign='center'>
-      <Typography variant='h1' sx={headerStyles}>
+      <Typography variant='h1' sx={header1Styles}>
         The Rick and Morty Characters
       </Typography>
 
