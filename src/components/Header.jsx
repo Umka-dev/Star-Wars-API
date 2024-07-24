@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   AppBar,
   Toolbar,
@@ -7,11 +7,36 @@ import {
   Stack,
   Button,
 } from '@mui/material';
-import { NavLink as RouterNavLink } from 'react-router-dom';
+import { NavLink as RouterNavLink, useNavigate } from 'react-router-dom';
 
 import { commonStyles } from '../constants';
 
 const Header = () => {
+  const [searchName, setSearchName] = useState('');
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    const { value } = e.target;
+    setSearchName(value);
+    console.log('Input: ' + value);
+  };
+
+  console.log('Inputed name: ' + searchName);
+
+  const handleSearch = () => {
+    if (searchName.trim()) {
+      navigate(`/character/?name=${searchName.trim()}`);
+      setSearchName('');
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleSearch();
+    }
+  };
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -61,6 +86,9 @@ const Header = () => {
               label='Input name'
               variant='standard'
               size='small'
+              value={searchName}
+              onChange={handleChange}
+              onKeyDown={handleKeyDown}
               InputProps={{
                 sx: {
                   '&:before': {
@@ -87,7 +115,7 @@ const Header = () => {
                 borderColor: 'white',
                 ':hover': { color: commonStyles.linkColor },
               }}
-              onClick={null}
+              onClick={handleSearch}
             >
               Search
             </Button>
