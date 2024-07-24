@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Layout from './Layout';
-import { CardContainer, CharacterDetails } from './characters';
+import { CardContainer, CharacterDetails, SearchCharacter } from './characters';
 
 const App = () => {
   return (
@@ -9,6 +9,7 @@ const App = () => {
       <Layout>
         <Routes>
           <Route path='/' element={<CardContainer />} />
+          <Route path='/search/:name' element={<SearchCharacter />} />
           <Route path='/character/:id' element={<CharacterDetails />} />
         </Routes>
       </Layout>

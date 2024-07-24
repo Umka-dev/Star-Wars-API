@@ -65,7 +65,6 @@ const CardContainer = () => {
           {isValidating ? (
             <CircularProgress
               size={24}
-              determinate
               value={20}
               thickness={4}
               sx={{
