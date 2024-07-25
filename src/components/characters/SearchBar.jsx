@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TextField, Button } from '@mui/material';
 
 import { commonStyles } from '../../constants';
 
 const SearchBar = () => {
-  const [searchName, setSearchName] = useState('');
+  const [searchName, setSearchName] = React.useState('');
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -14,10 +14,7 @@ const SearchBar = () => {
   };
 
   const handleSearch = () => {
-    if (searchName.trim()) {
-      navigate(`/search?name=${searchName.trim()}`);
-      setSearchName('');
-    }
+    navigate(`/search/?name=${searchName}`);
   };
 
   const handleKeyDown = (e) => {

@@ -14,6 +14,8 @@ import { commonStyles, CHARACTER_API_URL } from '../../constants';
 
 const CardContainer = ({ queryParams }) => {
   const [characters, setCharacters] = useState([]);
+  const [totalCount, setTotalCount] = useState(null);
+  const [hasNextPage, setHasNextPage] = useState('');
 
   const getKey = (_, prevCharacters) => {
     if (prevCharacters && !prevCharacters.info.next) return null;
@@ -28,41 +30,51 @@ const CardContainer = ({ queryParams }) => {
   );
 
   useEffect(() => {
-    if (data) {
-      const allCharacters = data.flatMap(
-        (charactersData) => charactersData.results,
-      );
-      setCharacters(allCharacters);
+    if (!data) return;
+    if (data[0].error) {
+      setCharacters([]);
+      console.log('New error', data[0].error);
+      return;
     }
+    const allCharacters = data.flatMap(
+      (charactersData) => charactersData.results,
+    );
+    const count = data[0]?.info.count;
+
+    const nextPage = data[data.length - 1]?.info.next;
+    setCharacters(allCharacters);
+    setTotalCount(count);
+    setHasNextPage(nextPage);
   }, [data]);
 
   const handleLoadMore = () => {
     setSize(size + 1);
   };
 
+  console.log('Data', data);
+  console.log('Error', error);
+
   if (error) return <ErrorDisplay message={error.message} />;
   if (!data) return <LoadingDisplay />;
-
-  const totalCount = data[0]?.info.count;
-  const hasNextPage = data[data.length - 1]?.info.next;
 
   return (
     <Box textAlign='center'>
       {!queryParams ? (
         <Typography variant='h1' sx={header1Styles}>
-          The Rick and Morty Characters
+          All The Rick and Morty Characters
         </Typography>
-      ) : (
+      ) : characters.length ? (
         <Typography variant='h2' sx={header2Styles}>
           Found characters
         </Typography>
-      )}
+      ) : null}
 
       <Cards characterList={characters} />
-
-      <Typography variant='subtitle2' margin={5}>
-        Characters shown {characters.length} from {totalCount}
-      </Typography>
+      {characters.length ? (
+        <Typography variant='subtitle2' margin={5}>
+          Characters shown {characters.length} from {totalCount}
+        </Typography>
+      ) : null}
 
       {hasNextPage && (
         <Button

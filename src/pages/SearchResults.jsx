@@ -1,18 +1,31 @@
 import React from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { CardContainer } from '../components/characters';
+import { CardContainer, GenderRadioButtons } from '../components/characters';
 
 const SearchResults = () => {
-  const [searchParams] = useSearchParams();
-  const [queryParamsWithoutPage, setQueryParamsWithoutPage] =
-    React.useState('');
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  React.useEffect(() => {
-    searchParams.delete('page');
-    setQueryParamsWithoutPage(searchParams.toString());
-  }, [searchParams]);
+  const handleChange = (e) => {
+    e.preventDefault();
 
-  return <CardContainer queryParams={queryParamsWithoutPage} />;
+    const newSearchParams = {
+      name: searchParams.get('name'),
+      gender: e.target.value,
+    };
+    setSearchParams(newSearchParams);
+  };
+
+  console.log('Got params: ' + searchParams);
+
+  return (
+    <>
+      <GenderRadioButtons
+        onChange={handleChange}
+        gender={searchParams.get('gender')}
+      />
+      <CardContainer queryParams={searchParams} />
+    </>
+  );
 };
 
 export default SearchResults;

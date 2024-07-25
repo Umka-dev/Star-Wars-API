@@ -6,9 +6,15 @@ import { Box, Typography } from '@mui/material';
 const Cards = ({ characterList }) => {
   if (!characterList.length) {
     return (
-      <Typography variant='h5' m={30}>
-        Characters were not found.
-      </Typography>
+      <Box
+        maxWidth='xl'
+        display='flex'
+        justifyContent='center'
+        alignItems='center'
+        height='75vh'
+      >
+        <Typography variant='h5'>Characters were not found</Typography>
+      </Box>
     );
   }
 
