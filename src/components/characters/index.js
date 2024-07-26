@@ -2,9 +2,11 @@ import Card from './Card';
 import Cards from './Cards';
 import CardContainer from './CardContainer';
 import SearchBar from './SearchBar';
-import GenderRadioButtons from './GenderRadioButtons';
+import StatusRadioButtons from './StatusRadioButtons';
+import GenderCheckboxes from './GenderCheckboxes';
 import ErrorDisplay from './ErrorDisplay';
 import LoadingDisplay from './LoadingDisplay';
+
 import { header1Styles, header2Styles } from './typographyStyles';
 
 export {
@@ -12,7 +14,8 @@ export {
   Cards,
   CardContainer,
   SearchBar,
-  GenderRadioButtons,
+  StatusRadioButtons,
+  GenderCheckboxes,
   ErrorDisplay,
   LoadingDisplay,
   header1Styles,

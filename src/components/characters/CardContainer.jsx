@@ -20,7 +20,7 @@ const CardContainer = ({ queryParams }) => {
   const getKey = (_, prevCharacters) => {
     if (prevCharacters && !prevCharacters.info.next) return null;
     if (prevCharacters) return prevCharacters.info.next;
-    if (queryParams) return `${CHARACTER_API_URL}?${queryParams}`;
+    if (queryParams) return `${CHARACTER_API_URL}?${queryParams.toString()}`;
     return CHARACTER_API_URL;
   };
 
@@ -33,7 +33,6 @@ const CardContainer = ({ queryParams }) => {
     if (!data) return;
     if (data[0].error) {
       setCharacters([]);
-      console.log('New error', data[0].error);
       return;
     }
     const allCharacters = data.flatMap(
@@ -50,9 +49,6 @@ const CardContainer = ({ queryParams }) => {
   const handleLoadMore = () => {
     setSize(size + 1);
   };
-
-  console.log('Data', data);
-  console.log('Error', error);
 
   if (error) return <ErrorDisplay message={error.message} />;
   if (!data) return <LoadingDisplay />;

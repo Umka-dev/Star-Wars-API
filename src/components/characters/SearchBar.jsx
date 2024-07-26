@@ -14,7 +14,7 @@ const SearchBar = () => {
   };
 
   const handleSearch = () => {
-    navigate(`/search/?name=${searchName}`);
+    navigate(`/search/?name=${searchName.toLowerCase()}`);
   };
 
   const handleKeyDown = (e) => {
