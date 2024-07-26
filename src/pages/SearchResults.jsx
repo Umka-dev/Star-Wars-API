@@ -1,55 +1,49 @@
 import React from 'react';
 import { useSearchParams } from 'react-router-dom';
-import {
-  CardContainer,
-  GenderCheckboxes,
-  StatusRadioButtons,
-} from '../components/characters';
+import { CardContainer } from '../components/characters';
+import FilterPanel from '../components/FilterPanel';
 
 const SearchResults = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const updateSearchParams = (key, value, isCheckbox = false) => {
+  const handleStatusChange = (event) => {
+    const { name, value } = event.target;
     setSearchParams((prevParams) => {
       const newParams = new URLSearchParams(prevParams);
-
-      if (isCheckbox) {
-        const values = newParams.getAll(key);
-        if (value.checked) {
-          newParams.append(key, value.value);
-        } else {
-          newParams.delete(key);
-          values
-            .filter((v) => v !== value.value)
-            .forEach((v) => newParams.append(key, v));
-        }
+      if (value) {
+        newParams.set(name, value);
       } else {
-        if (value) {
-          newParams.set(key, value);
-        } else {
-          newParams.delete(key);
-        }
+        newParams.delete(name);
       }
       return newParams;
     });
   };
 
-  const handleStatusChange = (e) => {
-    updateSearchParams('status', e.target.value);
-  };
-
   const handleGenderChange = (value, checked) => {
-    updateSearchParams('gender', { value, checked }, true);
+    setSearchParams((prevParams) => {
+      const newParams = new URLSearchParams(prevParams);
+
+      const currentGender = newParams.getAll('gender');
+
+      if (checked) {
+        newParams.append('gender', value);
+      } else {
+        newParams.delete('gender');
+        currentGender
+          .filter((gender) => gender !== value)
+          .forEach((gender) => newParams.append('gender', gender));
+      }
+
+      return newParams;
+    });
   };
 
   return (
     <>
-      <StatusRadioButtons
-        onChange={handleStatusChange}
+      <FilterPanel
+        onStatusChange={handleStatusChange}
         status={searchParams.get('status')}
-      />
-      <GenderCheckboxes
-        onChange={handleGenderChange}
+        onGenderChange={handleGenderChange}
         gender={searchParams.getAll('gender')}
       />
       <CardContainer queryParams={searchParams} />

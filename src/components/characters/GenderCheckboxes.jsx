@@ -12,11 +12,6 @@ import { commonStyles } from '../../constants';
 const GenderCheckboxes = ({ onChange, gender }) => {
   const genderOptions = ['male', 'female', 'genderless', 'unknown'];
 
-  const handleCheckboxChange = (e) => {
-    const { value, checked } = e.target;
-    onChange(value, checked);
-  };
-
   return (
     <FormControl sx={{ marginTop: '110px', marginLeft: '50px' }}>
       <FormLabel sx={{ color: commonStyles.secondaryTextColor }}>
@@ -30,7 +25,7 @@ const GenderCheckboxes = ({ onChange, gender }) => {
               <Checkbox
                 value={option}
                 checked={gender.includes(option)}
-                onChange={handleCheckboxChange}
+                onChange={(e) => onChange(option, e.target.checked)}
                 sx={{ color: commonStyles.secondaryTextColor }}
               />
             }
