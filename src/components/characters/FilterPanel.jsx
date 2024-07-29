@@ -1,8 +1,8 @@
 import React from 'react';
 import { Box, Stack, Button, TextField } from '@mui/material';
-import { StatusRadioButtons, GenderCheckboxes } from '../components/characters';
+import { StatusRadioButtons, GenderCheckboxes } from '.';
 
-import { commonStyles } from '../constants';
+import { commonStyles } from '../../constants';
 
 const FilterPanel = ({
   onNameChange,

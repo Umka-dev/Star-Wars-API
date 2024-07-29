@@ -2,6 +2,7 @@ import Card from './Card';
 import Cards from './Cards';
 import CardContainer from './CardContainer';
 import SearchBar from './SearchBar';
+import FilterPanel from './FilterPanel';
 import StatusRadioButtons from './StatusRadioButtons';
 import GenderCheckboxes from './GenderCheckboxes';
 import ErrorDisplay from './ErrorDisplay';
@@ -18,6 +19,7 @@ export {
   Cards,
   CardContainer,
   SearchBar,
+  FilterPanel,
   StatusRadioButtons,
   GenderCheckboxes,
   ErrorDisplay,

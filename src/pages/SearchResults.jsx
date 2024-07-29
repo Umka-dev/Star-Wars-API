@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { CardContainer } from '../components/characters';
-import FilterPanel from '../components/FilterPanel';
+import { CardContainer, FilterPanel } from '../components/characters';
 
 const SearchResults = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [name, setName] = useState(searchParams.get('name') || '');
   const [status, setStatus] = useState(searchParams.get('status') || '');
-  const [gender, setGender] = useState(searchParams.getAll('gender'));
+  const [gender, setGender] = useState(searchParams.getAll('gender') || []);
 
   const handleStatusChange = (e) => {
     setStatus(e.target.value);
