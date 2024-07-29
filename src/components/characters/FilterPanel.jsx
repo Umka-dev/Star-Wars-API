@@ -24,11 +24,11 @@ const FilterPanel = ({
         alignItems='center'
         sx={{
           padding: {
-            xs: '220px 16px 16px 16px',
+            xs: '220px 16px 8px 16px',
             sm: '100px 16px 8px 16px',
-            md: '80px 8px 8px 8px',
-            lg: '60px 8px 8px 8px',
-            xl: '20px 8px 8px 8px',
+            md: '100px 16px 16px 16px',
+            lg: '60px 16px 16px 16px',
+            xl: '20px 16px 16px 16px',
           },
           color: commonStyles.primaryTextColor,
           backgroundColor: commonStyles.backgroundColor,
@@ -36,10 +36,9 @@ const FilterPanel = ({
       >
         <Stack
           direction={{ xs: 'column', sm: 'row' }}
-          spacing={{ xs: 0.5, sm: 2, md: 6, lg: 8, xl: 10 }}
+          spacing={{ xs: 1, sm: 2, md: 6, lg: 8, xl: 10 }}
           alignItems='center'
           px='16px'
-          // justifyContent='center'
         >
           <TextField
             id='standard-size-small'
