@@ -20,7 +20,7 @@ const Header = () => {
       sx={{
         boxShadow: 'none',
         alignItems: 'center',
-        p: '12px',
+        p: '10px',
         backgroundColor: commonStyles.backgroundColor,
       }}
     >

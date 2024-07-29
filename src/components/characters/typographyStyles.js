@@ -24,11 +24,11 @@ export const header2Styles = {
     xl: '3.6rem', // double extra large screens
   },
   margin: {
-    xs: '120px 0 20px 0',
-    sm: '80px 0 20px 0',
-    md: '70px 0 30px 0',
-    lg: '50px 0 30px 0',
-    xl: '60px 0 30px 0',
+    xs: '260px 0 20px 0',
+    sm: '160px 0 20px 0',
+    md: '130px 0 30px 0',
+    lg: '90px 0 30px 0',
+    xl: '80px 0 30px 0',
   },
 };
 

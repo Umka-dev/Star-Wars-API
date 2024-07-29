@@ -23,24 +23,23 @@ const FilterPanel = ({
         justifyContent='center'
         alignItems='center'
         sx={{
-          py: 1,
-          margin: {
-            xs: '280px 0 20px 0',
-            sm: '110px 0 20px 0',
-            md: '80px 0 30px 0',
-            lg: '40px 0 30px 0',
-            xl: '40px 0 30px 0',
+          padding: {
+            xs: '220px 16px 16px 16px',
+            sm: '100px 16px 8px 16px',
+            md: '80px 8px 8px 8px',
+            lg: '60px 8px 8px 8px',
+            xl: '20px 8px 8px 8px',
           },
-          borderRadius: '0 0 10px 10px',
           color: commonStyles.primaryTextColor,
           backgroundColor: commonStyles.backgroundColor,
         }}
       >
         <Stack
           direction={{ xs: 'column', sm: 'row' }}
-          spacing={{ xs: 1, sm: 4, md: 6, lg: 8, xl: 10 }}
+          spacing={{ xs: 0.5, sm: 2, md: 6, lg: 8, xl: 10 }}
           alignItems='center'
-          justifyContent='space-between'
+          px='16px'
+          // justifyContent='center'
         >
           <TextField
             id='standard-size-small'
@@ -67,10 +66,15 @@ const FilterPanel = ({
                 color: commonStyles.primaryTextColor,
               },
             }}
+            sx={{ minWidth: '150px' }}
           />
           <StatusRadioButtons onChange={onStatusChange} status={status} />
-          <GenderCheckboxes onChange={onGenderChange} gender={gender} />
-          <Stack direction='row' spacing={2} justifyContent='flex-end'>
+          <GenderCheckboxes
+            onChange={onGenderChange}
+            gender={gender}
+            sx={{ alignItems: 'center' }}
+          />
+          <Stack direction='row' spacing={2} justifyContent='center'>
             <Button
               variant='outlined'
               sx={{
