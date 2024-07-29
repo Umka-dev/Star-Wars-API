@@ -1,14 +1,17 @@
 import React from 'react';
 import { AppBar, Toolbar, Typography, Stack } from '@mui/material';
-import { NavLink as RouterNavLink } from 'react-router-dom';
+import { NavLink as RouterNavLink, useLocation } from 'react-router-dom';
 
 import { commonStyles } from '../constants';
 import { SearchBar } from './characters';
 
 const Header = () => {
+  const location = useLocation();
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  const isSearchResultsPage = /^\/search/.test(location.pathname);
 
   return (
     <AppBar
@@ -46,12 +49,14 @@ const Header = () => {
           >
             Home
           </Typography>
-          <Stack
-            direction={{ xs: 'column', sm: 'row' }}
-            spacing={{ xs: 1, sm: 2 }}
-          >
-            <SearchBar />
-          </Stack>
+          {!isSearchResultsPage && (
+            <Stack
+              direction={{ xs: 'column', sm: 'row' }}
+              spacing={{ xs: 1, sm: 2 }}
+            >
+              <SearchBar />
+            </Stack>
+          )}
         </Stack>
       </Toolbar>
     </AppBar>

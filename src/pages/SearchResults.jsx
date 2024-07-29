@@ -1,50 +1,56 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { CardContainer } from '../components/characters';
 import FilterPanel from '../components/FilterPanel';
 
 const SearchResults = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const [name, setName] = useState(searchParams.get('name') || '');
+  const [status, setStatus] = useState(searchParams.get('status') || '');
+  const [gender, setGender] = useState(searchParams.getAll('gender'));
 
-  const handleStatusChange = (event) => {
-    const { name, value } = event.target;
-    setSearchParams((prevParams) => {
-      const newParams = new URLSearchParams(prevParams);
-      if (value) {
-        newParams.set(name, value);
-      } else {
-        newParams.delete(name);
-      }
-      return newParams;
-    });
+  const handleStatusChange = (e) => {
+    setStatus(e.target.value);
   };
 
   const handleGenderChange = (value, checked) => {
-    setSearchParams((prevParams) => {
-      const newParams = new URLSearchParams(prevParams);
+    setGender((prev) =>
+      checked ? [...prev, value] : prev.filter((g) => g !== value),
+    );
+  };
 
-      const currentGender = newParams.getAll('gender');
+  const handleNameChange = (value) => {
+    setName(value);
+  };
 
-      if (checked) {
-        newParams.append('gender', value);
-      } else {
-        newParams.delete('gender');
-        currentGender
-          .filter((gender) => gender !== value)
-          .forEach((gender) => newParams.append('gender', gender));
-      }
+  const handleApplyFilters = () => {
+    const newParams = new URLSearchParams();
 
-      return newParams;
-    });
+    if (name) newParams.set('name', name);
+    if (status) newParams.set('status', status);
+    gender.forEach((g) => newParams.append('gender', g));
+
+    setSearchParams(newParams);
+  };
+
+  const handleResetFilters = () => {
+    setName('');
+    setStatus('');
+    setGender([]);
+    setSearchParams(new URLSearchParams());
   };
 
   return (
     <>
       <FilterPanel
+        onNameChange={handleNameChange}
+        name={name}
         onStatusChange={handleStatusChange}
-        status={searchParams.get('status')}
+        status={status}
         onGenderChange={handleGenderChange}
-        gender={searchParams.getAll('gender')}
+        gender={gender}
+        onApplyFilters={handleApplyFilters}
+        onResetFilters={handleResetFilters}
       />
       <CardContainer queryParams={searchParams} />
     </>

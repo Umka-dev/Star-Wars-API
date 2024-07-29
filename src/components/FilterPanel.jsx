@@ -1,20 +1,18 @@
 import React from 'react';
-import { Box, Stack, Button } from '@mui/material';
-import {
-  // SearchBar,
-  StatusRadioButtons,
-  GenderCheckboxes,
-} from '../components/characters';
+import { Box, Stack, Button, TextField } from '@mui/material';
+import { StatusRadioButtons, GenderCheckboxes } from '../components/characters';
 
 import { commonStyles } from '../constants';
 
 const FilterPanel = ({
+  onNameChange,
+  name,
   onStatusChange,
   status,
   onGenderChange,
   gender,
-  onResetFilters,
   onApplyFilters,
+  onResetFilters,
 }) => {
   return (
     <Stack direction='row' justifyContent='center' alignItems='center' mt={14}>
@@ -44,7 +42,32 @@ const FilterPanel = ({
           alignItems='center'
           justifyContent='space-between'
         >
-          {/* <SearchBar /> */}
+          <TextField
+            id='standard-size-small'
+            label='Input name'
+            variant='standard'
+            size='small'
+            value={name}
+            onChange={(e) => onNameChange(e.target.value)}
+            InputProps={{
+              sx: {
+                '&:before': {
+                  borderBottomColor: commonStyles.borderColor,
+                },
+                '&:after': {
+                  borderBottomColor: commonStyles.linkColor,
+                },
+                input: {
+                  color: commonStyles.primaryTextColor,
+                },
+              },
+            }}
+            InputLabelProps={{
+              sx: {
+                color: commonStyles.primaryTextColor,
+              },
+            }}
+          />
           <StatusRadioButtons onChange={onStatusChange} status={status} />
           <GenderCheckboxes onChange={onGenderChange} gender={gender} />
           <Stack direction='row' spacing={2} justifyContent='flex-end'>
@@ -64,7 +87,7 @@ const FilterPanel = ({
               color='primary'
               onClick={onApplyFilters}
             >
-              Apply
+              Show
             </Button>
           </Stack>
         </Stack>
