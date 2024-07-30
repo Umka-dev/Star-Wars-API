@@ -10,7 +10,7 @@ const App = () => {
       <Layout>
         <Routes>
           <Route path='/' element={<CardContainer />} />
-          <Route path='/search' element={<SearchResults />} />
+          <Route path='/search/' element={<SearchResults />} />
           <Route path='/character/:id' element={<CharacterDetails />} />
         </Routes>
       </Layout>
