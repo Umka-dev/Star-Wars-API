@@ -8,11 +8,7 @@ import GenderCheckboxes from './GenderCheckboxes';
 import ErrorDisplay from './ErrorDisplay';
 import LoadingDisplay from './LoadingDisplay';
 
-import {
-  header1Styles,
-  header2Styles,
-  header2SearchStyles,
-} from './typographyStyles';
+import { header1Styles, header2Styles } from './typographyStyles';
 
 export {
   Card,
@@ -26,5 +22,4 @@ export {
   LoadingDisplay,
   header1Styles,
   header2Styles,
-  header2SearchStyles,
 };
