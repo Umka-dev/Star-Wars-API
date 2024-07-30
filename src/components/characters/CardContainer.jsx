@@ -35,9 +35,7 @@ const CardContainer = ({ queryParams }) => {
       setCharacters([]);
       return;
     }
-    const allCharacters = data.flatMap(
-      (charactersData) => charactersData.results,
-    );
+    const allCharacters = data.flatMap((data) => data.results);
     const count = data[0]?.info.count;
 
     const nextPage = data[data.length - 1]?.info.next;

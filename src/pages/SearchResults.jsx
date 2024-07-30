@@ -6,14 +6,14 @@ const SearchResults = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [name, setName] = useState(searchParams.get('name') || '');
   const [status, setStatus] = useState(searchParams.get('status') || '');
-  const [gender, setGender] = useState(searchParams.getAll('gender') || []);
+  const [genders, setGenders] = useState(searchParams.getAll('gender') || []);
 
   const handleStatusChange = (e) => {
     setStatus(e.target.value);
   };
 
   const handleGenderChange = (value, checked) => {
-    setGender((prev) =>
+    setGenders((prev) =>
       checked ? [...prev, value] : prev.filter((g) => g !== value),
     );
   };
@@ -27,7 +27,7 @@ const SearchResults = () => {
 
     if (name) newParams.set('name', name);
     if (status) newParams.set('status', status);
-    gender.forEach((g) => newParams.append('gender', g));
+    genders.forEach((g) => newParams.append('gender', g));
 
     setSearchParams(newParams);
   };
@@ -35,7 +35,7 @@ const SearchResults = () => {
   const handleResetFilters = () => {
     setName('');
     setStatus('');
-    setGender([]);
+    setGenders([]);
     setSearchParams(new URLSearchParams());
   };
 
@@ -47,7 +47,7 @@ const SearchResults = () => {
         onStatusChange={handleStatusChange}
         status={status}
         onGenderChange={handleGenderChange}
-        gender={gender}
+        genders={genders}
         onApplyFilters={handleApplyFilters}
         onResetFilters={handleResetFilters}
       />

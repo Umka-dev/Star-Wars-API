@@ -10,10 +10,11 @@ const FilterPanel = ({
   onStatusChange,
   status,
   onGenderChange,
-  gender,
+  genders,
   onApplyFilters,
   onResetFilters,
 }) => {
+  console.log('Genders:', genders);
   return (
     <Stack direction='row' justifyContent='center' alignItems='center' mt={14}>
       <Box
@@ -70,7 +71,7 @@ const FilterPanel = ({
           <StatusRadioButtons onChange={onStatusChange} status={status} />
           <GenderCheckboxes
             onChange={onGenderChange}
-            gender={gender}
+            genders={genders}
             sx={{ alignItems: 'center' }}
           />
           <Stack direction='row' spacing={2} justifyContent='center'>
