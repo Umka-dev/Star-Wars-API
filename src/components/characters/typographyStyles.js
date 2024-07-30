@@ -31,20 +31,3 @@ export const header2Styles = {
     xl: '80px 0 30px 0',
   },
 };
-
-export const header2SearchStyles = {
-  fontSize: {
-    xs: '2rem', // small screens
-    sm: '2.4rem', // medium screens
-    md: '2.8rem', // large screens
-    lg: '3.2rem', // extra large screens
-    xl: '3.6rem', // double extra large screens
-  },
-  margin: {
-    xs: '260px 0 20px 0',
-    sm: '200px 0 30px 0',
-    md: '170px 0 40px 0',
-    lg: '170px 0 40px 0',
-    xl: '180px 0 40px 0',
-  },
-};
