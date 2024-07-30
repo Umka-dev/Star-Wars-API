@@ -46,10 +46,6 @@ const CardContainer = ({ queryParams }) => {
     setHasNextPage(nextPage);
   }, [data]);
 
-  const handleLoadMore = () => {
-    setSize(size + 1);
-  };
-
   if (error) return <ErrorDisplay message={error.message} />;
   if (!data) return <LoadingDisplay />;
 
@@ -81,7 +77,9 @@ const CardContainer = ({ queryParams }) => {
             marginBottom: '100px',
             ':hover': { color: commonStyles.linkColor },
           }}
-          onClick={handleLoadMore}
+          onClick={() => {
+            setSize(size + 1); // Set next page to load
+          }}
           disabled={isValidating} // Disable button while loading
         >
           {isValidating ? (
