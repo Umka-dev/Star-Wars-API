@@ -14,7 +14,6 @@ const FilterPanel = ({
   onApplyFilters,
   onResetFilters,
 }) => {
-  console.log('Genders:', genders);
   return (
     <Stack direction='row' justifyContent='center' alignItems='center' mt={14}>
       <Box

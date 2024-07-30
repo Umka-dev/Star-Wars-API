@@ -11,7 +11,6 @@ import { commonStyles } from '../../constants';
 
 const GenderCheckboxes = ({ onChange, genders }) => {
   const genderOptions = ['male', 'female', 'genderless', 'unknown'];
-  console.log('Checkboxes genders', genders);
 
   return (
     <FormControl sx={{ marginTop: '110px', marginLeft: '50px' }}>

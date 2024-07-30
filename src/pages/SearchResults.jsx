@@ -8,18 +8,22 @@ const SearchResults = () => {
   const [status, setStatus] = useState(searchParams.get('status') || '');
   const [genders, setGenders] = useState(searchParams.getAll('gender') || []);
 
+  const handleNameChange = (requestedName) => {
+    setName(requestedName);
+  };
+
   const handleStatusChange = (e) => {
-    setStatus(e.target.value);
+    const pickedStatus = e.target.value;
+    setStatus(pickedStatus);
   };
 
-  const handleGenderChange = (value, checked) => {
-    setGenders((prev) =>
-      checked ? [...prev, value] : prev.filter((g) => g !== value),
+  const handleGenderChange = (newGender, checked) => {
+    setGenders(
+      (prev) =>
+        checked
+          ? [...prev, newGender] // add new checked gender
+          : prev.filter((genders) => genders !== newGender), // delete unchecked gender
     );
-  };
-
-  const handleNameChange = (value) => {
-    setName(value);
   };
 
   const handleApplyFilters = () => {
