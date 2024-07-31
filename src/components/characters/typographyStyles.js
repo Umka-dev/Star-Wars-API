@@ -7,11 +7,11 @@ export const header1Styles = {
     xl: '4rem', // double extra large screens
   },
   margin: {
-    xs: '150px 0 20px 0',
-    sm: '100px 0 30px 0',
-    md: '100px 0 40px 0',
-    lg: '100px 0 50px 0',
-    xl: '100px 0 50px 0',
+    xs: '150px 0 5px 0',
+    sm: '100px 0 20px 0',
+    md: '100px 0 20px 0',
+    lg: '110px 0 20px 0',
+    xl: '110px 0 20px 0',
   },
 };
 

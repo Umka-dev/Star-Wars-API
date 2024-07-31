@@ -21,11 +21,10 @@ const FilterPanel = ({
         display='flex'
         width='100%'
         justifyContent='center'
-        alignItems='center'
         sx={{
           padding: {
-            xs: '220px 16px 8px 16px',
-            sm: '100px 16px 8px 16px',
+            xs: '220px 16px 16px 16px',
+            sm: '100px 16px 16px 16px',
             md: '100px 16px 16px 16px',
             lg: '60px 16px 16px 16px',
             xl: '20px 16px 16px 16px',
@@ -38,7 +37,7 @@ const FilterPanel = ({
           direction={{ xs: 'column', sm: 'row' }}
           spacing={{ xs: 1, sm: 2, md: 6, lg: 8, xl: 10 }}
           alignItems='center'
-          px='16px'
+          px={2}
         >
           <TextField
             id='standard-size-small'
@@ -69,7 +68,7 @@ const FilterPanel = ({
           />
           <StatusRadioButtons onChange={onStatusChange} status={status} />
           <GenderRadioButtons onChange={onGenderChange} gender={gender} />
-          <Stack direction='row' spacing={2} justifyContent='center'>
+          <Stack direction='row' spacing={2}>
             <Button
               variant='outlined'
               sx={{
