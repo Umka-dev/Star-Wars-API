@@ -55,10 +55,7 @@ const CardContainer = ({ queryParams }) => {
     setSpecies(allSpecies);
     setTotalCount(count);
     setHasNextPage(nextPage);
-    console.log('All species: ', allSpecies);
   }, [data]);
-
-  console.log('Current species: ', species);
 
   if (error) return <ErrorDisplay message={error.message} />;
   if (!data) return <LoadingDisplay />;
