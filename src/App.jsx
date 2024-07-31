@@ -1,15 +1,14 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Layout from './components/Layout';
-import { CardContainer } from './components/characters';
-import { CharacterDetails, SearchResults } from './pages';
+import { HomePage, SearchResults, CharacterDetails } from './pages';
 
 const App = () => {
   return (
     <Router>
       <Layout>
         <Routes>
-          <Route path='/' element={<CardContainer />} />
+          <Route path='/' element={<HomePage />} />
           <Route path='/search/' element={<SearchResults />} />
           <Route path='/character/:id' element={<CharacterDetails />} />
         </Routes>

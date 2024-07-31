@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import useSWRInfinite from 'swr/infinite';
 import { Button, Box, Typography, CircularProgress } from '@mui/material';
 import {
@@ -13,9 +13,9 @@ import { fetcher } from '../../utils';
 import { commonStyles, CHARACTER_API_URL } from '../../constants';
 
 const CardContainer = ({ queryParams }) => {
-  const [characters, setCharacters] = useState([]);
-  const [totalCount, setTotalCount] = useState(null);
-  const [hasNextPage, setHasNextPage] = useState('');
+  const [characters, setCharacters] = React.useState([]);
+  const [totalCount, setTotalCount] = React.useState(null);
+  const [hasNextPage, setHasNextPage] = React.useState('');
 
   const getKey = (_, prevCharacters) => {
     if (prevCharacters && !prevCharacters.info.next) return null;
@@ -29,7 +29,7 @@ const CardContainer = ({ queryParams }) => {
     fetcher,
   );
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (!data) return;
     if (data[0].error) {
       setCharacters([]);

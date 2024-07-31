@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { CardContainer, FilterPanel } from '../components/characters';
 
 const SearchResults = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [filters, setFilters] = useState({
+  const [filters, setFilters] = React.useState({
     name: searchParams.get('name') || '',
     status: searchParams.get('status') || '',
     gender: searchParams.get('gender') || '',
