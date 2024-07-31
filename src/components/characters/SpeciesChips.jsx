@@ -1,21 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, Stack, Chip } from '@mui/material';
-
 import { commonStyles } from '../../constants';
 
 const SpeciesChips = ({ speciesList }) => {
-  const [selectedChips, setSelectedChips] = React.useState('All Species');
-
-  const handleClickAll = () => {
-    setSelectedChips('All Species');
-    console.info('You clicked the Chip All');
-    return;
-  };
+  const [selectedSpecies, setSelectedSpecies] = useState(['All Species']);
 
   const handleChipClick = (species) => {
-    setSelectedChips(species);
+    if (species === 'All Species') {
+      setSelectedSpecies(['All Species']);
+    } else {
+      setSelectedSpecies((prevSelected) => {
+        const isSelected = prevSelected.includes(species);
+        // Remove 'All Species' if other species are selected
+        const newSelection = prevSelected.filter((s) => s !== 'All Species');
+        return isSelected
+          ? newSelection.filter((s) => s !== species)
+          : [...newSelection, species];
+      });
+    }
     console.info(`You clicked the Chip: ${species}`);
   };
+
+  const isActive = (species) => selectedSpecies.includes(species);
 
   return (
     <Box
@@ -37,37 +43,24 @@ const SpeciesChips = ({ speciesList }) => {
         direction='row'
         flexWrap='wrap'
         spacing={{ xs: 1, sm: 2 }}
-        sx={{ rowGap: { xs: 1 } }}
+        sx={{ rowGap: 2 }}
       >
         <Chip
           label='All Species'
-          color={selectedChips === 'All Species' ? 'primary' : 'default'}
-          variant={selectedChips === 'All Species' ? 'filled' : 'outlined'}
-          clickable={true}
-          onClick={() => handleClickAll('All Species')}
-          sx={{
-            backgroundColor:
-              selectedChips === 'All Species' ? 'primary.main' : 'transparent',
-            color:
-              selectedChips === 'All Species'
-                ? 'primary.contrastText'
-                : commonStyles.primaryTextColor,
-          }}
+          variant={isActive('All Species') ? 'filled' : 'outlined'}
+          color={isActive('All Species') ? 'primary' : 'default'}
+          sx={{ color: commonStyles.primaryTextColor }}
+          clickable
+          onClick={() => handleChipClick('All Species')}
         />
         {speciesList.map((species) => (
           <Chip
             key={species}
             label={species}
-            variant={selectedChips === species ? 'filled' : 'outlined'}
-            sx={{
-              backgroundColor:
-                selectedChips === species ? 'primary.main' : 'transparent',
-              color:
-                selectedChips === species
-                  ? 'primary.contrastText'
-                  : commonStyles.primaryTextColor,
-            }}
-            clickable={true}
+            variant={isActive(species) ? 'filled' : 'outlined'}
+            color={isActive(species) ? 'primary' : 'default'}
+            sx={{ color: commonStyles.primaryTextColor }}
+            clickable
             onClick={() => handleChipClick(species)}
           />
         ))}
