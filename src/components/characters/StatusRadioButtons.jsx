@@ -13,7 +13,7 @@ const StatusRadioButtons = ({ onChange, status }) => {
   const statusOptions = ['alive', 'dead', 'unknown'];
 
   return (
-    <FormControl sx={{ marginTop: '110px' }}>
+    <FormControl>
       <FormLabel sx={{ color: commonStyles.secondaryTextColor }}>
         Status
       </FormLabel>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Stack, Button, TextField } from '@mui/material';
-import { StatusRadioButtons, GenderCheckboxes } from '.';
+import { StatusRadioButtons, GenderRadioButtons } from '.';
 
 import { commonStyles } from '../../constants';
 
@@ -10,7 +10,7 @@ const FilterPanel = ({
   onStatusChange,
   status,
   onGenderChange,
-  genders,
+  gender,
   onApplyFilters,
   onResetFilters,
 }) => {
@@ -68,11 +68,7 @@ const FilterPanel = ({
             sx={{ minWidth: '150px' }}
           />
           <StatusRadioButtons onChange={onStatusChange} status={status} />
-          <GenderCheckboxes
-            onChange={onGenderChange}
-            genders={genders}
-            sx={{ alignItems: 'center' }}
-          />
+          <GenderRadioButtons onChange={onGenderChange} gender={gender} />
           <Stack direction='row' spacing={2} justifyContent='center'>
             <Button
               variant='outlined'

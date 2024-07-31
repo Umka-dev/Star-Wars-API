@@ -3,37 +3,31 @@ import {
   FormControl,
   FormLabel,
   FormControlLabel,
-  FormGroup,
-  Checkbox,
+  RadioGroup,
+  Radio,
 } from '@mui/material';
 
 import { commonStyles } from '../../constants';
 
-const GenderCheckboxes = ({ onChange, genders }) => {
+const GenderRadioButtons = ({ onChange, gender }) => {
   const genderOptions = ['male', 'female', 'genderless', 'unknown'];
 
   return (
-    <FormControl sx={{ marginTop: '110px', marginLeft: '50px' }}>
+    <FormControl>
       <FormLabel sx={{ color: commonStyles.secondaryTextColor }}>
         Gender
       </FormLabel>
-      <FormGroup row>
+      <RadioGroup row name='gender' value={gender} onChange={onChange}>
         {genderOptions.map((option) => (
           <FormControlLabel
             key={option}
-            control={
-              <Checkbox
-                value={option}
-                checked={genders.includes(option)}
-                onChange={(e) => onChange(option, e.target.checked)}
-                sx={{ color: commonStyles.secondaryTextColor }}
-              />
-            }
+            value={option}
+            control={<Radio sx={{ color: commonStyles.secondaryTextColor }} />}
             label={option.charAt(0).toUpperCase() + option.slice(1)}
           />
         ))}
-      </FormGroup>
+      </RadioGroup>
     </FormControl>
   );
 };
-export default GenderCheckboxes;
+export default GenderRadioButtons;

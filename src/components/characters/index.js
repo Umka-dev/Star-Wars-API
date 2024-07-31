@@ -4,7 +4,7 @@ import CardContainer from './CardContainer';
 import SearchBar from './SearchBar';
 import FilterPanel from './FilterPanel';
 import StatusRadioButtons from './StatusRadioButtons';
-import GenderCheckboxes from './GenderCheckboxes';
+import GenderRadioButtons from './GenderRadioButtons';
 import ErrorDisplay from './ErrorDisplay';
 import LoadingDisplay from './LoadingDisplay';
 
@@ -17,7 +17,7 @@ export {
   SearchBar,
   FilterPanel,
   StatusRadioButtons,
-  GenderCheckboxes,
+  GenderRadioButtons,
   ErrorDisplay,
   LoadingDisplay,
   header1Styles,
