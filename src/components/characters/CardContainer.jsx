@@ -13,13 +13,16 @@ import {
 import { fetcher } from '../../utils';
 import { commonStyles, CHARACTER_API_URL } from '../../constants';
 
+const ALL_SPECIES_NAME = 'All Species';
+
 const CardContainer = ({ queryParams }) => {
   const [characters, setCharacters] = React.useState([]);
-  const [filteredCharacters, setFilteredCharacters] = React.useState([]);
-  const [species, setSpecies] = React.useState([]);
-  const [selectedSpecies, setSelectedSpecies] = React.useState(['All Species']);
   const [totalCount, setTotalCount] = React.useState(null);
   const [hasNextPage, setHasNextPage] = React.useState('');
+
+  const [filteredCharacters, setFilteredCharacters] = React.useState([]);
+  const [speciesList, setSpeciesList] = React.useState([]);
+  const [selectedSpecies, setSelectedSpecies] = React.useState([]);
 
   const getKey = (_, prevCharacters) => {
     if (prevCharacters && !prevCharacters.info.next) return null;
@@ -35,61 +38,58 @@ const CardContainer = ({ queryParams }) => {
 
   React.useEffect(() => {
     if (!data) return;
+
     if (data[0].error) {
       setCharacters([]);
       return;
     }
+
     const allCharacters = data.flatMap((data) => data.results);
-
-    const allSpecies = [
-      ...new Set(
-        data.flatMap((data) =>
-          data.results.map((character) => character.species),
-        ),
-      ),
-    ];
-
     const count = data[0]?.info.count;
-
     const nextPage = data[data.length - 1]?.info.next;
 
     setCharacters(allCharacters);
-    setSpecies(allSpecies);
     setTotalCount(count);
     setHasNextPage(nextPage);
   }, [data]);
 
   React.useEffect(() => {
-    if (selectedSpecies.includes('All Species')) {
+    const allSpecies = [
+      ALL_SPECIES_NAME,
+      ...new Set(characters.map(({ species }) => species)),
+    ];
+
+    setSpeciesList(allSpecies);
+  }, [characters]);
+
+  React.useEffect(() => {
+    if (!selectedSpecies.length) {
       setFilteredCharacters(characters);
     } else {
       setFilteredCharacters(
-        characters.filter((character) =>
-          selectedSpecies.includes(character.species),
-        ),
+        characters.filter(({ species }) => selectedSpecies.includes(species)),
       );
     }
   }, [characters, selectedSpecies]);
 
   const handleChipClick = (species) => {
-    if (species === 'All Species') {
-      setSelectedSpecies(['All Species']);
+    if (species === ALL_SPECIES_NAME) {
+      setSelectedSpecies([]);
     } else {
       setSelectedSpecies((prevSelected) => {
         const isSelected = prevSelected.includes(species);
 
-        // Remove 'All Species' if other species are selected
-        const newSelection = prevSelected.filter((s) => s !== 'All Species');
-        return isSelected
-          ? newSelection.filter((s) => s !== species)
-          : [...newSelection, species];
+        if (isSelected) {
+          return prevSelected.filter(
+            (selectedSpecies) => selectedSpecies !== species,
+          );
+        }
+
+        return [...prevSelected, species];
       });
     }
     console.info(`You clicked the Chip: ${species}`);
   };
-
-  // Сheck whether the current species is active, i.e. whether it is present in the selected Species array
-  const isActive = (species) => selectedSpecies.includes(species);
 
   console.log('Selected species: ', selectedSpecies);
   console.log('Filtered characters: ', filteredCharacters);
@@ -105,8 +105,8 @@ const CardContainer = ({ queryParams }) => {
             The Rick and Morty Characters
           </Typography>
           <SpeciesChips
-            speciesList={species}
-            isActive={isActive}
+            speciesList={speciesList}
+            selectedSpecies={selectedSpecies}
             handleChipClick={handleChipClick}
           />
         </>
@@ -117,7 +117,7 @@ const CardContainer = ({ queryParams }) => {
       ) : null}
 
       <Cards characterList={filteredCharacters} />
-      {characters.length ? (
+      {filteredCharacters.length ? (
         <Typography variant='subtitle2' margin={5}>
           Characters shown {filteredCharacters.length} from {totalCount}
         </Typography>

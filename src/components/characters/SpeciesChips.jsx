@@ -3,7 +3,15 @@ import { Box, Stack, Chip } from '@mui/material';
 
 import { commonStyles } from '../../constants';
 
-const SpeciesChips = ({ speciesList, isActive, handleChipClick }) => {
+const SpeciesChips = ({ speciesList, selectedSpecies, handleChipClick }) => {
+  const isSelected = (species, idx) => {
+    if (idx === 0 && !selectedSpecies.length) {
+      return true;
+    }
+
+    return selectedSpecies.includes(species);
+  };
+
   return (
     <Box
       display='flex'
@@ -26,20 +34,12 @@ const SpeciesChips = ({ speciesList, isActive, handleChipClick }) => {
         spacing={{ xs: 1, sm: 2 }}
         sx={{ rowGap: 2 }}
       >
-        <Chip
-          label='All Species'
-          variant={isActive('All Species') ? 'filled' : 'outlined'}
-          color={isActive('All Species') ? 'primary' : 'default'}
-          sx={{ color: commonStyles.primaryTextColor }}
-          clickable
-          onClick={() => handleChipClick('All Species')}
-        />
-        {speciesList.map((species) => (
+        {speciesList.map((species, idx) => (
           <Chip
             key={species}
             label={species}
-            variant={isActive(species) ? 'filled' : 'outlined'}
-            color={isActive(species) ? 'primary' : 'default'}
+            variant={isSelected(species, idx) ? 'filled' : 'outlined'}
+            color={isSelected(species, idx) ? 'primary' : 'default'}
             sx={{ color: commonStyles.primaryTextColor }}
             clickable
             onClick={() => handleChipClick(species)}
