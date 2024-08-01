@@ -15,7 +15,9 @@ import { commonStyles, CHARACTER_API_URL } from '../../constants';
 
 const CardContainer = ({ queryParams }) => {
   const [characters, setCharacters] = React.useState([]);
+  const [filteredCharacters, setFilteredCharacters] = React.useState([]);
   const [species, setSpecies] = React.useState([]);
+  const [selectedSpecies, setSelectedSpecies] = React.useState(['All Species']);
   const [totalCount, setTotalCount] = React.useState(null);
   const [hasNextPage, setHasNextPage] = React.useState('');
 
@@ -57,6 +59,41 @@ const CardContainer = ({ queryParams }) => {
     setHasNextPage(nextPage);
   }, [data]);
 
+  React.useEffect(() => {
+    if (selectedSpecies.includes('All Species')) {
+      setFilteredCharacters(characters);
+    } else {
+      setFilteredCharacters(
+        characters.filter((character) =>
+          selectedSpecies.includes(character.species),
+        ),
+      );
+    }
+  }, [characters, selectedSpecies]);
+
+  const handleChipClick = (species) => {
+    if (species === 'All Species') {
+      setSelectedSpecies(['All Species']);
+    } else {
+      setSelectedSpecies((prevSelected) => {
+        const isSelected = prevSelected.includes(species);
+
+        // Remove 'All Species' if other species are selected
+        const newSelection = prevSelected.filter((s) => s !== 'All Species');
+        return isSelected
+          ? newSelection.filter((s) => s !== species)
+          : [...newSelection, species];
+      });
+    }
+    console.info(`You clicked the Chip: ${species}`);
+  };
+
+  // Сheck whether the current species is active, i.e. whether it is present in the selected Species array
+  const isActive = (species) => selectedSpecies.includes(species);
+
+  console.log('Selected species: ', selectedSpecies);
+  console.log('Filtered characters: ', filteredCharacters);
+
   if (error) return <ErrorDisplay message={error.message} />;
   if (!data) return <LoadingDisplay />;
 
@@ -67,7 +104,11 @@ const CardContainer = ({ queryParams }) => {
           <Typography variant='h1' sx={header1Styles}>
             The Rick and Morty Characters
           </Typography>
-          <SpeciesChips speciesList={species} />
+          <SpeciesChips
+            speciesList={species}
+            isActive={isActive}
+            handleChipClick={handleChipClick}
+          />
         </>
       ) : characters.length ? (
         <Typography variant='h2' sx={header2Styles}>
@@ -75,10 +116,10 @@ const CardContainer = ({ queryParams }) => {
         </Typography>
       ) : null}
 
-      <Cards characterList={characters} />
+      <Cards characterList={filteredCharacters} />
       {characters.length ? (
         <Typography variant='subtitle2' margin={5}>
-          Characters shown {characters.length} from {totalCount}
+          Characters shown {filteredCharacters.length} from {totalCount}
         </Typography>
       ) : null}
 

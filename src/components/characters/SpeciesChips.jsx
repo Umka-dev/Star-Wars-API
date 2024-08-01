@@ -1,28 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Box, Stack, Chip } from '@mui/material';
+
 import { commonStyles } from '../../constants';
 
-const SpeciesChips = ({ speciesList }) => {
-  const [selectedSpecies, setSelectedSpecies] = useState(['All Species']);
-
-  const handleChipClick = (species) => {
-    if (species === 'All Species') {
-      setSelectedSpecies(['All Species']);
-    } else {
-      setSelectedSpecies((prevSelected) => {
-        const isSelected = prevSelected.includes(species);
-        // Remove 'All Species' if other species are selected
-        const newSelection = prevSelected.filter((s) => s !== 'All Species');
-        return isSelected
-          ? newSelection.filter((s) => s !== species)
-          : [...newSelection, species];
-      });
-    }
-    console.info(`You clicked the Chip: ${species}`);
-  };
-
-  const isActive = (species) => selectedSpecies.includes(species);
-
+const SpeciesChips = ({ speciesList, isActive, handleChipClick }) => {
   return (
     <Box
       display='flex'
