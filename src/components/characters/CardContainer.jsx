@@ -137,7 +137,7 @@ const CardContainer = ({ queryParams }) => {
           }}
           disabled={isValidating} // Disable button while loading
         >
-          {!isValidating ? (
+          {isValidating ? (
             <CircularProgress
               size={24}
               value={20}
