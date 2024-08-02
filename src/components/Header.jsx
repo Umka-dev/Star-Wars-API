@@ -1,45 +1,17 @@
-import React, { useState } from 'react';
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  TextField,
-  Stack,
-  Button,
-} from '@mui/material';
-import { NavLink as RouterNavLink, useNavigate } from 'react-router-dom';
+import React from 'react';
+import { AppBar, Toolbar, Typography, Stack } from '@mui/material';
+import { NavLink as RouterNavLink, useLocation } from 'react-router-dom';
 
 import { commonStyles } from '../constants';
+import { SearchBar } from './characters';
 
 const Header = () => {
-  const [searchName, setSearchName] = useState('');
-  const navigate = useNavigate();
-
-  const handleChange = (e) => {
-    const { value } = e.target;
-    setSearchName(value);
-    console.log('Input: ' + value);
-  };
-
-  console.log('Inputed name: ' + searchName);
-
-  const handleSearch = () => {
-    if (searchName.trim()) {
-      navigate(`/character/?name=${searchName.trim()}`);
-      setSearchName('');
-    }
-  };
-
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      handleSearch();
-    }
-  };
-
+  const location = useLocation();
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  const isSearchResultsPage = /^\/search/.test(location.pathname);
 
   return (
     <AppBar
@@ -48,7 +20,7 @@ const Header = () => {
       sx={{
         boxShadow: 'none',
         alignItems: 'center',
-        p: '5px',
+        p: '10px',
         backgroundColor: commonStyles.backgroundColor,
       }}
     >
@@ -77,49 +49,14 @@ const Header = () => {
           >
             Home
           </Typography>
-          <Stack
-            direction={{ xs: 'column', sm: 'row' }}
-            spacing={{ xs: 1, sm: 2 }}
-          >
-            <TextField
-              id='standard-size-small'
-              label='Input name'
-              variant='standard'
-              size='small'
-              value={searchName}
-              onChange={handleChange}
-              onKeyDown={handleKeyDown}
-              InputProps={{
-                sx: {
-                  '&:before': {
-                    borderBottomColor: 'white',
-                  },
-                  '&:after': {
-                    borderBottomColor: commonStyles.linkColor,
-                  },
-                  input: {
-                    color: commonStyles.primaryTextColor,
-                  },
-                },
-              }}
-              InputLabelProps={{
-                sx: {
-                  color: commonStyles.primaryTextColor,
-                },
-              }}
-            />
-            <Button
-              variant='outlined'
-              sx={{
-                color: commonStyles.primaryTextColor,
-                borderColor: 'white',
-                ':hover': { color: commonStyles.linkColor },
-              }}
-              onClick={handleSearch}
+          {!isSearchResultsPage && (
+            <Stack
+              direction={{ xs: 'column', sm: 'row' }}
+              spacing={{ xs: 1, sm: 2 }}
             >
-              Search
-            </Button>
-          </Stack>
+              <SearchBar />
+            </Stack>
+          )}
         </Stack>
       </Toolbar>
     </AppBar>

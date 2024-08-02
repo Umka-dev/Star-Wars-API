@@ -1,75 +1,149 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import useSWRInfinite from 'swr/infinite';
 import { Button, Box, Typography, CircularProgress } from '@mui/material';
-import { Cards, ErrorDisplay, LoadingDisplay, header1Styles } from './index';
+import {
+  SpeciesChips,
+  Cards,
+  ErrorDisplay,
+  LoadingDisplay,
+  header1Styles,
+  header2Styles,
+} from './';
 
 import { fetcher } from '../../utils';
 import { commonStyles, CHARACTER_API_URL } from '../../constants';
 
-const getKey = (_, prevCharacters) => {
-  if (prevCharacters && !prevCharacters.info.next) return null;
-  return prevCharacters ? prevCharacters.info.next : CHARACTER_API_URL;
-};
+const ALL_SPECIES_NAME = 'All Species';
 
-const CardContainer = () => {
-  const [characters, setCharacters] = useState([]);
+const CardContainer = ({ queryParams }) => {
+  const [characters, setCharacters] = React.useState([]);
+  const [totalCount, setTotalCount] = React.useState(null);
+  const [hasNextPage, setHasNextPage] = React.useState('');
+
+  const [speciesList, setSpeciesList] = React.useState([]);
+  const [selectedSpecies, setSelectedSpecies] = React.useState([]);
+  const [filteredCharacters, setFilteredCharacters] = React.useState([]);
+
+  const getKey = (_, prevCharacters) => {
+    if (prevCharacters && !prevCharacters.info.next) return null;
+    if (prevCharacters) return prevCharacters.info.next;
+    if (queryParams) return `${CHARACTER_API_URL}?${queryParams.toString()}`;
+    return CHARACTER_API_URL;
+  };
 
   const { data, error, size, setSize, isValidating } = useSWRInfinite(
     getKey,
     fetcher,
   );
 
-  useEffect(() => {
-    if (data) {
-      const allCharacters = data.flatMap(
-        (charactersData) => charactersData.results,
-      );
-      setCharacters(allCharacters);
+  React.useEffect(() => {
+    if (!data) return;
+
+    if (data[0].error) {
+      setCharacters([]);
+      return;
     }
+
+    const allCharacters = data.flatMap((data) => data.results);
+    const count = data[0]?.info.count;
+    const nextPage = data[data.length - 1]?.info.next;
+
+    setCharacters(allCharacters);
+    setTotalCount(count);
+    setHasNextPage(nextPage);
   }, [data]);
 
-  const handleLoadMore = () => {
-    setSize(size + 1);
+  React.useEffect(() => {
+    const allSpecies = [
+      ALL_SPECIES_NAME,
+      ...new Set(characters.map(({ species }) => species)),
+    ];
+
+    setSpeciesList(allSpecies);
+  }, [characters]);
+
+  React.useEffect(() => {
+    if (!selectedSpecies.length) {
+      setFilteredCharacters(characters);
+    } else {
+      setFilteredCharacters(
+        characters.filter(({ species }) => selectedSpecies.includes(species)),
+      );
+    }
+  }, [characters, selectedSpecies]);
+
+  const handleChipClick = (species) => {
+    if (species === ALL_SPECIES_NAME) {
+      setSelectedSpecies([]);
+    } else {
+      setSelectedSpecies((prevSelected) => {
+        const isSelected = prevSelected.includes(species);
+
+        if (isSelected) {
+          return prevSelected.filter(
+            (selectedSpecies) => selectedSpecies !== species,
+          );
+        }
+
+        return [...prevSelected, species];
+      });
+    }
+    console.info(`You clicked the Chip: ${species}`);
   };
+
+  console.log('Selected species: ', selectedSpecies);
+  console.log('Filtered characters: ', filteredCharacters);
 
   if (error) return <ErrorDisplay message={error.message} />;
   if (!data) return <LoadingDisplay />;
 
-  const totalCount = data[0]?.info.count;
-  const hasNextPage = data[data.length - 1]?.info.next;
-
   return (
     <Box textAlign='center'>
-      <Typography variant='h1' sx={header1Styles}>
-        The Rick and Morty Characters
-      </Typography>
+      {!queryParams ? (
+        <>
+          <Typography variant='h1' sx={header1Styles}>
+            The Rick and Morty Characters
+          </Typography>
+          <SpeciesChips
+            speciesList={speciesList}
+            selectedSpecies={selectedSpecies}
+            handleChipClick={handleChipClick}
+          />
+        </>
+      ) : characters.length ? (
+        <Typography variant='h2' sx={header2Styles}>
+          Found characters
+        </Typography>
+      ) : null}
 
-      <Cards characterList={characters} />
-
-      <Typography variant='subtitle2' margin={5}>
-        Characters shown {characters.length} from {totalCount}
-      </Typography>
+      <Cards characterList={filteredCharacters} />
+      {filteredCharacters.length ? (
+        <Typography variant='subtitle2' m={6}>
+          Characters shown {filteredCharacters.length} from {totalCount}
+        </Typography>
+      ) : null}
 
       {hasNextPage && (
         <Button
           variant='outlined'
           sx={{
             color: commonStyles.primaryTextColor,
-            borderColor: 'white',
+            borderColor: commonStyles.borderColor,
             marginBottom: '100px',
             ':hover': { color: commonStyles.linkColor },
           }}
-          onClick={handleLoadMore}
+          onClick={() => {
+            setSize(size + 1); // Set next page to load
+          }}
           disabled={isValidating} // Disable button while loading
         >
-          {isValidating ? (
+          {!isValidating ? (
             <CircularProgress
               size={24}
-              determinate
               value={20}
               thickness={4}
               sx={{
-                color: 'white',
+                color: commonStyles.borderColor,
                 px: '40px',
                 ':hover': { color: commonStyles.linkColor },
               }}
