@@ -4,12 +4,12 @@ import { Box, Stack, Chip } from '@mui/material';
 import { commonStyles } from '../../constants';
 
 const SpeciesChips = ({ speciesList, selectedSpecies, handleChipClick }) => {
-  const isSelected = (species, idx) => {
+  const isSelected = (speciesName, idx) => {
     if (idx === 0 && !selectedSpecies.length) {
       return true;
     }
 
-    return selectedSpecies.includes(species);
+    return selectedSpecies.includes(speciesName);
   };
 
   return (
@@ -17,7 +17,6 @@ const SpeciesChips = ({ speciesList, selectedSpecies, handleChipClick }) => {
       display='flex'
       width='100%'
       justifyContent='center'
-      alignItems='center'
       p={2}
       sx={{
         my: {
@@ -34,15 +33,15 @@ const SpeciesChips = ({ speciesList, selectedSpecies, handleChipClick }) => {
         spacing={{ xs: 1, sm: 2 }}
         sx={{ rowGap: 2 }}
       >
-        {speciesList.map((species, idx) => (
+        {speciesList.map((speciesName, idx) => (
           <Chip
-            key={species}
-            label={species}
-            variant={isSelected(species, idx) ? 'filled' : 'outlined'}
-            color={isSelected(species, idx) ? 'primary' : 'default'}
+            key={speciesName}
+            label={speciesName}
+            variant={isSelected(speciesName, idx) ? 'filled' : 'outlined'}
+            color={isSelected(speciesName, idx) ? 'primary' : 'default'}
             sx={{ color: commonStyles.primaryTextColor }}
-            clickable
-            onClick={() => handleChipClick(species)}
+            clickable='true'
+            onClick={() => handleChipClick(speciesName)}
           />
         ))}
       </Stack>

@@ -20,9 +20,9 @@ const CardContainer = ({ queryParams }) => {
   const [totalCount, setTotalCount] = React.useState(null);
   const [hasNextPage, setHasNextPage] = React.useState('');
 
-  const [filteredCharacters, setFilteredCharacters] = React.useState([]);
   const [speciesList, setSpeciesList] = React.useState([]);
   const [selectedSpecies, setSelectedSpecies] = React.useState([]);
+  const [filteredCharacters, setFilteredCharacters] = React.useState([]);
 
   const getKey = (_, prevCharacters) => {
     if (prevCharacters && !prevCharacters.info.next) return null;
@@ -118,7 +118,7 @@ const CardContainer = ({ queryParams }) => {
 
       <Cards characterList={filteredCharacters} />
       {filteredCharacters.length ? (
-        <Typography variant='subtitle2' margin={5}>
+        <Typography variant='subtitle2' m={6}>
           Characters shown {filteredCharacters.length} from {totalCount}
         </Typography>
       ) : null}
@@ -137,10 +137,9 @@ const CardContainer = ({ queryParams }) => {
           }}
           disabled={isValidating} // Disable button while loading
         >
-          {isValidating ? (
+          {!isValidating ? (
             <CircularProgress
               size={24}
-              determinate
               value={20}
               thickness={4}
               sx={{
