@@ -1,9 +1,17 @@
 import React from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { CardContainer, FilterPanel } from '../components/characters';
+import { useQueryParams } from '../context/QueryParamsContext';
+import {
+  CardContainer,
+  FilterPanel,
+  header2Styles,
+} from '../components/characters';
+
+import { Box, Typography } from '@mui/material';
 
 const SearchResults = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const { setQueryParams } = useQueryParams(); // Use the context
   const [filters, setFilters] = React.useState({
     name: searchParams.get('name') || '',
     status: searchParams.get('status') || '',
@@ -23,6 +31,7 @@ const SearchResults = () => {
     if (filters.status) newParams.set('status', filters.status);
     if (filters.gender) newParams.set('gender', filters.gender);
     setSearchParams(newParams);
+    setQueryParams(newParams); // Update the context
   };
 
   const handleResetFilters = () => {
@@ -32,10 +41,11 @@ const SearchResults = () => {
       gender: '',
     });
     setSearchParams(new URLSearchParams());
+    setQueryParams(new URLSearchParams()); // Update the context
   };
 
   return (
-    <>
+    <Box textAlign='center'>
       <FilterPanel
         onNameChange={(value) => handleFilterChange('name', value)}
         name={filters.name}
@@ -46,8 +56,11 @@ const SearchResults = () => {
         onApplyFilters={handleApplyFilters}
         onResetFilters={handleResetFilters}
       />
+      <Typography variant='h2' sx={header2Styles}>
+        Found characters
+      </Typography>
       <CardContainer queryParams={searchParams} />
-    </>
+    </Box>
   );
 };
 

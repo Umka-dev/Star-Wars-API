@@ -1,21 +1,18 @@
 import React from 'react';
+
+import { useQueryParams } from '../../context/QueryParamsContext';
+
 import useSWRInfinite from 'swr/infinite';
 import { Button, Box, Typography, CircularProgress } from '@mui/material';
-import {
-  SpeciesChips,
-  Cards,
-  ErrorDisplay,
-  LoadingDisplay,
-  header1Styles,
-  header2Styles,
-} from './';
+import { SpeciesChips, Cards, ErrorDisplay, LoadingDisplay } from './';
 
 import { fetcher } from '../../utils';
 import { commonStyles, CHARACTER_API_URL } from '../../constants';
 
 const ALL_SPECIES_NAME = 'All Species';
 
-const CardContainer = ({ queryParams }) => {
+const CardContainer = () => {
+  const { queryParams } = useQueryParams(); // Use the context
   const [characters, setCharacters] = React.useState([]);
   const [totalCount, setTotalCount] = React.useState(null);
   const [hasNextPage, setHasNextPage] = React.useState('');
@@ -99,22 +96,11 @@ const CardContainer = ({ queryParams }) => {
 
   return (
     <Box textAlign='center'>
-      {!queryParams ? (
-        <>
-          <Typography variant='h1' sx={header1Styles}>
-            The Rick and Morty Characters
-          </Typography>
-          <SpeciesChips
-            speciesList={speciesList}
-            selectedSpecies={selectedSpecies}
-            handleChipClick={handleChipClick}
-          />
-        </>
-      ) : characters.length ? (
-        <Typography variant='h2' sx={header2Styles}>
-          Found characters
-        </Typography>
-      ) : null}
+      <SpeciesChips
+        speciesList={speciesList}
+        selectedSpecies={selectedSpecies}
+        handleChipClick={handleChipClick}
+      />
 
       <Cards characterList={filteredCharacters} />
       {filteredCharacters.length ? (
