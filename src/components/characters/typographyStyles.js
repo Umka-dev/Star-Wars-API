@@ -1,4 +1,4 @@
-export const header1Styles = {
+export const h1Styled = {
   fontSize: {
     xs: '2rem', // small screens
     sm: '2.5rem', // medium screens
@@ -15,7 +15,7 @@ export const header1Styles = {
   },
 };
 
-export const header2Styles = {
+export const h2Styled = {
   fontSize: {
     xs: '2rem', // small screens
     sm: '2.4rem', // medium screens
@@ -24,7 +24,7 @@ export const header2Styles = {
     xl: '3.6rem', // double extra large screens
   },
   margin: {
-    xs: '260px 0 20px 0',
+    xs: '30px 0 20px 0',
     sm: '160px 0 20px 0',
     md: '130px 0 30px 0',
     lg: '90px 0 30px 0',

@@ -9,7 +9,7 @@ import GenderRadioButtons from './GenderRadioButtons';
 import ErrorDisplay from './ErrorDisplay';
 import LoadingDisplay from './LoadingDisplay';
 
-import { header1Styles, header2Styles } from './typographyStyles';
+import { h1Styled, h2Styled } from './typographyStyles';
 
 export {
   Card,
@@ -22,6 +22,6 @@ export {
   GenderRadioButtons,
   ErrorDisplay,
   LoadingDisplay,
-  header1Styles,
-  header2Styles,
+  h1Styled,
+  h2Styled,
 };
