@@ -116,6 +116,7 @@ export const CharactersContextProvider = ({ children }) => {
 
   const handleSearchNavigate = () => {
     navigate(`/search/?name=${filters.name.toLowerCase()}`);
+    setSelectedSpecies([]);
   };
 
   const handleKeyDown = (e) => {
