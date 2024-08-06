@@ -1,19 +1,14 @@
 import React from 'react';
 import { Box, Stack, Button, TextField } from '@mui/material';
+import { useCharactersContext } from '../../context/CharactersContext';
 import { StatusRadioButtons, GenderRadioButtons } from '.';
 
 import { commonStyles } from '../../constants';
 
-const FilterPanel = ({
-  onNameChange,
-  name,
-  onStatusChange,
-  status,
-  onGenderChange,
-  gender,
-  onApplyFilters,
-  onResetFilters,
-}) => {
+const FilterPanel = () => {
+  const { filters, handleNameChange, handleApplyFilters, handleResetFilters } =
+    useCharactersContext(); // Use the context
+
   return (
     <Stack direction='row' justifyContent='center' alignItems='center' mt={14}>
       <Box
@@ -40,12 +35,11 @@ const FilterPanel = ({
           px={2}
         >
           <TextField
-            id='standard-size-small'
             label='Input name'
             variant='standard'
             size='small'
-            value={name}
-            onChange={(e) => onNameChange(e.target.value)}
+            value={filters.name}
+            onChange={handleNameChange}
             InputProps={{
               sx: {
                 '&:before': {
@@ -66,8 +60,8 @@ const FilterPanel = ({
             }}
             sx={{ minWidth: '150px' }}
           />
-          <StatusRadioButtons onChange={onStatusChange} status={status} />
-          <GenderRadioButtons onChange={onGenderChange} gender={gender} />
+          <StatusRadioButtons />
+          <GenderRadioButtons />
           <Stack direction='row' spacing={2}>
             <Button
               variant='outlined'
@@ -76,14 +70,14 @@ const FilterPanel = ({
                 borderColor: commonStyles.borderColor,
                 ':hover': { color: commonStyles.linkColor },
               }}
-              onClick={onResetFilters}
+              onClick={handleResetFilters}
             >
               Reset
             </Button>
             <Button
               variant='contained'
               color='primary'
-              onClick={onApplyFilters}
+              onClick={handleApplyFilters}
             >
               Show
             </Button>

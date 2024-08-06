@@ -2,16 +2,26 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Card from './Card';
 import { Box, Typography } from '@mui/material';
+import { useCharactersContext } from '../../context/CharactersContext';
 
-const Cards = ({ characterList }) => {
-  if (!characterList.length) {
+const Cards = () => {
+  const { filteredCharacters } = useCharactersContext();
+  if (!filteredCharacters.length) {
     return (
       <Box
         maxWidth='xl'
         display='flex'
         justifyContent='center'
         alignItems='center'
-        height='75vh'
+        sx={{
+          my: {
+            xs: '100px',
+            sm: '150px',
+            md: '200px',
+            lg: '250px',
+            xl: '270px',
+          },
+        }}
       >
         <Typography variant='h5'>Characters were not found</Typography>
       </Box>
@@ -32,7 +42,7 @@ const Cards = ({ characterList }) => {
         },
       }}
     >
-      {characterList.map(({ id, name, image }) => (
+      {filteredCharacters.map(({ id, name, image }) => (
         <Card key={id} id={id} name={name} image={image} />
       ))}
     </Box>
@@ -40,7 +50,7 @@ const Cards = ({ characterList }) => {
 };
 
 Cards.propTypes = {
-  characterList: PropTypes.arrayOf(
+  filteredCharacters: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired,
