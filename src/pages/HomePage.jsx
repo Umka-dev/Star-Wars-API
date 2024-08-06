@@ -1,6 +1,10 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
-import { CardContainer, header1Styles } from '../components/characters';
+import {
+  SpeciesChips,
+  CardContainer,
+  header1Styles,
+} from '../components/characters';
 
 const HomePage = () => {
   return (
@@ -8,6 +12,7 @@ const HomePage = () => {
       <Typography variant='h1' sx={header1Styles}>
         The Rick and Morty Characters
       </Typography>
+      <SpeciesChips />
       <CardContainer />
     </Box>
   );

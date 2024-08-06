@@ -7,18 +7,27 @@ import {
   Radio,
 } from '@mui/material';
 
-import { commonStyles } from '../../constants';
+import { useCharactersContext } from '../../context/CharactersContext';
+import { commonStyles, STATUS_OPTIONS } from '../../constants';
 
-const StatusRadioButtons = ({ onChange, status }) => {
-  const statusOptions = ['alive', 'dead', 'unknown'];
+const StatusRadioButtons = () => {
+  const { filters, handleFilterChange } = useCharactersContext(); // Use the context
+
+  const handleStatusChange = (e) =>
+    handleFilterChange('status', e.target.value);
 
   return (
     <FormControl>
       <FormLabel sx={{ color: commonStyles.secondaryTextColor }}>
         Status
       </FormLabel>
-      <RadioGroup row name='status' value={status} onChange={onChange}>
-        {statusOptions.map((option) => (
+      <RadioGroup
+        row
+        name='status'
+        value={filters.status}
+        onChange={handleStatusChange}
+      >
+        {STATUS_OPTIONS.map((option) => (
           <FormControlLabel
             key={option}
             value={option}

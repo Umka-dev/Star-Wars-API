@@ -7,18 +7,27 @@ import {
   Radio,
 } from '@mui/material';
 
-import { commonStyles } from '../../constants';
+import { useCharactersContext } from '../../context/CharactersContext';
+import { commonStyles, GENDER_OPTIONS } from '../../constants';
 
-const GenderRadioButtons = ({ onChange, gender }) => {
-  const genderOptions = ['male', 'female', 'genderless', 'unknown'];
+const GenderRadioButtons = () => {
+  const { filters, handleFilterChange } = useCharactersContext(); // Use the context
+
+  const handleGenderChange = (e) =>
+    handleFilterChange('gender', e.target.value);
 
   return (
     <FormControl>
       <FormLabel sx={{ color: commonStyles.secondaryTextColor }}>
         Gender
       </FormLabel>
-      <RadioGroup row name='gender' value={gender} onChange={onChange}>
-        {genderOptions.map((option) => (
+      <RadioGroup
+        row
+        name='gender'
+        value={filters.gender}
+        onChange={handleGenderChange}
+      >
+        {GENDER_OPTIONS.map((option) => (
           <FormControlLabel
             key={option}
             value={option}

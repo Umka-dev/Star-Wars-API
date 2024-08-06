@@ -1,16 +1,27 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 
-const ErrorDisplay = ({ message }) => {
+import { useCharactersContext } from '../../context/CharactersContext';
+
+const ErrorDisplay = () => {
+  const { error } = useCharactersContext();
   return (
     <Box
       maxWidth='xl'
       display='flex'
       justifyContent='center'
       alignItems='center'
-      height='90vh'
+      sx={{
+        my: {
+          xs: '100px',
+          sm: '150px',
+          md: '200px',
+          lg: '250px',
+          xl: '270px',
+        },
+      }}
     >
-      <Typography variant='h5'>Error: {message}</Typography>
+      <Typography variant='body1'>Error: {error.message}</Typography>
     </Box>
   );
 };

@@ -1,14 +1,17 @@
 import React from 'react';
 import { Box, Stack, Chip } from '@mui/material';
 
+import { useCharactersContext } from '../../context/CharactersContext';
 import { commonStyles } from '../../constants';
 
-const SpeciesChips = ({ speciesList, selectedSpecies, handleChipClick }) => {
+const SpeciesChips = () => {
+  const { speciesList, selectedSpecies, handleChipClick } =
+    useCharactersContext();
+
   const isSelected = (speciesName, idx) => {
     if (idx === 0 && !selectedSpecies.length) {
       return true;
     }
-
     return selectedSpecies.includes(speciesName);
   };
 

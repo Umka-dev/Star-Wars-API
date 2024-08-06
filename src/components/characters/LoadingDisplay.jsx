@@ -8,7 +8,15 @@ const LoadingDisplay = () => {
       display='flex'
       justifyContent='center'
       alignItems='center'
-      height='90vh'
+      sx={{
+        my: {
+          xs: '100px',
+          sm: '150px',
+          md: '200px',
+          lg: '250px',
+          xl: '270px',
+        },
+      }}
     >
       <CircularProgress size={50} value={20} thickness={4} />
     </Box>
