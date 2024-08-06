@@ -11,7 +11,7 @@ import { useCharactersContext } from '../../context/CharactersContext';
 import { commonStyles, GENDER_OPTIONS } from '../../constants';
 
 const GenderRadioButtons = () => {
-  const { filters, handleFilterChange } = useCharactersContext(); // Use the context
+  const { filters, handleFilterChange } = useCharactersContext();
 
   const handleGenderChange = (e) =>
     handleFilterChange('gender', e.target.value);

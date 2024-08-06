@@ -11,7 +11,7 @@ import { useCharactersContext } from '../../context/CharactersContext';
 import { commonStyles, STATUS_OPTIONS } from '../../constants';
 
 const StatusRadioButtons = () => {
-  const { filters, handleFilterChange } = useCharactersContext(); // Use the context
+  const { filters, handleFilterChange } = useCharactersContext();
 
   const handleStatusChange = (e) =>
     handleFilterChange('status', e.target.value);

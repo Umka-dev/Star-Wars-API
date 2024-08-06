@@ -1,15 +1,20 @@
 import React from 'react';
 import { AppBar, Toolbar, Typography, Stack } from '@mui/material';
 import { NavLink as RouterNavLink, useLocation } from 'react-router-dom';
-
-import { commonStyles } from '../constants';
 import { SearchBar } from './characters';
 
+import { useCharactersContext } from '../context/CharactersContext';
+import { commonStyles } from '../constants';
+
 const Header = () => {
+  const { handleResetFilters } = useCharactersContext();
+
   const location = useLocation();
-  const scrollToTop = () => {
+
+  const handleHomeClick = React.useCallback(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+    handleResetFilters();
+  }, []);
 
   const isSearchResultsPage = /^\/search/.test(location.pathname);
 
@@ -27,14 +32,14 @@ const Header = () => {
       <Toolbar>
         <Stack
           direction={{ xs: 'column', sm: 'row' }}
-          spacing={{ xs: 0, sm: 6, md: 10, lg: 16, xl: 20 }}
+          spacing={{ xs: 0, sm: 6, md: 8, lg: 10, xl: 10 }}
           alignItems='center'
           justifyContent='space-between'
         >
           <Typography
             variant='h6'
             component={RouterNavLink}
-            onClick={scrollToTop}
+            onClick={handleHomeClick}
             to='/'
             color={commonStyles.primaryTextColor}
             sx={{

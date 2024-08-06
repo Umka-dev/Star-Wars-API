@@ -12,7 +12,7 @@ import {
 import {
   ErrorDisplay,
   LoadingDisplay,
-  header2Styles,
+  h2Styled,
 } from '../components/characters';
 
 import { fetcher } from '../utils';
@@ -45,7 +45,7 @@ const CharacterDetails = () => {
       minHeight='100vh'
       mt={2}
     >
-      <Typography variant='h1' sx={header2Styles}>
+      <Typography variant='h1' sx={h2Styled}>
         {character.name}
       </Typography>
       <Avatar

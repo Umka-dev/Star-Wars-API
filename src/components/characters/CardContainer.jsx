@@ -14,7 +14,7 @@ const CardContainer = () => {
     handleNextPage,
     isValidating,
     filteredCharacters,
-  } = useCharactersContext(); // Use the context
+  } = useCharactersContext();
 
   if (error) return <ErrorDisplay />;
   if (!data) return <LoadingDisplay />;
@@ -37,7 +37,7 @@ const CardContainer = () => {
             marginBottom: '100px',
             ':hover': { color: commonStyles.linkColor },
           }}
-          onClick={handleNextPage} // Set next page to load
+          onClick={handleNextPage}
           disabled={isValidating} // Disable button while loading
         >
           {isValidating ? (
