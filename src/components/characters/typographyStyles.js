@@ -7,7 +7,7 @@ export const h1Styled = {
     xl: '4rem', // double extra large screens
   },
   margin: {
-    xs: '150px 0 5px 0',
+    xs: '160px 0 5px 0',
     sm: '100px 0 20px 0',
     md: '100px 0 20px 0',
     lg: '110px 0 20px 0',

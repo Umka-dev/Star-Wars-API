@@ -19,7 +19,7 @@ import { commonStyles } from '../../constants';
 
 const FilterPanel = () => {
   const { filters, handleNameChange, handleApplyFilters, handleResetFilters } =
-    useCharactersContext(); // Use the context
+    useCharactersContext();
 
   const [isFilterDialogOpen, setIsFilterDialogOpen] = React.useState(false);
 

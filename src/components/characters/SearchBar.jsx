@@ -6,8 +6,7 @@ import { commonStyles } from '../../constants';
 
 const SearchBar = () => {
   const { filters, handleNameChange, handleSearchNavigate, handleKeyDown } =
-    useCharactersContext(); // Use the context
-
+    useCharactersContext();
   return (
     <>
       <TextField

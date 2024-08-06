@@ -32,7 +32,7 @@ const Header = () => {
       <Toolbar>
         <Stack
           direction={{ xs: 'column', sm: 'row' }}
-          spacing={{ xs: 0, sm: 6, md: 10, lg: 16, xl: 20 }}
+          spacing={{ xs: 0, sm: 6, md: 8, lg: 10, xl: 10 }}
           alignItems='center'
           justifyContent='space-between'
         >
