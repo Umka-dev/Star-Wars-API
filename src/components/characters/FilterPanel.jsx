@@ -120,6 +120,7 @@ const FilterPanel = () => {
           display='flex'
           width='100%'
           justifyContent='center'
+          zIndex={1}
           sx={{
             padding: {
               xs: '220px 16px 16px 16px',

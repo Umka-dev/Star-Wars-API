@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 
-import { CHARACTER_API_URL, ALL_SPECIES_NAME } from '../constants';
+import { ALL_SPECIES_NAME } from '../constants';
 import { useCharactersApi } from '../hooks/useCharactersApi';
 
 // Create CONTEXT
@@ -27,22 +27,6 @@ export const CharactersContextProvider = ({ children }) => {
   });
   // States for Filter Panel---
 
-  // ---Data fetching for Card Container
-  const getKey = React.useCallback(
-    (_, prevCharacters) => {
-      if (prevCharacters) {
-        return prevCharacters.info.next;
-      }
-
-      if (searchParams) {
-        return `${CHARACTER_API_URL}?${searchParams.toString()}`;
-      }
-
-      return CHARACTER_API_URL;
-    },
-    [searchParams],
-  );
-
   const {
     characters,
     totalCount,
@@ -51,7 +35,7 @@ export const CharactersContextProvider = ({ children }) => {
     isValidating,
     setSize,
     speciesList,
-  } = useCharactersApi(getKey);
+  } = useCharactersApi(searchParams);
 
   const handleNextPage = () => {
     setSize((prevSize) => prevSize + 1);

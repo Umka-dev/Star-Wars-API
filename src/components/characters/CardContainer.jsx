@@ -16,7 +16,7 @@ const CardContainer = () => {
   } = useCharactersContext();
 
   if (error) return <ErrorDisplay />;
-  if (isValidating) return <LoadingDisplay />;
+  if (!filteredCharacters) return <LoadingDisplay />;
 
   return (
     <Box textAlign='center'>

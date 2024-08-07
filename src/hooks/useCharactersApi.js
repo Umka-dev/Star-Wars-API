@@ -3,13 +3,12 @@ import useSWRInfinite from 'swr/infinite';
 
 import { fetcher } from '../utils';
 
-import { ALL_SPECIES_NAME } from '../constants';
+import { ALL_SPECIES_NAME, CHARACTER_API_URL } from '../constants';
 
 /**
  * Custom hook to fetch characters
- * @param {getKey} function - Returns correct url for fetching.
  */
-const useCharactersApi = (getKey) => {
+const useCharactersApi = (searchParams) => {
   // ---States for Card Container
   const [characters, setCharacters] = useState([]);
   const [totalCount, setTotalCount] = useState(null);
@@ -17,6 +16,22 @@ const useCharactersApi = (getKey) => {
   // States for Card Container---
 
   const [speciesList, setSpeciesList] = useState([]);
+
+  // ---Data fetching for Card Container
+  const getKey = React.useCallback(
+    (_, prevCharacters) => {
+      if (prevCharacters) {
+        return prevCharacters.info.next;
+      }
+
+      if (searchParams) {
+        return `${CHARACTER_API_URL}?${searchParams.toString()}`;
+      }
+
+      return CHARACTER_API_URL;
+    },
+    [searchParams],
+  );
 
   const { data, error, setSize, isValidating } = useSWRInfinite(
     getKey,
