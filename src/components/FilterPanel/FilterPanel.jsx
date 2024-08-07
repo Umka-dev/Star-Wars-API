@@ -1,4 +1,6 @@
 import React from 'react';
+import { useForm, Controller } from 'react-hook-form';
+
 import {
   Box,
   Stack,
@@ -13,7 +15,8 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import CloseIcon from '@mui/icons-material/Close';
 
 import { useCharactersContext } from '../../context/CharactersContext';
-import { StatusRadioButtons, GenderRadioButtons } from '../characters';
+import GenderRadioButtons from './GenderRadioButtons';
+import StatusRadioButtons from './StatusRadioButtons';
 
 import { commonStyles } from '../../constants';
 
@@ -51,19 +54,14 @@ const FilterModal = ({ isOpen, handleClose, children }) => {
   );
 };
 
-const FilterNameField = () => {
-  const {
-    filters: { name },
-    handleNameChange,
-  } = useCharactersContext();
-
+const FilterNameField = ({ onChange, value }) => {
   return (
     <TextField
       label='Input name'
       variant='standard'
       size='small'
-      value={name}
-      onChange={handleNameChange}
+      value={value}
+      onChange={onChange}
       InputProps={{
         sx: {
           '&:before': {
@@ -87,8 +85,19 @@ const FilterNameField = () => {
   );
 };
 
+const defaultFormValues = {
+  name: '',
+};
+
 const FilterContent = () => {
-  const { handleApplyFilters, handleResetFilters } = useCharactersContext();
+  const { handleResetFilters, handleApplyFilters } = useCharactersContext();
+
+  const { handleSubmit, reset, control } = useForm({ defaultFormValues });
+
+  const onSubmit = (data) => {
+    console.log(data);
+    handleApplyFilters(data);
+  };
 
   return (
     <Stack
@@ -97,7 +106,13 @@ const FilterContent = () => {
       alignItems='center'
       px={2}
     >
-      <FilterNameField />
+      <Controller
+        name='name'
+        control={control}
+        render={({ field: { onChange, value } }) => (
+          <FilterNameField onChange={onChange} value={value} />
+        )}
+      />
       <StatusRadioButtons />
       <GenderRadioButtons />
       <Stack direction='row' spacing={2}>
@@ -108,14 +123,17 @@ const FilterContent = () => {
             borderColor: commonStyles.borderColor,
             ':hover': { color: commonStyles.linkColor },
           }}
-          onClick={handleResetFilters}
+          onClick={() => {
+            handleResetFilters();
+            reset();
+          }}
         >
           Reset
         </Button>
         <Button
           variant='contained'
           color='primary'
-          onClick={handleApplyFilters}
+          onClick={handleSubmit(onSubmit)}
         >
           Show
         </Button>

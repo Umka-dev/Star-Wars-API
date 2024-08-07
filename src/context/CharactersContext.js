@@ -135,13 +135,19 @@ export const CharactersContextProvider = ({ children }) => {
     }));
   };
 
-  const handleApplyFilters = React.useCallback(() => {
-    const newParams = new URLSearchParams();
-    if (filters.name) newParams.set('name', filters.name);
-    if (filters.status) newParams.set('status', filters.status);
-    if (filters.gender) newParams.set('gender', filters.gender);
-    setSearchParams(newParams);
-  }, [filters]);
+  const handleApplyFilters = React.useCallback(
+    ({ name }) => {
+      const newParams = new URLSearchParams();
+      if (name) {
+        newParams.set('name', name);
+        handleFilterChange('name', name);
+      }
+      if (filters.status) newParams.set('status', filters.status);
+      if (filters.gender) newParams.set('gender', filters.gender);
+      setSearchParams(newParams);
+    },
+    [filters],
+  );
 
   const handleResetFilters = () => {
     setFilters({

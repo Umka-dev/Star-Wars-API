@@ -1,5 +1,6 @@
 import React from 'react';
-import { CardContainer, FilterPanel, h2Styled } from '../components/characters';
+import { CardContainer, h2Styled } from '../components/characters';
+import FilterPanel from '../components/FilterPanel';
 
 import { Box, Typography } from '@mui/material';
 
