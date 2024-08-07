@@ -7,7 +7,6 @@ import { commonStyles } from '../../constants';
 
 const CardContainer = () => {
   const {
-    data,
     error,
     totalCount,
     hasNextPage,
@@ -17,16 +16,16 @@ const CardContainer = () => {
   } = useCharactersContext();
 
   if (error) return <ErrorDisplay />;
-  if (!data) return <LoadingDisplay />;
+  if (isValidating) return <LoadingDisplay />;
 
   return (
     <Box textAlign='center'>
       <Cards />
-      {filteredCharacters.length ? (
+      {!!filteredCharacters.length && (
         <Typography variant='subtitle2' m={6}>
           Characters shown {filteredCharacters.length} from {totalCount}
         </Typography>
-      ) : null}
+      )}
 
       {hasNextPage && (
         <Button

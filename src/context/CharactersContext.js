@@ -1,23 +1,15 @@
 import React, { createContext, useContext, useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import useSWRInfinite from 'swr/infinite';
 
-import { fetcher } from '../utils';
 import { CHARACTER_API_URL, ALL_SPECIES_NAME } from '../constants';
+import { useCharactersApi } from '../hooks/useCharactersApi';
 
 // Create CONTEXT
 const CharactersContext = createContext();
 
 // Create PROVIDER
 export const CharactersContextProvider = ({ children }) => {
-  // ---States for Card Container
-  const [characters, setCharacters] = useState([]);
-  const [totalCount, setTotalCount] = useState(null);
-  const [hasNextPage, setHasNextPage] = useState('');
-  // States for Card Container---
-
   // ---States for Species Chips
-  const [speciesList, setSpeciesList] = useState([]);
   const [selectedSpecies, setSelectedSpecies] = useState([]);
   const [filteredCharacters, setFilteredCharacters] = useState([]);
   // States for Species Chips---
@@ -51,42 +43,19 @@ export const CharactersContextProvider = ({ children }) => {
     [searchParams],
   );
 
-  const { data, error, setSize, isValidating } = useSWRInfinite(
-    getKey,
-    fetcher,
-  );
-
-  React.useEffect(() => {
-    if (!data) return;
-
-    if (data[0].error) {
-      setCharacters([]);
-      return;
-    }
-
-    const allCharacters = data.flatMap((data) => data.results);
-    const count = data[0]?.info.count;
-    const nextPage = data[data.length - 1]?.info.next;
-
-    setCharacters(allCharacters);
-    setTotalCount(count);
-    setHasNextPage(nextPage);
-  }, [data]);
+  const {
+    characters,
+    totalCount,
+    hasNextPage,
+    error,
+    isValidating,
+    setSize,
+    speciesList,
+  } = useCharactersApi(getKey);
 
   const handleNextPage = () => {
     setSize((prevSize) => prevSize + 1);
   };
-  // Data fetching for Card Container---
-
-  // ---Get species, filter characters and handlers for Species Chips
-  React.useEffect(() => {
-    const allSpecies = [
-      ALL_SPECIES_NAME,
-      ...new Set(characters.map(({ species }) => species)),
-    ];
-
-    setSpeciesList(allSpecies);
-  }, [characters]);
 
   React.useEffect(() => {
     if (!selectedSpecies.length) {
@@ -99,21 +68,21 @@ export const CharactersContextProvider = ({ children }) => {
   }, [characters, selectedSpecies]);
 
   const handleChipClick = (species) => {
-    if (species === ALL_SPECIES_NAME) {
-      setSelectedSpecies([]);
-    } else {
-      setSelectedSpecies((prevSelected) => {
-        const isSelected = prevSelected.includes(species);
+    setSelectedSpecies((prevSelected) => {
+      if (species === ALL_SPECIES_NAME) {
+        return [];
+      }
 
-        if (isSelected) {
-          return prevSelected.filter(
-            (selectedSpecies) => selectedSpecies !== species,
-          );
-        }
+      const isSelected = prevSelected.includes(species);
 
-        return [...prevSelected, species];
-      });
-    }
+      if (isSelected) {
+        return prevSelected.filter(
+          (selectedSpecies) => selectedSpecies !== species,
+        );
+      }
+
+      return [...prevSelected, species];
+    });
   };
   // Get species, filter characters and handlers for Species Chips---
 
@@ -161,7 +130,7 @@ export const CharactersContextProvider = ({ children }) => {
   return (
     <CharactersContext.Provider
       value={{
-        data,
+        characters,
         error,
         totalCount,
         hasNextPage,
