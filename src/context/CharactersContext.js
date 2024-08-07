@@ -36,14 +36,22 @@ export const CharactersContextProvider = ({ children }) => {
   // States for Filter Panel---
 
   // ---Data fetching for Card Container
-  const getKey = (_, prevCharacters) => {
-    if (prevCharacters && !prevCharacters.info.next) return null;
-    if (prevCharacters) return prevCharacters.info.next;
-    if (searchParams) return `${CHARACTER_API_URL}?${searchParams.toString()}`;
-    return CHARACTER_API_URL;
-  };
+  const getKey = React.useCallback(
+    (_, prevCharacters) => {
+      if (prevCharacters) {
+        return prevCharacters.info.next;
+      }
 
-  const { data, error, size, setSize, isValidating } = useSWRInfinite(
+      if (searchParams) {
+        return `${CHARACTER_API_URL}?${searchParams.toString()}`;
+      }
+
+      return CHARACTER_API_URL;
+    },
+    [searchParams],
+  );
+
+  const { data, error, setSize, isValidating } = useSWRInfinite(
     getKey,
     fetcher,
   );
@@ -66,7 +74,7 @@ export const CharactersContextProvider = ({ children }) => {
   }, [data]);
 
   const handleNextPage = () => {
-    setSize(size + 1);
+    setSize((prevSize) => prevSize + 1);
   };
   // Data fetching for Card Container---
 
@@ -110,10 +118,6 @@ export const CharactersContextProvider = ({ children }) => {
   // Get species, filter characters and handlers for Species Chips---
 
   // ---Handlers for Search Bar
-  const handleNameChange = (e) => {
-    handleFilterChange('name', e.target.value);
-  };
-
   const handleSearchNavigate = () => {
     navigate(`/search/?name=${filters.name.toLowerCase()}`);
     setSelectedSpecies([]);
@@ -135,11 +139,12 @@ export const CharactersContextProvider = ({ children }) => {
     }));
   };
 
+  const handleNameChange = (e) => {
+    handleFilterChange('name', e.target.value);
+  };
+
   const handleApplyFilters = React.useCallback(() => {
-    const newParams = new URLSearchParams();
-    if (filters.name) newParams.set('name', filters.name);
-    if (filters.status) newParams.set('status', filters.status);
-    if (filters.gender) newParams.set('gender', filters.gender);
+    const newParams = new URLSearchParams(filters);
     setSearchParams(newParams);
   }, [filters]);
 
