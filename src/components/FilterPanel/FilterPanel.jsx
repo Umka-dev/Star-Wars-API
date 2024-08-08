@@ -72,12 +72,14 @@ const FilterPanel = () => {
       </Stack>
 
       {/* Modal dialog for filters on small screens */}
-      <FilterModal
-        isOpen={isFilterDialogOpen}
-        handleClose={handleCloseFilterDialog}
-      >
-        <FilterContent />
-      </FilterModal>
+      {isSmallerThanMd && (
+        <FilterModal
+          isOpen={isFilterDialogOpen}
+          handleClose={handleCloseFilterDialog}
+        >
+          <FilterContent />
+        </FilterModal>
+      )}
     </>
   );
 };
