@@ -8,8 +8,8 @@ import {
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
-import { useCharactersContext } from '../context/CharactersContext';
-import { FILTER_NAMES, GENDER_OPTIONS } from '../constants';
+import { useCharactersContext } from '../../context/CharactersContext';
+import { FILTER_NAMES, GENDER_OPTIONS } from '../../constants';
 
 const GenderRadioButtons = () => {
   const { filters, handleFilterChange } = useCharactersContext();

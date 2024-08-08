@@ -8,8 +8,8 @@ import {
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
-import { useCharactersContext } from '../context/CharactersContext';
-import { FILTER_NAMES, STATUS_OPTIONS } from '../constants';
+import { useCharactersContext } from '../../context/CharactersContext';
+import { FILTER_NAMES, STATUS_OPTIONS } from '../../constants';
 
 const StatusRadioButtons = () => {
   const { filters, handleFilterChange } = useCharactersContext();

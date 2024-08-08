@@ -14,9 +14,9 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import CloseIcon from '@mui/icons-material/Close';
 
-import { useCharactersContext } from '../context/CharactersContext';
-import { StatusRadioButtons, GenderRadioButtons } from '.';
-import { FILTER_NAMES } from '../constants';
+import { useCharactersContext } from '../../context/CharactersContext';
+import { StatusRadioButtons, GenderRadioButtons } from '..';
+import { FILTER_NAMES } from '../../constants';
 
 const FilterPanel = () => {
   const { filters, handleNameChange, handleApplyFilters, handleResetFilters } =
