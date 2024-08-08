@@ -29,7 +29,7 @@ const CardContainer = () => {
         </Typography>
       )}
 
-      {hasNextPage && (
+      {hasNextPage && !!filteredCharacters.length && (
         <Button
           variant='outlined'
           sx={{

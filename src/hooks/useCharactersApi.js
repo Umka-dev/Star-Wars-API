@@ -44,6 +44,7 @@ const useCharactersApi = (searchParams) => {
 
     if (data[0].error) {
       setCharacters([]);
+      setHasNextPage(false);
       return;
     }
 
