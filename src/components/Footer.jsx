@@ -1,16 +1,16 @@
 import React from 'react';
 import { Typography, Box } from '@mui/material';
-
-import { commonStyles } from '../constants';
+import { useTheme } from '@mui/material/styles';
 
 const Footer = () => {
+  const { palette } = useTheme();
   return (
     <Box
       component='footer'
       textAlign='center'
       py={3}
       px={2}
-      color={commonStyles.secondaryTextColor}
+      color={palette.grey[400]}
     >
       <Typography variant='body2'>
         © {new Date().getFullYear()} Rick and Morty Characters | made by

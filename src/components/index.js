@@ -6,8 +6,6 @@ import SpeciesChips from './SpeciesChips';
 import ErrorDisplay from './ErrorDisplay';
 import LoadingDisplay from './LoadingDisplay';
 
-import { h1Styled, h2Styled } from './typographyStyles';
-
 export {
   Card,
   Cards,
@@ -16,6 +14,4 @@ export {
   SpeciesChips,
   ErrorDisplay,
   LoadingDisplay,
-  h1Styled,
-  h2Styled,
 };

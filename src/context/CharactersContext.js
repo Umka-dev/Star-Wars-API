@@ -1,86 +1,44 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import useSWRInfinite from 'swr/infinite';
 
-import { fetcher } from '../utils';
-import { CHARACTER_API_URL, ALL_SPECIES_NAME } from '../constants';
+import { ALL_SPECIES_NAME, FILTER_NAMES } from '../constants';
+import { useCharactersApi } from '../hooks/useCharactersApi';
 
 // Create CONTEXT
 const CharactersContext = createContext();
 
 // Create PROVIDER
 export const CharactersContextProvider = ({ children }) => {
-  // ---States for Card Container
-  const [characters, setCharacters] = useState([]);
-  const [totalCount, setTotalCount] = useState(null);
-  const [hasNextPage, setHasNextPage] = useState('');
-  // States for Card Container---
+  // ---States for Search Bar
+  const navigate = useNavigate();
+  // States for Search Bar---
 
   // ---States for Species Chips
-  const [speciesList, setSpeciesList] = useState([]);
   const [selectedSpecies, setSelectedSpecies] = useState([]);
   const [filteredCharacters, setFilteredCharacters] = useState([]);
   // States for Species Chips---
 
-  // ---States for Search Bar
-  const navigate = useNavigate();
-  // States for Search Bar---\
-
   // ---States for Filter Panel
   const [searchParams, setSearchParams] = useSearchParams();
   const [filters, setFilters] = useState({
-    name: searchParams.get('name') || '',
-    status: searchParams.get('status') || '',
-    gender: searchParams.get('gender') || '',
+    name: searchParams.get(FILTER_NAMES.name) || '',
+    status: searchParams.get(FILTER_NAMES.status) || '',
+    gender: searchParams.get(FILTER_NAMES.gender) || '',
   });
   // States for Filter Panel---
 
-  // ---Data fetching for Card Container
-  const getKey = (_, prevCharacters) => {
-    if (prevCharacters && !prevCharacters.info.next) return null;
-    if (prevCharacters) return prevCharacters.info.next;
-    if (searchParams) return `${CHARACTER_API_URL}?${searchParams.toString()}`;
-    return CHARACTER_API_URL;
-  };
+  // Get species list, handler for Species Chips---
+  const {
+    characters,
+    totalCount,
+    hasNextPage,
+    handleNextPage,
+    error,
+    isValidating,
+    speciesList,
+  } = useCharactersApi(searchParams);
 
-  const { data, error, size, setSize, isValidating } = useSWRInfinite(
-    getKey,
-    fetcher,
-  );
-
-  React.useEffect(() => {
-    if (!data) return;
-
-    if (data[0].error) {
-      setCharacters([]);
-      return;
-    }
-
-    const allCharacters = data.flatMap((data) => data.results);
-    const count = data[0]?.info.count;
-    const nextPage = data[data.length - 1]?.info.next;
-
-    setCharacters(allCharacters);
-    setTotalCount(count);
-    setHasNextPage(nextPage);
-  }, [data]);
-
-  const handleNextPage = () => {
-    setSize(size + 1);
-  };
-  // Data fetching for Card Container---
-
-  // ---Get species, filter characters and handlers for Species Chips
-  React.useEffect(() => {
-    const allSpecies = [
-      ALL_SPECIES_NAME,
-      ...new Set(characters.map(({ species }) => species)),
-    ];
-
-    setSpeciesList(allSpecies);
-  }, [characters]);
-
-  React.useEffect(() => {
+  useEffect(() => {
     if (!selectedSpecies.length) {
       setFilteredCharacters(characters);
     } else {
@@ -91,29 +49,25 @@ export const CharactersContextProvider = ({ children }) => {
   }, [characters, selectedSpecies]);
 
   const handleChipClick = (species) => {
-    if (species === ALL_SPECIES_NAME) {
-      setSelectedSpecies([]);
-    } else {
-      setSelectedSpecies((prevSelected) => {
-        const isSelected = prevSelected.includes(species);
+    setSelectedSpecies((prevSelected) => {
+      if (species === ALL_SPECIES_NAME) {
+        return [];
+      }
 
-        if (isSelected) {
-          return prevSelected.filter(
-            (selectedSpecies) => selectedSpecies !== species,
-          );
-        }
+      const isSelected = prevSelected.includes(species);
 
-        return [...prevSelected, species];
-      });
-    }
+      if (isSelected) {
+        return prevSelected.filter(
+          (selectedSpecies) => selectedSpecies !== species,
+        );
+      }
+
+      return [...prevSelected, species];
+    });
   };
-  // Get species, filter characters and handlers for Species Chips---
+  // Get species list, filter characters and handlers for Species Chips---
 
   // ---Handlers for Search Bar
-  const handleNameChange = (e) => {
-    handleFilterChange('name', e.target.value);
-  };
-
   const handleSearchNavigate = () => {
     navigate(`/search/?name=${filters.name.toLowerCase()}`);
     setSelectedSpecies([]);
@@ -162,7 +116,7 @@ export const CharactersContextProvider = ({ children }) => {
   return (
     <CharactersContext.Provider
       value={{
-        data,
+        characters,
         error,
         totalCount,
         hasNextPage,
@@ -177,7 +131,6 @@ export const CharactersContextProvider = ({ children }) => {
         handleFilterChange,
         handleApplyFilters,
         handleResetFilters,
-        handleNameChange,
         handleSearchNavigate,
         handleKeyDown,
       }}

@@ -1,13 +1,17 @@
 import React from 'react';
 import { Box, Stack, Button } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import FilterListIcon from '@mui/icons-material/FilterList';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 import { FilterModal, FilterContent } from './';
 
-import { commonStyles } from '../../constants';
-
 const FilterPanel = () => {
   const [isFilterDialogOpen, setIsFilterDialogOpen] = React.useState(false);
+
+  const { palette, breakpoints } = useTheme();
+
+  const isSmallerThanMd = useMediaQuery(breakpoints.down('md'));
 
   const handleOpenFilterDialog = () => {
     setIsFilterDialogOpen(true);
@@ -20,20 +24,22 @@ const FilterPanel = () => {
   return (
     <>
       {/* Display filter button for small screens */}
-      <Box display={{ xs: 'block', sm: 'none' }} mt={10} textAlign='center'>
-        <Button
-          variant='outlined'
-          startIcon={<FilterListIcon />}
-          onClick={handleOpenFilterDialog}
-          sx={{
-            color: commonStyles.primaryTextColor,
-            borderColor: commonStyles.borderColor,
-            ':hover': { color: commonStyles.linkColor },
-          }}
-        >
-          Filters
-        </Button>
-      </Box>
+      {isSmallerThanMd && (
+        <Box display='block' mt={11} mb={3} textAlign='center'>
+          <Button
+            variant='outlined'
+            startIcon={<FilterListIcon />}
+            onClick={handleOpenFilterDialog}
+            sx={{
+              color: palette.common.white,
+              borderColor: palette.common.white,
+              ':hover': { color: palette.primary.main },
+            }}
+          >
+            Filters
+          </Button>
+        </Box>
+      )}
 
       {/* Display filter panel for larger screens */}
       <Stack
@@ -41,23 +47,24 @@ const FilterPanel = () => {
         justifyContent='center'
         alignItems='center'
         mt={14}
-        display={{ xs: 'none', sm: 'flex' }}
+        display={{ xs: 'none', sm: 'none', md: 'flex' }}
       >
         <Box
           position='fixed'
           display='flex'
           width='100%'
           justifyContent='center'
+          zIndex={1}
           sx={{
-            padding: {
-              xs: '220px 16px 16px 16px',
-              sm: '100px 16px 16px 16px',
-              md: '100px 16px 16px 16px',
-              lg: '60px 16px 16px 16px',
-              xl: '20px 16px 16px 16px',
+            padding: '16px',
+            paddingTop: {
+              xs: '220px',
+              sm: '100px',
+              lg: '60px',
+              xl: '20px',
             },
-            color: commonStyles.primaryTextColor,
-            backgroundColor: commonStyles.backgroundColor,
+            color: palette.common.white,
+            backgroundColor: palette.grey[900],
           }}
         >
           <FilterContent />

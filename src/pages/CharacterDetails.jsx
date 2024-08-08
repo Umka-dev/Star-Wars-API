@@ -1,18 +1,13 @@
 import React from 'react';
 import useSWR from 'swr';
 import { useParams } from 'react-router-dom';
-import {
-  Avatar,
-  Box,
-  Typography,
-  List,
-  ListItem,
-  ListItemText,
-} from '@mui/material';
-import { ErrorDisplay, LoadingDisplay, h2Styled } from '../components';
+import { Avatar, Box, List, ListItem, ListItemText } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+import { ErrorDisplay, LoadingDisplay } from '../components';
+import CustomTypography from '../components/CustomTypography';
 
 import { fetcher } from '../utils';
-import { commonStyles, CHARACTER_API_URL } from '../constants';
+import { CHARACTER_API_URL } from '../constants';
 
 const CharacterDetails = () => {
   const { id } = useParams();
@@ -20,6 +15,7 @@ const CharacterDetails = () => {
     `${CHARACTER_API_URL}${id}`,
     fetcher,
   );
+  const { palette } = useTheme();
 
   if (error) return <ErrorDisplay message={error.message} />;
   if (!character) return <LoadingDisplay />;
@@ -39,11 +35,9 @@ const CharacterDetails = () => {
       justifyContent='center'
       alignItems='center'
       minHeight='100vh'
-      mt={2}
+      mt={5}
     >
-      <Typography variant='h1' sx={h2Styled}>
-        {character.name}
-      </Typography>
+      <CustomTypography>{character.name}</CustomTypography>
       <Avatar
         src={character.image}
         alt={character.name}
@@ -51,7 +45,7 @@ const CharacterDetails = () => {
           width: '20%',
           minWidth: '240px',
           height: 'auto',
-          margin: '20px',
+          margin: { xs: '10px', sm: '20px' },
         }}
       />
       <List>
@@ -61,7 +55,7 @@ const CharacterDetails = () => {
               primary={label}
               secondary={value}
               secondaryTypographyProps={{
-                color: commonStyles.secondaryTextColor,
+                color: palette.grey[400],
               }}
             />
           </ListItem>
