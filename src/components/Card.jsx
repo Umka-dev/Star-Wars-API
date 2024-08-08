@@ -1,12 +1,12 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import {
   CardMedia,
   Card as MuiCard,
   CardContent,
   Typography,
 } from '@mui/material';
-import PropTypes from 'prop-types';
 
 const Card = ({ id, name, image }) => {
   const navigate = useNavigate();

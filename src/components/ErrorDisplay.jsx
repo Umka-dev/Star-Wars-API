@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 
-import { useCharactersContext } from '../../context/CharactersContext';
+import { useCharactersContext } from '../context/CharactersContext';
 
 const ErrorDisplay = () => {
   const { error } = useCharactersContext();

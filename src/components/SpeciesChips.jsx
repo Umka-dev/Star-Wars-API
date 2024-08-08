@@ -1,12 +1,14 @@
 import React from 'react';
 import { Box, Stack, Chip } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 
-import { useCharactersContext } from '../../context/CharactersContext';
-import { commonStyles } from '../../constants';
+import { useCharactersContext } from '../context/CharactersContext';
 
 const SpeciesChips = () => {
   const { speciesList, selectedSpecies, handleChipClick } =
     useCharactersContext();
+
+  const { palette } = useTheme();
 
   const isSelected = (speciesName, idx) => {
     if (idx === 0 && !selectedSpecies.length) {
@@ -42,7 +44,7 @@ const SpeciesChips = () => {
             label={speciesName}
             variant={isSelected(speciesName, idx) ? 'filled' : 'outlined'}
             color={isSelected(speciesName, idx) ? 'primary' : 'default'}
-            sx={{ color: commonStyles.primaryTextColor }}
+            sx={{ color: palette.common.white }}
             clickable='true'
             onClick={() => handleChipClick(speciesName)}
           />

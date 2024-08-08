@@ -1,15 +1,16 @@
 import React from 'react';
 import { AppBar, Toolbar, Typography, Stack } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import { NavLink as RouterNavLink, useLocation } from 'react-router-dom';
-import { SearchBar } from './characters';
+import { SearchBar } from './';
 
 import { useCharactersContext } from '../context/CharactersContext';
-import { commonStyles } from '../constants';
 
 const Header = () => {
   const { handleResetFilters } = useCharactersContext();
 
   const location = useLocation();
+  const { palette } = useTheme();
 
   const handleHomeClick = React.useCallback(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -26,7 +27,7 @@ const Header = () => {
         boxShadow: 'none',
         alignItems: 'center',
         p: '10px',
-        backgroundColor: commonStyles.backgroundColor,
+        backgroundColor: palette.grey[900],
       }}
     >
       <Toolbar>
@@ -41,14 +42,14 @@ const Header = () => {
             component={RouterNavLink}
             onClick={handleHomeClick}
             to='/'
-            color={commonStyles.primaryTextColor}
+            color={palette.common.white}
             sx={{
               textDecoration: 'none',
               '&:hover': {
-                color: commonStyles.linkColor,
+                color: palette.primary.main,
               },
               '&:active': {
-                color: commonStyles.primaryTextColor,
+                color: palette.common.white,
               },
             }}
           >

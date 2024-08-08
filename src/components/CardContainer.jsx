@@ -1,13 +1,12 @@
 import React from 'react';
 import { Button, Box, Typography, CircularProgress } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import { Cards, ErrorDisplay, LoadingDisplay } from './';
 
-import { useCharactersContext } from '../../context/CharactersContext';
-import { commonStyles } from '../../constants';
+import { useCharactersContext } from '../context/CharactersContext';
 
 const CardContainer = () => {
   const {
-    data,
     error,
     totalCount,
     hasNextPage,
@@ -16,26 +15,28 @@ const CardContainer = () => {
     filteredCharacters,
   } = useCharactersContext();
 
+  const { palette } = useTheme();
+
   if (error) return <ErrorDisplay />;
-  if (!data) return <LoadingDisplay />;
+  if (!filteredCharacters) return <LoadingDisplay />;
 
   return (
     <Box textAlign='center'>
       <Cards />
-      {filteredCharacters.length ? (
+      {!!filteredCharacters.length && (
         <Typography variant='subtitle2' m={6}>
           Characters shown {filteredCharacters.length} from {totalCount}
         </Typography>
-      ) : null}
+      )}
 
-      {hasNextPage && (
+      {hasNextPage && !!filteredCharacters.length && (
         <Button
           variant='outlined'
           sx={{
-            color: commonStyles.primaryTextColor,
-            borderColor: commonStyles.borderColor,
+            color: palette.common.white,
+            borderColor: palette.common.white,
             marginBottom: '100px',
-            ':hover': { color: commonStyles.linkColor },
+            ':hover': { color: palette.primary.main },
           }}
           onClick={handleNextPage}
           disabled={isValidating} // Disable button while loading
@@ -46,9 +47,9 @@ const CardContainer = () => {
               value={20}
               thickness={4}
               sx={{
-                color: commonStyles.borderColor,
+                color: palette.common.white,
                 px: '40px',
-                ':hover': { color: commonStyles.linkColor },
+                ':hover': { color: palette.primary.main },
               }}
             />
           ) : (

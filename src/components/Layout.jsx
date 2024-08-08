@@ -1,17 +1,17 @@
 import React from 'react';
 import { Container } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import PropTypes from 'prop-types';
 import Header from './Header';
 import Footer from './Footer';
 
-import { commonStyles } from '../constants';
-
 const Layout = ({ children }) => {
+  const { palette } = useTheme();
   return (
     <Container
       maxWidth='xl'
       sx={{
-        color: commonStyles.primaryTextColor,
+        color: palette.common.white,
       }}
     >
       <Header />
