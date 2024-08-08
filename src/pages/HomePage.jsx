@@ -1,10 +1,6 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
-import {
-  SpeciesChips,
-  CardContainer,
-  h1Styled,
-} from '../components/characters';
+import { SpeciesChips, CardContainer, h1Styled } from '../components';
 
 const HomePage = () => {
   return (

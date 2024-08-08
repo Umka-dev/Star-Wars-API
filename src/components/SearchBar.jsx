@@ -1,8 +1,8 @@
 import React from 'react';
 import { TextField, Button } from '@mui/material';
 
-import { useCharactersContext } from '../../context/CharactersContext';
-import { commonStyles } from '../../constants';
+import { useCharactersContext } from '../context/CharactersContext';
+import { commonStyles } from '../constants';
 
 const SearchBar = () => {
   const { filters, handleNameChange, handleSearchNavigate, handleKeyDown } =

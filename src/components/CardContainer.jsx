@@ -2,8 +2,8 @@ import React from 'react';
 import { Button, Box, Typography, CircularProgress } from '@mui/material';
 import { Cards, ErrorDisplay, LoadingDisplay } from './';
 
-import { useCharactersContext } from '../../context/CharactersContext';
-import { commonStyles } from '../../constants';
+import { useCharactersContext } from '../context/CharactersContext';
+import { commonStyles } from '../constants';
 
 const CardContainer = () => {
   const {

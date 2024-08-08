@@ -1,7 +1,7 @@
 import React from 'react';
 import { AppBar, Toolbar, Typography, Stack } from '@mui/material';
 import { NavLink as RouterNavLink, useLocation } from 'react-router-dom';
-import { SearchBar } from './characters';
+import { SearchBar } from './';
 
 import { useCharactersContext } from '../context/CharactersContext';
 import { commonStyles } from '../constants';

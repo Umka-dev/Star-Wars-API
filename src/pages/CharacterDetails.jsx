@@ -9,11 +9,7 @@ import {
   ListItem,
   ListItemText,
 } from '@mui/material';
-import {
-  ErrorDisplay,
-  LoadingDisplay,
-  h2Styled,
-} from '../components/characters';
+import { ErrorDisplay, LoadingDisplay, h2Styled } from '../components';
 
 import { fetcher } from '../utils';
 import { commonStyles, CHARACTER_API_URL } from '../constants';

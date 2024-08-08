@@ -1,8 +1,8 @@
 import React from 'react';
 import { Box, Stack, Chip } from '@mui/material';
 
-import { useCharactersContext } from '../../context/CharactersContext';
-import { commonStyles } from '../../constants';
+import { useCharactersContext } from '../context/CharactersContext';
+import { commonStyles } from '../constants';
 
 const SpeciesChips = () => {
   const { speciesList, selectedSpecies, handleChipClick } =
