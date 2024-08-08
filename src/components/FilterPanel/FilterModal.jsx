@@ -1,40 +1,45 @@
 import React from 'react';
 import { Dialog, DialogContent, DialogTitle, IconButton } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import CloseIcon from '@mui/icons-material/Close';
-
-import { commonStyles } from '../../constants';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 const FilterModal = ({ isOpen, handleClose, children }) => {
+  const { palette, breakpoints } = useTheme();
+  const isSmallerThanMd = useMediaQuery(breakpoints.down('md'));
   return (
-    <Dialog
-      open={isOpen}
-      onClose={handleClose}
-      fullWidth
-      maxWidth='sm'
-      sx={{
-        '& .MuiPaper-root': {
-          backgroundColor: commonStyles.backgroundColor,
-          color: commonStyles.primaryTextColor,
-        },
-      }}
-    >
-      <DialogTitle>
-        Filters
-        <IconButton
-          aria-label='close'
-          onClick={handleClose}
+    <>
+      {isSmallerThanMd && (
+        <Dialog
+          open={isOpen}
+          onClose={handleClose}
+          maxWidth='md'
           sx={{
-            position: 'absolute',
-            right: 8,
-            top: 8,
-            color: commonStyles.secondaryTextColor,
+            '& .MuiPaper-root': {
+              backgroundColor: palette.grey[900],
+              color: palette.common.white,
+            },
           }}
         >
-          <CloseIcon />
-        </IconButton>
-      </DialogTitle>
-      <DialogContent>{children}</DialogContent>
-    </Dialog>
+          <DialogTitle>
+            Filters
+            <IconButton
+              aria-label='close'
+              onClick={handleClose}
+              sx={{
+                position: 'absolute',
+                right: 8,
+                top: 8,
+                color: palette.grey[400],
+              }}
+            >
+              <CloseIcon />
+            </IconButton>
+          </DialogTitle>
+          <DialogContent>{children}</DialogContent>
+        </Dialog>
+      )}
+    </>
   );
 };
 

@@ -1,10 +1,10 @@
 import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { Stack, Button } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import { GenderRadioButtons, StatusRadioButtons, FilterNameField } from './';
 
 import { useCharactersContext } from '../../context/CharactersContext';
-import { commonStyles } from '../../constants';
 
 const defaultFormValues = {
   name: '',
@@ -12,6 +12,8 @@ const defaultFormValues = {
 
 const FilterContent = () => {
   const { handleResetFilters, handleApplyFilters } = useCharactersContext();
+
+  const { palette } = useTheme();
 
   const { handleSubmit, reset, control } = useForm({ defaultFormValues });
 
@@ -22,8 +24,8 @@ const FilterContent = () => {
 
   return (
     <Stack
-      direction={{ xs: 'column', sm: 'row' }}
-      spacing={{ xs: 2, sm: 2, md: 6, lg: 8, xl: 10 }}
+      direction={{ xs: 'column', sm: 'column', md: 'row' }}
+      spacing={{ xs: 2, sm: 3, md: 6, lg: 8, xl: 10 }}
       alignItems='center'
       px={2}
     >
@@ -40,9 +42,9 @@ const FilterContent = () => {
         <Button
           variant='outlined'
           sx={{
-            color: commonStyles.primaryTextColor,
-            borderColor: commonStyles.borderColor,
-            ':hover': { color: commonStyles.linkColor },
+            color: palette.common.white,
+            borderColor: palette.common.white,
+            ':hover': { color: palette.primary.main },
           }}
           onClick={() => {
             handleResetFilters();

@@ -1,12 +1,15 @@
 import React from 'react';
 import { TextField } from '@mui/material';
-
-import { commonStyles } from '../../constants';
+import { useTheme } from '@mui/material/styles';
+import { FILTER_NAMES } from '../../constants';
 
 const FilterNameField = ({ onChange, value }) => {
+  const { palette } = useTheme();
+
   return (
     <TextField
       label='Input name'
+      name={FILTER_NAMES.name}
       variant='standard'
       size='small'
       value={value}
@@ -14,19 +17,19 @@ const FilterNameField = ({ onChange, value }) => {
       InputProps={{
         sx: {
           '&:before': {
-            borderBottomColor: commonStyles.borderColor,
+            borderBottomColor: palette.common.white,
           },
           '&:after': {
-            borderBottomColor: commonStyles.linkColor,
+            borderBottomColor: palette.primary.main,
           },
           input: {
-            color: commonStyles.primaryTextColor,
+            color: palette.common.white,
           },
         },
       }}
       InputLabelProps={{
         sx: {
-          color: commonStyles.primaryTextColor,
+          color: palette.common.white,
         },
       }}
       sx={{ minWidth: '150px' }}
