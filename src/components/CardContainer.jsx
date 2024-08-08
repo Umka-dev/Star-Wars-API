@@ -1,9 +1,9 @@
 import React from 'react';
 import { Button, Box, Typography, CircularProgress } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import { Cards, ErrorDisplay, LoadingDisplay } from './';
 
-import { useCharactersContext } from '../../context/CharactersContext';
-import { commonStyles } from '../../constants';
+import { useCharactersContext } from '../context/CharactersContext';
 
 const CardContainer = () => {
   const {
@@ -14,6 +14,8 @@ const CardContainer = () => {
     isValidating,
     filteredCharacters,
   } = useCharactersContext();
+
+  const { palette } = useTheme();
 
   if (error) return <ErrorDisplay />;
   if (!filteredCharacters) return <LoadingDisplay />;
@@ -31,10 +33,10 @@ const CardContainer = () => {
         <Button
           variant='outlined'
           sx={{
-            color: commonStyles.primaryTextColor,
-            borderColor: commonStyles.borderColor,
+            color: palette.common.white,
+            borderColor: palette.common.white,
             marginBottom: '100px',
-            ':hover': { color: commonStyles.linkColor },
+            ':hover': { color: palette.primary.main },
           }}
           onClick={handleNextPage}
           disabled={isValidating} // Disable button while loading
@@ -45,9 +47,9 @@ const CardContainer = () => {
               value={20}
               thickness={4}
               sx={{
-                color: commonStyles.borderColor,
+                color: palette.common.white,
                 px: '40px',
-                ':hover': { color: commonStyles.linkColor },
+                ':hover': { color: palette.primary.main },
               }}
             />
           ) : (

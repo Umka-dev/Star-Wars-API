@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Card from './Card';
 import { Box, Typography } from '@mui/material';
-import { useCharactersContext } from '../../context/CharactersContext';
+import Card from './Card';
+
+import { useCharactersContext } from '../context/CharactersContext';
 
 const Cards = () => {
   const { filteredCharacters } = useCharactersContext();

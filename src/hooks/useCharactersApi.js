@@ -8,6 +8,7 @@ import { ALL_SPECIES_NAME, CHARACTER_API_URL } from '../constants';
 /**
  * Custom hook to fetch characters
  */
+
 const useCharactersApi = (searchParams) => {
   // ---States for Card Container
   const [characters, setCharacters] = useState([]);
@@ -63,12 +64,16 @@ const useCharactersApi = (searchParams) => {
     setSpeciesList(allSpecies);
   }, [characters]);
 
+  const handleNextPage = () => {
+    setSize((prevSize) => prevSize + 1);
+  };
+
   return {
     characters,
     totalCount,
     hasNextPage,
     error,
-    setSize,
+    handleNextPage,
     isValidating,
     speciesList,
   };

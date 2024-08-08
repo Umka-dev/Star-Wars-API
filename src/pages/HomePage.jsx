@@ -1,17 +1,20 @@
 import React from 'react';
-import { Box, Typography } from '@mui/material';
-import {
-  SpeciesChips,
-  CardContainer,
-  h1Styled,
-} from '../components/characters';
+import { Box } from '@mui/material';
+import { SpeciesChips, CardContainer } from '../components';
+import CustomTypography from '../components/CustomTypography';
 
 const HomePage = () => {
   return (
-    <Box textAlign='center'>
-      <Typography variant='h1' sx={h1Styled}>
-        The Rick and Morty Characters
-      </Typography>
+    <Box
+      textAlign='center'
+      sx={{
+        mt: {
+          xs: '160px',
+          sm: '110px',
+        },
+      }}
+    >
+      <CustomTypography>The Rick and Morty Characters</CustomTypography>
       <SpeciesChips />
       <CardContainer />
     </Box>

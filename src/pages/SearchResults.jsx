@@ -1,16 +1,16 @@
 import React from 'react';
-import { CardContainer, FilterPanel, h2Styled } from '../components/characters';
-
-import { Box, Typography } from '@mui/material';
+import { CardContainer, FilterPanel } from '../components';
+import CustomTypography from '../components/CustomTypography';
+import { Box } from '@mui/material';
 
 const SearchResults = () => {
   return (
     <Box textAlign='center'>
       <FilterPanel />
-      <Typography variant='h2' sx={h2Styled}>
-        Found characters
-      </Typography>
-      <CardContainer />
+      <Box sx={{ mt: { md: '140px', lg: '90px' } }}>
+        <CustomTypography>Found characters</CustomTypography>
+        <CardContainer />
+      </Box>
     </Box>
   );
 };

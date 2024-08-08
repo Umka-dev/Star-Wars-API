@@ -1,7 +1,7 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 
-import { ALL_SPECIES_NAME } from '../constants';
+import { ALL_SPECIES_NAME, FILTER_NAMES } from '../constants';
 import { useCharactersApi } from '../hooks/useCharactersApi';
 
 // Create CONTEXT
@@ -9,39 +9,36 @@ const CharactersContext = createContext();
 
 // Create PROVIDER
 export const CharactersContextProvider = ({ children }) => {
+  // ---States for Search Bar
+  const navigate = useNavigate();
+  // States for Search Bar---
+
   // ---States for Species Chips
   const [selectedSpecies, setSelectedSpecies] = useState([]);
   const [filteredCharacters, setFilteredCharacters] = useState([]);
   // States for Species Chips---
 
-  // ---States for Search Bar
-  const navigate = useNavigate();
-  // States for Search Bar---\
-
   // ---States for Filter Panel
   const [searchParams, setSearchParams] = useSearchParams();
   const [filters, setFilters] = useState({
-    name: searchParams.get('name') || '',
-    status: searchParams.get('status') || '',
-    gender: searchParams.get('gender') || '',
+    name: searchParams.get(FILTER_NAMES.name) || '',
+    status: searchParams.get(FILTER_NAMES.status) || '',
+    gender: searchParams.get(FILTER_NAMES.gender) || '',
   });
   // States for Filter Panel---
 
+  // Get species list, handler for Species Chips---
   const {
     characters,
     totalCount,
     hasNextPage,
+    handleNextPage,
     error,
     isValidating,
-    setSize,
     speciesList,
   } = useCharactersApi(searchParams);
 
-  const handleNextPage = () => {
-    setSize((prevSize) => prevSize + 1);
-  };
-
-  React.useEffect(() => {
+  useEffect(() => {
     if (!selectedSpecies.length) {
       setFilteredCharacters(characters);
     } else {
@@ -68,7 +65,7 @@ export const CharactersContextProvider = ({ children }) => {
       return [...prevSelected, species];
     });
   };
-  // Get species, filter characters and handlers for Species Chips---
+  // Get species list, filter characters and handlers for Species Chips---
 
   // ---Handlers for Search Bar
   const handleSearchNavigate = () => {
@@ -93,7 +90,7 @@ export const CharactersContextProvider = ({ children }) => {
   };
 
   const handleNameChange = (e) => {
-    handleFilterChange('name', e.target.value);
+    handleFilterChange(FILTER_NAMES.name, e.target.value);
   };
 
   const handleApplyFilters = React.useCallback(() => {

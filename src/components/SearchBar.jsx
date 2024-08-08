@@ -1,12 +1,14 @@
 import React from 'react';
 import { TextField, Button } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 
-import { useCharactersContext } from '../../context/CharactersContext';
-import { commonStyles } from '../../constants';
+import { useCharactersContext } from '../context/CharactersContext';
 
 const SearchBar = () => {
   const { filters, handleNameChange, handleSearchNavigate, handleKeyDown } =
     useCharactersContext();
+
+  const { palette } = useTheme();
   return (
     <>
       <TextField
@@ -19,28 +21,28 @@ const SearchBar = () => {
         InputProps={{
           sx: {
             '&:before': {
-              borderBottomColor: commonStyles.borderColor,
+              borderBottomColor: palette.common.white,
             },
             '&:after': {
-              borderBottomColor: commonStyles.linkColor,
+              borderBottomColor: palette.primary.main,
             },
             input: {
-              color: commonStyles.primaryTextColor,
+              color: palette.common.white,
             },
           },
         }}
         InputLabelProps={{
           sx: {
-            color: commonStyles.primaryTextColor,
+            color: palette.common.white,
           },
         }}
       />
       <Button
         variant='outlined'
         sx={{
-          color: commonStyles.primaryTextColor,
-          borderColor: commonStyles.borderColor,
-          ':hover': { color: commonStyles.linkColor },
+          color: palette.common.white,
+          borderColor: palette.common.white,
+          ':hover': { color: palette.primary.main },
         }}
         onClick={handleSearchNavigate}
       >

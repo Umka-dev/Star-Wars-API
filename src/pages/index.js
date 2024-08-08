@@ -1,5 +1,5 @@
-import CharacterDetails from './CharacterDetails';
-import SearchResults from './SearchResults';
 import HomePage from './HomePage';
+import SearchResults from './SearchResults';
+import CharacterDetails from './CharacterDetails';
 
-export { CharacterDetails, SearchResults, HomePage };
+export { HomePage, SearchResults, CharacterDetails };
