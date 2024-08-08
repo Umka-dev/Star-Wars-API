@@ -10,6 +10,7 @@ import { useTheme } from '@mui/material/styles';
 
 import { useCharactersContext } from '../../context/CharactersContext';
 import { FILTER_NAMES, GENDER_OPTIONS } from '../../constants';
+import { capitalFirst } from '../../utils';
 
 const GenderRadioButtons = () => {
   const { filters, handleFilterChange } = useCharactersContext();
@@ -22,8 +23,7 @@ const GenderRadioButtons = () => {
   return (
     <FormControl>
       <FormLabel sx={{ color: palette.grey[400] }}>
-        {FILTER_NAMES.gender.charAt(0).toUpperCase() +
-          FILTER_NAMES.gender.slice(1)}
+        {capitalFirst(FILTER_NAMES.gender)}
       </FormLabel>
       <RadioGroup
         row
@@ -36,7 +36,7 @@ const GenderRadioButtons = () => {
             key={option}
             value={option}
             control={<Radio sx={{ color: palette.grey[400] }} />}
-            label={option.charAt(0).toUpperCase() + option.slice(1)}
+            label={capitalFirst(option)}
           />
         ))}
       </RadioGroup>
