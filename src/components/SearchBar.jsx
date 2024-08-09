@@ -30,7 +30,7 @@ const SearchBar = () => {
               label='Input name'
               variant='standard'
               size='small'
-              value={value}
+              value={value || ''}
               onChange={onChange}
               InputProps={{
                 sx: {
