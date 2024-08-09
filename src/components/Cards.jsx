@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Box, Typography } from '@mui/material';
 import Card from './Card';
 
@@ -49,16 +48,6 @@ const Cards = () => {
       ))}
     </Box>
   );
-};
-
-Cards.propTypes = {
-  filteredCharacters: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      name: PropTypes.string.isRequired,
-      image: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
 };
 
 export default Cards;
